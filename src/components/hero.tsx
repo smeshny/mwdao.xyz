@@ -1,6 +1,13 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
-import { ArrowRight, BarChart, Clock, Diamond, Users } from 'lucide-react';
+import {
+  ArrowRight,
+  Blend,
+  ChartNoAxesColumn,
+  CircleDot,
+  Diamond,
+} from 'lucide-react';
 
 import { Button } from './ui/button';
 
@@ -8,12 +15,12 @@ const features = [
   {
     title: 'Tailored workflows',
     description: 'Track progress across custom issue flows for your team.',
-    icon: Clock,
+    icon: CircleDot,
   },
   {
     title: 'Cross-team projects',
     description: 'Collaborate across teams and departments.',
-    icon: Users,
+    icon: Blend,
   },
   {
     title: 'Milestones',
@@ -23,13 +30,13 @@ const features = [
   {
     title: 'Progress insights',
     description: 'Track scope, velocity, and progress over time.',
-    icon: BarChart,
+    icon: ChartNoAxesColumn,
   },
 ];
 
 export default function Hero() {
   return (
-    <div
+    <section
       className="relative m-2.5 rounded-[36px] py-28 lg:mx-4 lg:py-44"
       style={{
         background:
@@ -61,25 +68,36 @@ export default function Hero() {
         </div>
 
         {/* Right side - Features */}
-        <div className="flex-1 space-y-6 border-dashed border-primary/40 max-lg:border-t max-lg:pt-10 lg:border-s lg:ps-10">
+        <div className="flex-1 space-y-5 border-dashed border-primary/40 max-lg:border-t max-lg:pt-10 lg:border-s lg:ps-10">
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
               <div key={feature.title} className="flex flex-col gap-0.5">
-                <div className="flex items-center gap-5">
-                  <div className="rounded-full p-1">
-                    <Icon className="size-5" />
+                <div className="flex gap-5">
+                  <Icon className="mt-1 size-5" />
+                  <div>
+                    <h2 className="font-semibold">{feature.title}</h2>
+                    <p className="text-sm text-muted-foreground">
+                      {feature.description}
+                    </p>
                   </div>
-                  <h3 className="font-semibold">{feature.title}</h3>
                 </div>
-                <p className="ml-12 text-sm text-muted-foreground">
-                  {feature.description}
-                </p>
               </div>
             );
           })}
         </div>
       </div>
-    </div>
+
+      <div className="lg:container max-lg:ml-6 max-lg:h-[550px] max-lg:overflow-hidden">
+        <div className="relative mt-12 h-[793px] w-full md:mt-20 lg:mt-24">
+          <Image
+            src="/hero.webp"
+            alt="hero"
+            fill
+            className="rounded-3xl object-cover object-left shadow-lg max-lg:rounded-tr-none"
+          />
+        </div>
+      </div>
+    </section>
   );
 }
