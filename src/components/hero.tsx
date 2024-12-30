@@ -88,13 +88,13 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="lg:container max-lg:ml-6 max-lg:h-[550px] max-lg:overflow-hidden">
-        <div className="relative mt-12 h-[793px] w-full md:mt-20 lg:mt-24">
+      <div className="mt-12 lg:container max-lg:ml-6 max-lg:h-[550px] max-lg:overflow-hidden md:mt-20 lg:mt-24">
+        <div className="relative h-[793px] w-full">
           <Image
             src="/hero.webp"
             alt="hero"
             fill
-            className="rounded-3xl object-cover object-left shadow-lg max-lg:rounded-tr-none"
+            className="rounded-3xl object-cover object-left-top shadow-lg max-lg:rounded-tr-none"
           />
         </div>
       </div>
