@@ -60,7 +60,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <header className="absolute left-1/2 top-5 z-50 w-[min(90%,700px)] -translate-x-1/2 rounded-full border bg-background lg:top-12">
+    <header className="absolute left-1/2 top-5 z-50 w-[min(90%,700px)] -translate-x-1/2 rounded-full border bg-background/70 backdrop-blur-md lg:top-12">
       <div className="flex items-center justify-between px-6 py-3">
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image

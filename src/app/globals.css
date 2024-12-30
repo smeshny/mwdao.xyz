@@ -23,7 +23,7 @@ h6 {
     --popover: 0 0% 100%; /* #FFFFFF */
     --popover-foreground: 240 10% 4%; /* #09090B */
     --primary: 0 0% 0%; /* #000 */
-    --primary-foreground: 0 0% 98%; /* #FAFAFA */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF */
     --secondary: 0 0% 96.1%; /* #F5F5F5 */
     --secondary-foreground: 0 0% 9%; /* #171717 */
     --muted: 0 0% 96.1%; /* #F5F5F5 */
@@ -31,7 +31,7 @@ h6 {
     --accent: 0 0% 96.1%; /* #F5F5F5 */
     --accent-foreground: 0 0% 9%; /* #171717 */
     --destructive: 0 84.2% 60.2%; /* #EF4444 */
-    --destructive-foreground: 0 0% 98%; /* #FAFAFA */
+    --destructive-foreground: 0 0% 100%; /* #FFFFFF */
     --border: 0 0% 89.8%; /* #E5E5E5 */
     --input: 0 0% 89.8%; /* #E5E5E5 */
     --ring: 240 10% 4%; /* #09090B */
