@@ -2,6 +2,7 @@ import { DM_Mono, DM_Sans, Inter } from 'next/font/google';
 
 import type { Metadata } from 'next';
 
+import Navbar from '@/components/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 
@@ -42,7 +43,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Navbar />
+          <main>{children}</main>
         </ThemeProvider>
       </body>
     </html>
