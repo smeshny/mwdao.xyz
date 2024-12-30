@@ -60,191 +60,163 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <header className="relative z-50 border-b backdrop-blur-sm">
-      <div className="container">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex shrink-0 items-center gap-2">
-            <Image
-              src="/logo.svg"
-              alt="logo"
-              width={94}
-              height={18}
-              className="dark:invert"
-            />
+    <header className="absolute left-1/2 top-5 z-50 w-[min(90%,700px)] -translate-x-1/2 rounded-full border bg-background lg:top-12">
+      <div className="flex items-center justify-between px-6 py-3">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
+          <Image
+            src="/logo.svg"
+            alt="logo"
+            width={94}
+            height={18}
+            className="dark:invert"
+          />
+        </Link>
+
+        {/* Desktop Navigation */}
+        <NavigationMenu className="max-lg:hidden">
+          <NavigationMenuList>
+            {ITEMS.map((link) =>
+              link.dropdownItems ? (
+                <NavigationMenuItem key={link.label}>
+                  <NavigationMenuTrigger className="px-1.5 data-[state=open]:bg-accent/50">
+                    {link.label}
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="w-[400px] space-y-2 p-4">
+                      {link.dropdownItems.map((item) => (
+                        <li key={item.title}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={item.href}
+                              className="group flex select-none items-center gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            >
+                              <div className="transition-transform duration-300 group-hover:translate-x-1">
+                                <div className="text-sm font-medium leading-none">
+                                  {item.title}
+                                </div>
+                                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                  {item.description}
+                                </p>
+                              </div>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              ) : (
+                <NavigationMenuItem key={link.label}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      'relative px-1.5 transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-primary after:transition-all hover:after:w-full',
+                      pathname === link.href &&
+                        'text-muted-foreground after:w-full',
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </NavigationMenuItem>
+              ),
+            )}
+          </NavigationMenuList>
+        </NavigationMenu>
+
+        {/* Auth Buttons */}
+        <div className="flex items-center gap-2.5">
+          <ThemeToggle />
+          <Link href="/login" className="max-lg:hidden">
+            <Button variant="outline">
+              <span className="relative z-10">Login</span>
+            </Button>
           </Link>
 
-          {/* Desktop Navigation */}
-          <NavigationMenu className="hidden items-center gap-8 lg:flex">
-            <NavigationMenuList>
-              {ITEMS.map((link) =>
-                link.dropdownItems ? (
-                  <NavigationMenuItem key={link.label}>
-                    <NavigationMenuTrigger className="text-primary lg:text-base">
-                      {link.label}
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="w-[400px] p-4">
-                        {link.dropdownItems.map((item) => (
-                          <li key={item.title}>
-                            <NavigationMenuLink asChild>
-                              <Link
-                                href={item.href}
-                                className="flex select-none items-center gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                              >
-                                <div>
-                                  <div className="text-sm font-medium leading-none">
-                                    {item.title}
-                                  </div>
-                                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                    {item.description}
-                                  </p>
-                                </div>
-                              </Link>
-                            </NavigationMenuLink>
-                          </li>
-                        ))}
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                ) : (
-                  <NavigationMenuItem key={link.label}>
-                    <Link
-                      href={link.href}
-                      className={cn(
-                        navigationMenuTriggerStyle(),
-                        'text-primary lg:text-base',
-                        pathname === link.href && 'text-muted-foreground',
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  </NavigationMenuItem>
-                ),
-              )}
-            </NavigationMenuList>
-          </NavigationMenu>
-
-          {/* Auth Buttons */}
-          <div className="flex items-center gap-2.5">
-            <ThemeToggle />
-            <Link href="/login" className="hidden lg:block">
-              <Button variant="outline" className="gap-1">
-                Login
-                <ChevronRight className="size-4" />
-              </Button>
-            </Link>
-            <Link
-              href="/signup"
-              className={`transition-opacity duration-300 ${isMenuOpen ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
-            >
-              <Button className="gap-1">
-                Sign up
-                <ChevronRight className="size-4" />
-              </Button>
-            </Link>
-
-            {/* Hamburger Menu Button (Mobile Only) */}
-            <button
-              className="relative flex size-8 text-muted-foreground lg:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <span className="sr-only">Open main menu</span>
-              <div className="absolute left-1/2 top-1/2 block w-[18px] -translate-x-1/2 -translate-y-1/2">
-                <span
-                  aria-hidden="true"
-                  className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? 'rotate-45' : '-translate-y-1.5'}`}
-                ></span>
-                <span
-                  aria-hidden="true"
-                  className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? 'opacity-0' : ''}`}
-                ></span>
-                <span
-                  aria-hidden="true"
-                  className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? '-rotate-45' : 'translate-y-1.5'}`}
-                ></span>
-              </div>
-            </button>
-          </div>
+          {/* Hamburger Menu Button (Mobile Only) */}
+          <button
+            className="relative flex size-8 text-muted-foreground lg:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <span className="sr-only">Open main menu</span>
+            <div className="absolute left-1/2 top-1/2 block w-[18px] -translate-x-1/2 -translate-y-1/2">
+              <span
+                aria-hidden="true"
+                className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? 'rotate-45' : '-translate-y-1.5'}`}
+              ></span>
+              <span
+                aria-hidden="true"
+                className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? 'opacity-0' : ''}`}
+              ></span>
+              <span
+                aria-hidden="true"
+                className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? '-rotate-45' : 'translate-y-1.5'}`}
+              ></span>
+            </div>
+          </button>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Updated Mobile Menu Overlay */}
       <div
-        className={`container fixed inset-0 top-full flex h-[calc(100vh-64px)] flex-col bg-background transition-all duration-300 ease-in-out lg:hidden ${
+        className={cn(
+          'fixed inset-x-0 top-[calc(100%+1rem)] flex flex-col rounded-2xl border bg-background p-6 transition-all duration-300 ease-in-out lg:hidden',
           isMenuOpen
-            ? 'visible translate-x-0 opacity-100'
-            : 'invisible translate-x-full opacity-0'
-        }`}
+            ? 'visible translate-y-0 opacity-100'
+            : 'invisible -translate-y-4 opacity-0',
+        )}
       >
-        <div className="mt-8 space-y-2">
-          <Link
-            href="/signup"
-            className="block"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <Button size="sm" className="w-full">
-              Sign up
-            </Button>
-          </Link>
-          <Link
-            href="/login"
-            className="block"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <Button size="sm" className="w-full" variant="outline">
-              Login
-            </Button>
-          </Link>
-        </div>
-        <nav className="mt-3 flex flex-1 flex-col gap-6">
+        <nav className="flex flex-1 flex-col divide-y divide-border">
           {ITEMS.map((link) =>
             link.dropdownItems ? (
-              <div key={link.label} className="">
+              <div key={link.label} className="py-4 first:pt-0 last:pb-0">
                 <button
                   onClick={() =>
                     setOpenDropdown(
                       openDropdown === link.label ? null : link.label,
                     )
                   }
-                  className="flex w-full items-center justify-between text-lg font-medium tracking-[-0.36px] text-primary"
+                  className="flex w-full items-center justify-between text-base font-medium text-primary"
                 >
                   {link.label}
                   <ChevronRight
                     className={cn(
-                      'h-4 w-4 transition-transform',
+                      'size-4 transition-transform duration-200',
                       openDropdown === link.label ? 'rotate-90' : '',
                     )}
                   />
                 </button>
                 <div
                   className={cn(
-                    'ml-4 space-y-3 overflow-hidden transition-all',
+                    'overflow-hidden transition-all duration-300',
                     openDropdown === link.label
-                      ? 'mt-3 max-h-[1000px] opacity-100'
+                      ? 'mt-4 max-h-[1000px] opacity-100'
                       : 'max-h-0 opacity-0',
                   )}
                 >
-                  {link.dropdownItems.map((item) => (
-                    <Link
-                      key={item.title}
-                      href={item.href}
-                      className="flex items-start gap-3 rounded-md p-2 hover:bg-accent"
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        setOpenDropdown(null);
-                      }}
-                    >
-                      <div>
-                        <div className="font-medium text-primary">
-                          {item.title}
+                  <div className="space-y-3 rounded-lg bg-muted/50 p-4">
+                    {link.dropdownItems.map((item) => (
+                      <Link
+                        key={item.title}
+                        href={item.href}
+                        className="group block rounded-md p-2 transition-colors hover:bg-accent"
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          setOpenDropdown(null);
+                        }}
+                      >
+                        <div className="transition-transform duration-200 group-hover:translate-x-1">
+                          <div className="font-medium text-primary">
+                            {item.title}
+                          </div>
+
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            {item.description}
+                          </p>
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                          {item.description}
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             ) : (
@@ -252,7 +224,7 @@ const Navbar = () => {
                 key={link.label}
                 href={link.href}
                 className={cn(
-                  'text-lg tracking-[-0.36px] text-primary',
+                  'py-4 text-base font-medium text-primary transition-colors first:pt-0 last:pb-0 hover:text-primary/80',
                   pathname === link.href && 'text-muted-foreground',
                 )}
                 onClick={() => setIsMenuOpen(false)}

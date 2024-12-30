@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${dmSans.variable} ${dmMono.variable} ${inter.variable} antialiased`}
+        className={`h-screen ${dmSans.variable} ${dmMono.variable} ${inter.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -44,7 +44,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          <main>{children}</main>
+          <main className="">{children}</main>
         </ThemeProvider>
       </body>
     </html>
