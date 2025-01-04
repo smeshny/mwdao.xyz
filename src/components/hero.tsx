@@ -36,14 +36,8 @@ const features = [
 
 export default function Hero() {
   return (
-    <section
-      className="relative m-2.5 rounded-[36px] py-28 lg:mx-4 lg:py-44"
-      style={{
-        background:
-          'linear-gradient(180deg, #F8F4E7 0%, #F8F8F8 53.5%, rgba(248, 248, 248, 0.00) 100%)',
-      }}
-    >
-      <div className="container flex flex-col items-start justify-between gap-14 lg:flex-row">
+    <section className="relative mx-2.5 mt-2.5 rounded-[36px] bg-gradient-to-b from-[#F8F4E7] via-[#F8F8F8] to-[#F8F8F8]/0 py-28 lg:mx-4 lg:pb-32 lg:pt-44">
+      <div className="container flex flex-col justify-between gap-14 lg:flex-row">
         {/* Left side - Main content */}
         <div className="flex-1">
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
@@ -68,7 +62,7 @@ export default function Hero() {
         </div>
 
         {/* Right side - Features */}
-        <div className="flex-1 space-y-5 border-dashed border-primary/40 max-lg:border-t max-lg:pt-10 lg:border-s lg:ps-10">
+        <div className="flex flex-1 flex-col justify-center space-y-5 border-dashed border-primary/40 max-lg:border-t max-lg:pt-10 lg:border-s lg:ps-10">
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
