@@ -9,6 +9,7 @@ import {
   Diamond,
 } from 'lucide-react';
 
+import { DashedLine } from '../dashed-line';
 import { Button } from '../ui/button';
 
 const features = [
@@ -62,7 +63,15 @@ export default function Hero() {
         </div>
 
         {/* Right side - Features */}
-        <div className="flex flex-1 flex-col justify-center space-y-5 border-dashed border-primary/40 max-lg:border-t max-lg:pt-10 lg:border-s lg:ps-10">
+        <div className="relative flex flex-1 flex-col justify-center space-y-5 max-lg:pt-10 lg:ps-10">
+          <DashedLine
+            orientation="vertical"
+            className="absolute left-0 top-0 max-lg:hidden"
+          />
+          <DashedLine
+            orientation="horizontal"
+            className="absolute top-0 lg:hidden"
+          />
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
