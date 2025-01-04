@@ -65,12 +65,8 @@ const contactInfo = [
 ];
 
 export default function Contact() {
-  function onSubmit() {
-    // Handle form submission
-  }
-
   return (
-    <section className="py-28 lg:pb-32 lg:pt-44">
+    <section className="pt-28 lg:pt-44">
       <div className="container max-w-2xl">
         <h1 className="text-center text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
           Contact us
