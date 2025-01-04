@@ -24,11 +24,11 @@ h6 {
     --popover-foreground: 240 10% 4%; /* #09090B */
     --primary: 0 0% 0%; /* #000 */
     --primary-foreground: 0 0% 100%; /* #FFFFFF */
-    --secondary: 0 0% 96.1%; /* #F5F5F5 */
+    --secondary: 0 0% 97%; /* #F8F8F8 */
     --secondary-foreground: 0 0% 9%; /* #171717 */
-    --muted: 0 0% 96.1%; /* #F5F5F5 */
+    --muted: 0 0% 97%; /* #F8F8F8 */
     --muted-foreground: 0 0% 49%; /* #737373 */
-    --accent: 0 0% 96.1%; /* #F5F5F5 */
+    --accent: 0 0% 97%; /* #F8F8F8 */
     --accent-foreground: 0 0% 9%; /* #171717 */
     --destructive: 0 84.2% 60.2%; /* #EF4444 */
     --destructive-foreground: 0 0% 100%; /* #FFFFFF */

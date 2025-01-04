@@ -22,7 +22,7 @@ const Logos = () => {
   ];
 
   return (
-    <section className="mx-2.5 pb-28 lg:mx-4 lg:pb-32">
+    <section className="pb-28 lg:pb-32">
       <div className="container space-y-10 lg:space-y-16">
         <div className="text-center">
           <h2 className="mb-4 text-balance text-xl font-bold md:text-2xl lg:text-3xl">

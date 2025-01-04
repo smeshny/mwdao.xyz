@@ -23,12 +23,12 @@ const items = [
 
 export const Features = () => {
   return (
-    <section className="mx-2.5 pb-28 lg:mx-4 lg:pb-32">
+    <section className="pb-28 lg:pb-32">
       <div className="container">
         {/* Top dashed line with text */}
         <div className="relative flex items-center justify-center">
           <DashedLine className="text-muted-foreground" />
-          <span className="absolute bg-background px-3 font-mono text-sm font-medium tracking-wide text-muted-foreground max-md:hidden">
+          <span className="absolute bg-muted px-3 font-mono text-sm font-medium tracking-wide text-muted-foreground max-md:hidden">
             MEASURE TWICE. CUT ONCE.
           </span>
         </div>

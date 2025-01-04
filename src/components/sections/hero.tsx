@@ -36,7 +36,7 @@ const features = [
 
 export default function Hero() {
   return (
-    <section className="relative mx-2.5 mt-2.5 rounded-[36px] bg-gradient-to-b from-[#F8F4E7] via-[#F8F8F8] to-[#F8F8F8]/0 py-28 lg:mx-4 lg:pb-32 lg:pt-44">
+    <section className="py-28 lg:pb-32 lg:pt-44">
       <div className="container flex flex-col justify-between gap-14 lg:flex-row">
         {/* Left side - Main content */}
         <div className="flex-1">
