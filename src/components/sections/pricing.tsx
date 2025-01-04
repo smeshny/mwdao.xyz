@@ -8,6 +8,8 @@ import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import { Switch } from '../ui/switch';
 
+import { cn } from '@/lib/utils';
+
 const plans = [
   {
     name: 'Free',
@@ -48,11 +50,11 @@ const plans = [
   },
 ];
 
-export const Pricing = () => {
+export const Pricing = ({ className }: { className?: string }) => {
   const [isAnnual, setIsAnnual] = useState(false);
 
   return (
-    <section className="py-28 lg:py-32">
+    <section className={cn('py-28 lg:py-32', className)}>
       <div className="container">
         <div className="space-y-4 text-center">
           <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
