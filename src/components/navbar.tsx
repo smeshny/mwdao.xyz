@@ -157,7 +157,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Updated Mobile Menu Overlay */}
+      {/*  Mobile Menu Navigation */}
       <div
         className={cn(
           'fixed inset-x-0 top-[calc(100%+1rem)] flex flex-col rounded-2xl border bg-background p-6 transition-all duration-300 ease-in-out lg:hidden',
