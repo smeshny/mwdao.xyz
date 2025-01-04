@@ -167,60 +167,59 @@ const PlanHeaders = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="grid grid-cols-4">
-      <div className="col-span-1 max-md:hidden"></div>
-      <div className="col-span-4 md:col-span-3 md:grid md:grid-cols-3 md:gap-4">
-        {/* Mobile View */}
-        <div className="md:hidden">
-          <Collapsible open={isOpen} onOpenChange={setIsOpen} className="">
-            <div className="flex items-center justify-between border-b py-4">
-              <CollapsibleTrigger className="flex items-center gap-2">
-                <h3 className="text-2xl font-semibold">
-                  {pricingPlans[selectedPlan].name}
-                </h3>
-                <ChevronsUpDown
-                  className={`size-5 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-                />
-              </CollapsibleTrigger>
-              <Button
-                variant={pricingPlans[selectedPlan].button.variant}
-                className="w-fit"
-              >
-                {pricingPlans[selectedPlan].button.text}
-              </Button>
-            </div>
-            <CollapsibleContent className="flex flex-col space-y-2 p-2">
-              {pricingPlans.map(
-                (plan, index) =>
-                  index !== selectedPlan && (
-                    <Button
-                      size="lg"
-                      variant="secondary"
-                      key={index}
-                      onClick={() => {
-                        onPlanChange(index);
-                        setIsOpen(false);
-                      }}
-                    >
-                      {plan.name}
-                    </Button>
-                  ),
-              )}
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
+    <div className="">
+      {/* Mobile View */}
+      <div className="md:hidden">
+        <Collapsible open={isOpen} onOpenChange={setIsOpen} className="">
+          <div className="flex items-center justify-between border-b py-4">
+            <CollapsibleTrigger className="flex items-center gap-2">
+              <h3 className="text-2xl font-semibold">
+                {pricingPlans[selectedPlan].name}
+              </h3>
+              <ChevronsUpDown
+                className={`size-5 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+              />
+            </CollapsibleTrigger>
+            <Button
+              variant={pricingPlans[selectedPlan].button.variant}
+              className="w-fit"
+            >
+              {pricingPlans[selectedPlan].button.text}
+            </Button>
+          </div>
+          <CollapsibleContent className="flex flex-col space-y-2 p-2">
+            {pricingPlans.map(
+              (plan, index) =>
+                index !== selectedPlan && (
+                  <Button
+                    size="lg"
+                    variant="secondary"
+                    key={index}
+                    onClick={() => {
+                      onPlanChange(index);
+                      setIsOpen(false);
+                    }}
+                  >
+                    {plan.name}
+                  </Button>
+                ),
+            )}
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
 
-        {/* Desktop View */}
-        <div className="hidden md:grid md:grid-cols-3 md:gap-4">
-          {pricingPlans.map((plan, index) => (
-            <div key={index} className="block border-none">
-              <h3 className="mb-3 text-2xl font-semibold">{plan.name}</h3>
-              <Button variant={plan.button.variant} className="w-fit">
-                {plan.button.text}
-              </Button>
-            </div>
-          ))}
-        </div>
+      {/* Desktop View */}
+      <div className="grid grid-cols-4 gap-4 max-md:hidden">
+        <div className="col-span-1 max-md:hidden"></div>
+
+        {pricingPlans.map((plan, index) => (
+          <div key={index} className="">
+            <h3 className="mb-3 text-2xl font-semibold">{plan.name}</h3>
+            <Button variant={plan.button.variant} className="">
+              {plan.button.text}
+            </Button>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -236,7 +235,7 @@ const FeatureSections = ({ selectedPlan }: { selectedPlan: number }) => (
         {section.features.map((feature, featureIndex) => (
           <div
             key={featureIndex}
-            className="grid grid-cols-2 border-b font-medium text-primary md:grid-cols-4"
+            className="grid grid-cols-2 font-medium text-primary max-md:border-b md:grid-cols-4"
           >
             <span className="inline-flex items-center py-4">
               {feature.name}
