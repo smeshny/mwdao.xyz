@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import { ArrowRight } from 'lucide-react';
 
+import { DashedLine } from '../dashed-line';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import {
@@ -45,8 +46,8 @@ const items = [
 
 export const Testimonials = () => {
   return (
-    <section className="py-28 lg:py-32">
-      <div className="container">
+    <section className="">
+      <div className="container py-28 lg:py-32">
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
             Trusted by product builders
@@ -110,6 +111,7 @@ export const Testimonials = () => {
           </Carousel>
         </div>
       </div>
+      <DashedLine orientation="horizontal" className="mx-auto max-w-[80%]" />
     </section>
   );
 };
