@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 import { ChevronRight } from 'lucide-react';
 
-import { Card, CardContent } from './ui/card';
-import { DashedLine } from './ui/dashed-line';
+import { DashedLine } from '../dashed-line';
+import { Card, CardContent } from '../ui/card';
 
 const items = [
   {

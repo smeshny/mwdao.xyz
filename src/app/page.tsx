@@ -1,6 +1,6 @@
-import { Features } from '@/components/features';
-import Hero from '@/components/hero';
-import Logos from '@/components/logos';
+import { Features } from '@/components/sections/features';
+import Hero from '@/components/sections/hero';
+import Logos from '@/components/sections/logos';
 
 export default function Home() {
   return (
