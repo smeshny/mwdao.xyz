@@ -1,3 +1,4 @@
+import { FAQ } from '@/components/sections/faq';
 import { Features } from '@/components/sections/features';
 import Hero from '@/components/sections/hero';
 import Logos from '@/components/sections/logos';
@@ -15,7 +16,10 @@ export default function Home() {
         <ResourceAllocation />
       </div>
       <Testimonials />
-      <Pricing />
+      <div className="relative mx-2.5 mt-2.5 rounded-b-[36px] rounded-t-2xl bg-gradient-to-b from-background via-background to-[#F8F4E7] lg:mx-4">
+        <Pricing />
+        <FAQ />
+      </div>
     </>
   );
 }
