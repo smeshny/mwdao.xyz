@@ -77,8 +77,8 @@ const Navbar = () => {
           <NavigationMenuList>
             {ITEMS.map((link) =>
               link.dropdownItems ? (
-                <NavigationMenuItem key={link.label}>
-                  <NavigationMenuTrigger className="px-1.5 data-[state=open]:bg-accent/50">
+                <NavigationMenuItem key={link.label} className="">
+                  <NavigationMenuTrigger className="!bg-transparent px-1.5 data-[state=open]:bg-accent/50">
                     {link.label}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -106,12 +106,12 @@ const Navbar = () => {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               ) : (
-                <NavigationMenuItem key={link.label}>
+                <NavigationMenuItem key={link.label} className="">
                   <Link
                     href={link.href}
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      'relative px-1.5 transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-primary after:transition-all hover:after:w-full',
+                      'relative bg-transparent px-1.5 transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-primary after:transition-all hover:after:w-full',
                       pathname === link.href &&
                         'text-muted-foreground after:w-full',
                     )}
