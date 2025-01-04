@@ -1,8 +1,15 @@
 'use client';
 
-import { Check } from 'lucide-react';
+import { useState } from 'react';
+
+import { Check, ChevronsUpDown } from 'lucide-react';
 
 import { Button } from '../ui/button';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '../ui/collapsible';
 
 interface FeatureSection {
   category: string;
@@ -135,36 +142,91 @@ const comparisonFeatures: FeatureSection[] = [
 ];
 
 const Pricing2 = () => {
+  const [selectedPlan, setSelectedPlan] = useState(1); // Default to Startup plan
+
   return (
     <section className="pb-28 lg:py-32">
       <div className="container">
-        <PlanHeaders />
-        <FeatureSections />
+        <PlanHeaders
+          selectedPlan={selectedPlan}
+          onPlanChange={setSelectedPlan}
+        />
+        <FeatureSections selectedPlan={selectedPlan} />
       </div>
     </section>
   );
 };
 
-const PlanHeaders = () => (
-  <div className="grid grid-cols-4">
-    <div className="col-span-1 max-md:hidden"></div>
-    <div className="col-span-4 grid gap-4 md:col-span-3 md:grid-cols-3">
-      {pricingPlans.map((plan, index) => (
-        <div
-          key={index}
-          className="flex items-center justify-between border-b py-4 md:block md:border-none"
-        >
-          <h3 className="text-2xl font-semibold md:mb-3">{plan.name}</h3>
-          <Button variant={plan.button.variant} className="w-fit">
-            {plan.button.text}
-          </Button>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+const PlanHeaders = ({
+  selectedPlan,
+  onPlanChange,
+}: {
+  selectedPlan: number;
+  onPlanChange: (index: number) => void;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-const FeatureSections = () => (
+  return (
+    <div className="grid grid-cols-4">
+      <div className="col-span-1 max-md:hidden"></div>
+      <div className="col-span-4 md:col-span-3 md:grid md:grid-cols-3 md:gap-4">
+        {/* Mobile View */}
+        <div className="md:hidden">
+          <Collapsible open={isOpen} onOpenChange={setIsOpen} className="">
+            <div className="flex items-center justify-between border-b py-4">
+              <CollapsibleTrigger className="flex items-center gap-2">
+                <h3 className="text-2xl font-semibold">
+                  {pricingPlans[selectedPlan].name}
+                </h3>
+                <ChevronsUpDown
+                  className={`size-5 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                />
+              </CollapsibleTrigger>
+              <Button
+                variant={pricingPlans[selectedPlan].button.variant}
+                className="w-fit"
+              >
+                {pricingPlans[selectedPlan].button.text}
+              </Button>
+            </div>
+            <CollapsibleContent className="flex flex-col space-y-2 p-2">
+              {pricingPlans.map(
+                (plan, index) =>
+                  index !== selectedPlan && (
+                    <Button
+                      size="lg"
+                      variant="secondary"
+                      key={index}
+                      onClick={() => {
+                        onPlanChange(index);
+                        setIsOpen(false);
+                      }}
+                    >
+                      {plan.name}
+                    </Button>
+                  ),
+              )}
+            </CollapsibleContent>
+          </Collapsible>
+        </div>
+
+        {/* Desktop View */}
+        <div className="hidden md:grid md:grid-cols-3 md:gap-4">
+          {pricingPlans.map((plan, index) => (
+            <div key={index} className="block border-none">
+              <h3 className="mb-3 text-2xl font-semibold">{plan.name}</h3>
+              <Button variant={plan.button.variant} className="w-fit">
+                {plan.button.text}
+              </Button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const FeatureSections = ({ selectedPlan }: { selectedPlan: number }) => (
   <>
     {comparisonFeatures.map((section, sectionIndex) => (
       <div key={sectionIndex} className="">
@@ -174,12 +236,35 @@ const FeatureSections = () => (
         {section.features.map((feature, featureIndex) => (
           <div
             key={featureIndex}
-            className="grid font-medium text-primary max-md:grid-rows-[auto_1fr] md:grid-cols-4"
+            className="grid grid-cols-2 border-b font-medium text-primary md:grid-cols-4"
           >
             <span className="inline-flex items-center py-4">
               {feature.name}
             </span>
-            <div className="col-span-3 grid grid-cols-3 gap-4">
+            {/* Mobile View - Only Selected Plan */}
+            <div className="md:hidden">
+              <div className="flex items-center gap-1 py-4 md:border-b">
+                {(() => {
+                  const value = [
+                    feature.free,
+                    feature.startup,
+                    feature.enterprise,
+                  ][selectedPlan];
+                  return typeof value === 'boolean' ? (
+                    value ? (
+                      <Check className="size-5" />
+                    ) : null
+                  ) : (
+                    <div className="flex items-center gap-1">
+                      <Check className="size-4" />
+                      <span>{value}</span>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+            {/* Desktop View - All Plans */}
+            <div className="hidden md:col-span-3 md:grid md:grid-cols-3 md:gap-4">
               {[feature.free, feature.startup, feature.enterprise].map(
                 (value, i) => (
                   <div
@@ -193,7 +278,7 @@ const FeatureSections = () => (
                     ) : (
                       <div className="flex items-center gap-1">
                         <Check className="size-4" />
-                        <span className="">{value}</span>
+                        <span>{value}</span>
                       </div>
                     )}
                   </div>

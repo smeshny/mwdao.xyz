@@ -21,7 +21,7 @@ export function Footer() {
 
   return (
     <footer className="flex flex-col items-center gap-14 pt-28 lg:pt-32">
-      <div className="space-y-3 text-center">
+      <div className="container space-y-3 text-center">
         <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
           Start your free trial today
         </h2>
@@ -36,7 +36,7 @@ export function Footer() {
         </div>
       </div>
 
-      <nav>
+      <nav className="container">
         <ul className="flex flex-wrap items-center justify-center gap-6">
           {navigation.map((item) => (
             <li key={item.name}>
