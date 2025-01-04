@@ -109,7 +109,7 @@ const Navbar = () => {
                   <Link
                     href={link.href}
                     className={cn(
-                      'ext-sm relative bg-transparent px-1.5 font-medium',
+                      'relative bg-transparent px-1.5 text-sm font-medium',
                       pathname === link.href && 'text-muted-foreground',
                     )}
                   >

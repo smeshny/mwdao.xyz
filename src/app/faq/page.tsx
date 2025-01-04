@@ -12,7 +12,7 @@ const Page = () => {
         className2="max-w-xl lg:grid-cols-1"
       />
       <DashedLine className="mx-auto max-w-xl" />
-      <Testimonials dashedLineClassName="hidden" className="!pb-0" />
+      <Testimonials dashedLineClassName="hidden" />
     </div>
   );
 };

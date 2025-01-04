@@ -37,7 +37,7 @@ const features = [
 
 export default function Hero() {
   return (
-    <section className="py-28 lg:pb-32 lg:pt-44">
+    <section className="py-28 lg:py-32 lg:pt-44">
       <div className="container flex flex-col justify-between gap-14 lg:flex-row">
         {/* Left side - Main content */}
         <div className="flex-1">

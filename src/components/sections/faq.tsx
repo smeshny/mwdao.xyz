@@ -70,7 +70,7 @@ export const FAQ = ({
   className2?: string;
 }) => {
   return (
-    <section className={cn('pb-28 lg:pb-32', className)}>
+    <section className={cn('py-28 lg:py-32', className)}>
       <div
         className={cn(
           'container grid max-w-5xl gap-16 lg:grid-cols-2',
