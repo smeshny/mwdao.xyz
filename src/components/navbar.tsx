@@ -110,10 +110,8 @@ const Navbar = () => {
                   <Link
                     href={link.href}
                     className={cn(
-                      navigationMenuTriggerStyle(),
-                      'relative bg-transparent px-1.5 transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-primary after:transition-all hover:after:w-full',
-                      pathname === link.href &&
-                        'text-muted-foreground after:w-full',
+                      'ext-sm relative bg-transparent px-1.5 font-medium',
+                      pathname === link.href && 'text-muted-foreground',
                     )}
                   >
                     {link.label}
