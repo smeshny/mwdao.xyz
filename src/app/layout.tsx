@@ -3,6 +3,7 @@ import { DM_Mono, DM_Sans, Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 
 import Navbar from '@/components/navbar';
+import { Footer } from '@/components/sections/footer';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 
@@ -45,6 +46,7 @@ export default function RootLayout({
         >
           <Navbar />
           <main className="">{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
