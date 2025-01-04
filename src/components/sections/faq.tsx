@@ -78,9 +78,9 @@ export const FAQ = ({
         )}
       >
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
+          <h1 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
             Got Questions?
-          </h2>
+          </h1>
           <p className="max-w-md font-medium leading-snug text-muted-foreground lg:mx-auto">
             If you can't find what you're looking for,{' '}
             <Link href="/contact" className="underline underline-offset-4">
