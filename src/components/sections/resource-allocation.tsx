@@ -20,34 +20,34 @@ const topItems = [
     title: 'Simplify your stack.',
     description: 'No more Confluence, SharePoint, or Microsoft Word.',
     images: [
-      { src: '/logos/jira.svg', alt: 'Jira logo', width: 65, height: 65 },
-      { src: '/logos/excel.svg', alt: 'Excel logo', width: 65, height: 65 },
+      { src: '/logos/jira.svg', alt: 'Jira logo', width: 48, height: 48 },
+      { src: '/logos/excel.svg', alt: 'Excel logo', width: 48, height: 48 },
       {
         src: '/logos/notion.svg',
         alt: 'Notion logo',
-        width: 65,
-        height: 65,
+        width: 48,
+        height: 48,
       },
-      { src: '/logos/word.svg', alt: 'Word logo', width: 65, height: 65 },
+      { src: '/logos/word.svg', alt: 'Word logo', width: 48, height: 48 },
       {
-        src: '/logos/google-docs.svg',
-        alt: 'Google Docs logo',
-        width: 65,
-        height: 65,
+        src: '/logos/monday.svg',
+        alt: 'Monday logo',
+        width: 48,
+        height: 48,
       },
       {
         src: '/logos/drive.svg',
         alt: 'Google Drive logo',
-        width: 65,
-        height: 65,
+        width: 48,
+        height: 48,
       },
       {
-        src: '/logos/azure.svg',
-        alt: 'Azure DevOps logo',
-        width: 65,
-        height: 65,
+        src: '/logos/jira.svg',
+        alt: 'Jira logo',
+        width: 48,
+        height: 48,
       },
-      { src: '/logos/asana.svg', alt: 'Asana logo', width: 65, height: 65 },
+      { src: '/logos/asana.svg', alt: 'Asana logo', width: 48, height: 48 },
     ],
   },
 ];
@@ -106,95 +106,127 @@ export const ResourceAllocation = () => {
           <DashedLine orientation="horizontal" />
 
           {/* Top Features Grid - 2 items */}
-          <div className="relative grid md:grid-cols-2">
+          <div className="relative flex max-md:flex-col">
             {topItems.map((item, i) => (
-              <div key={i} className="relative p-8 md:p-10">
-                <div className="mb-5 md:mb-8">
-                  <h3 className="inline font-semibold">{item.title} </h3>
-                  <span className="font-medium text-muted-foreground">
-                    {' '}
-                    {item.description}
-                  </span>
-                </div>
-
-                <div
-                  className={`mt-5 grid gap-4 md:mt-8 ${
-                    item.images.length > 4
-                      ? 'grid-cols-2 sm:grid-cols-4'
-                      : 'grid-cols-1'
-                  }`}
-                >
-                  {item.images.map((image, j) => (
-                    <Image
-                      key={j}
-                      src={image.src}
-                      alt={image.alt}
-                      width={image.width}
-                      height={image.height}
-                      className="object-contain"
-                    />
-                  ))}
-                </div>
-
-                {i == 0 && (
-                  <DashedLine
-                    orientation="vertical"
-                    className="absolute right-0 top-0 max-md:hidden"
-                  />
-                )}
-                {i == 0 && (
-                  <DashedLine
-                    orientation="horizontal"
-                    className="absolute inset-x-0 bottom-0 md:hidden"
-                  />
-                )}
-              </div>
+              <Item
+                key={i}
+                {...item}
+                isLast={i === topItems.length - 1}
+                gridCols={2}
+              />
             ))}
           </div>
-
-          {/* Horizontal dashed line between top and bottom sections */}
           <DashedLine orientation="horizontal" />
 
           {/* Bottom Features Grid - 3 items */}
           <div className="relative grid md:grid-cols-3">
             {bottomItems.map((item, i) => (
-              <div key={i} className="relative p-8 md:p-10">
-                <div className="mb-5 md:mb-8">
-                  <h3 className="inline font-semibold">{item.title} </h3>
-                  <span className="font-medium text-muted-foreground">
-                    {' '}
-                    {item.description}
-                  </span>
-                </div>
+              <Item
+                key={i}
+                {...item}
+                isLast={i === bottomItems.length - 1}
+                gridCols={3}
+              />
+            ))}
+          </div>
+        </div>
+        <DashedLine orientation="horizontal" />
+      </div>
+    </section>
+  );
+};
 
-                {item.images.map((image, j) => (
+interface ItemProps {
+  title: string;
+  description: string;
+  images: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  }[];
+  isLast?: boolean;
+  gridCols?: number;
+}
+
+const Item = ({ title, description, images, isLast }: ItemProps) => {
+  return (
+    <div className="relative px-0 py-8 md:p-8">
+      <div className="mb-5 md:mb-8">
+        <h3 className="inline font-semibold">{title} </h3>
+        <span className="font-medium text-muted-foreground">
+          {' '}
+          {description}
+        </span>
+      </div>
+      {images.length > 4 ? (
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-y-0 left-0 z-10 w-[100px] bg-gradient-to-r from-background/80 to-background/20" />
+          <div className="absolute inset-y-0 right-0 z-10 w-[100px] bg-gradient-to-l from-background/80 to-background/20" />
+          <div className="flex flex-col gap-5">
+            {/* First row - right aligned */}
+            <div className="flex translate-x-4 justify-end gap-5">
+              {images.slice(0, 4).map((image, j) => (
+                <div
+                  key={j}
+                  className="grid size-16 place-items-center rounded-2xl bg-background p-2 lg:size-20"
+                >
                   <Image
-                    key={j}
                     src={image.src}
                     alt={image.alt}
                     width={image.width}
                     height={image.height}
                     className="object-contain object-left-top"
                   />
-                ))}
-
-                {i !== 2 && (
-                  <DashedLine
-                    orientation="vertical"
-                    className="absolute right-0 top-0 max-md:hidden"
+                </div>
+              ))}
+            </div>
+            {/* Second row - left aligned */}
+            <div className="flex -translate-x-4 gap-5">
+              {images.slice(4).map((image, j) => (
+                <div
+                  key={j}
+                  className="grid size-[80px] place-items-center rounded-2xl bg-background"
+                >
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                    className="object-contain object-left-top"
                   />
-                )}
-                {i !== 2 && (
-                  <DashedLine
-                    orientation="horizontal"
-                    className="absolute inset-x-0 bottom-0 md:hidden"
-                  />
-                )}
-              </div>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      ) : (
+        <div className="grid grid-cols-1 gap-4">
+          {images.map((image, j) => (
+            <Image
+              key={j}
+              src={image.src}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              className="object-contain object-left-top"
+            />
+          ))}
+        </div>
+      )}
+
+      {!isLast && (
+        <>
+          <DashedLine
+            orientation="vertical"
+            className="absolute right-0 top-0 max-md:hidden"
+          />
+          <DashedLine
+            orientation="horizontal"
+            className="absolute inset-x-0 bottom-0 md:hidden"
+          />
+        </>
+      )}
+    </div>
   );
 };
