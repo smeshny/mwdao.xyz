@@ -23,7 +23,7 @@ const items = [
 
 export const Features = () => {
   return (
-    <section className="pb-28 lg:pb-32">
+    <section id="feature-modern-teams" className="pb-28 lg:pb-32">
       <div className="container">
         {/* Top dashed line with text */}
         <div className="relative flex items-center justify-center">

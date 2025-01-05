@@ -27,24 +27,15 @@ const ITEMS = [
     href: '#features',
     dropdownItems: [
       {
-        title: 'Smart Productivity',
-        href: '/#smart-productivity',
-        description: 'Boost your productivity with AI-powered insights',
+        title: 'Modern product teams',
+        href: '/#feature-modern-teams',
+        description:
+          'Mainline is built on the habits that make the best product teams successful',
       },
       {
-        title: 'Adaptive Workflows',
-        href: '/#adaptive-workflows',
-        description: 'Customize and automate your work processes',
-      },
-      {
-        title: 'Optimized Scheduling',
-        href: '/#optimized-scheduling',
-        description: 'Intelligent time management and scheduling',
-      },
-      {
-        title: 'Accelerate Planning',
-        href: '/#accelerate-planning',
-        description: 'Strategic planning tools for faster execution',
+        title: 'Resource Allocation',
+        href: '/#resource-allocation',
+        description: 'Mainline your resource allocation and execution',
       },
     ],
   },

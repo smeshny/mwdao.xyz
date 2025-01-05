@@ -96,7 +96,7 @@ const bottomItems = [
 
 export const ResourceAllocation = () => {
   return (
-    <section className="pb-28 lg:pb-32">
+    <section id="resource-allocation" className="pb-28 lg:pb-32">
       <div className="container">
         <h2 className="text-balance text-center text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
           Mainline your resource allocation and execution
