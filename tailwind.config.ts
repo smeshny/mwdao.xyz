@@ -23,6 +23,7 @@ export default {
         inter: ['var(--font-inter)'],
       },
       colors: {
+        cream: 'hsl(var(--cream))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         foreground2: 'hsl(var(--foreground-2))',
