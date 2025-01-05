@@ -2,11 +2,12 @@ import Link from 'next/link';
 
 import { ArrowLeft } from 'lucide-react';
 
+import CreamContainer from '@/components/cream-container';
 import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   return (
-    <div className="from-cream relative mx-2.5 mt-2.5 rounded-b-2xl rounded-t-[36px] bg-gradient-to-b via-background to-background lg:mx-4">
+    <CreamContainer>
       <div className="container flex min-h-[70vh] flex-col items-center justify-center py-28 text-center lg:min-h-[80vh] lg:py-32">
         <div className="relative z-10 max-w-2xl">
           <h1 className="relative mb-6 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text py-2 text-5xl font-bold text-transparent sm:text-6xl lg:text-7xl">
@@ -36,6 +37,6 @@ export default function NotFound() {
           </div>
         </div>
       </div>
-    </div>
+    </CreamContainer>
   );
 }
