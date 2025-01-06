@@ -1,7 +1,7 @@
 import React from 'react';
 
-import CreamContainer from '@/components/layout/cream-container';
 import { DashedLine } from '@/components/dashed-line';
+import CreamContainer from '@/components/layout/cream-container';
 import { FAQ } from '@/components/sections/faq';
 import { Testimonials } from '@/components/sections/testimonials';
 
