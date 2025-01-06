@@ -75,15 +75,13 @@ export default function Hero() {
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
-              <div key={feature.title} className="flex flex-col gap-0.5">
-                <div className="flex gap-5">
-                  <Icon className="mt-1 size-5" />
-                  <div>
-                    <h2 className="font-semibold">{feature.title}</h2>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
+              <div key={feature.title} className="flex gap-2.5 lg:gap-5">
+                <Icon className="mt-1 size-4 shrink-0 lg:size-5" />
+                <div>
+                  <h2 className="font-semibold">{feature.title}</h2>
+                  <p className="text-sm text-muted-foreground">
+                    {feature.description}
+                  </p>
                 </div>
               </div>
             );
