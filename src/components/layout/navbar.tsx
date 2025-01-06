@@ -8,8 +8,8 @@ import { usePathname } from 'next/navigation';
 
 import { ChevronRight } from 'lucide-react';
 
-import { ThemeToggle } from './theme-toggle';
-import { Button } from './ui/button';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,8 +17,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from './ui/navigation-menu';
-
+} from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 
 const ITEMS = [

@@ -1,4 +1,4 @@
-import CreamContainer from '@/components/cream-container';
+import CreamContainer from '@/components/layout/cream-container';
 import { FAQ } from '@/components/sections/faq';
 import { Features } from '@/components/sections/features';
 import Hero from '@/components/sections/hero';

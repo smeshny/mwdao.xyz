@@ -1,4 +1,4 @@
-import CreamContainer from '@/components/cream-container';
+import CreamContainer from '@/components/layout/cream-container';
 import { DashedLine } from '@/components/dashed-line';
 import About from '@/components/sections/about';
 import { AboutHero } from '@/components/sections/about-hero';

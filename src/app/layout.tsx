@@ -2,8 +2,8 @@ import { DM_Mono, DM_Sans, Inter } from 'next/font/google';
 
 import type { Metadata } from 'next';
 
-import Navbar from '@/components/navbar';
-import { Footer } from '@/components/sections/footer';
+import { Footer } from '@/components/layout/footer';
+import Navbar from '@/components/layout/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 
