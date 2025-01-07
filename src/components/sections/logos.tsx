@@ -1,11 +1,36 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Logos = () => {
   const topRowCompanies = [
-    { name: 'Mercury', logo: '/logos/mercury.svg', width: 143, height: 26 },
-    { name: 'Watershed', logo: '/logos/watershed.svg', width: 154, height: 31 },
-    { name: 'Retool', logo: '/logos/retool.svg', width: 113, height: 22 },
-    { name: 'Descript', logo: '/logos/descript.svg', width: 112, height: 27 },
+    {
+      name: 'Mercury',
+      logo: '/logos/mercury.svg',
+      width: 143,
+      height: 26,
+      href: 'https://mercury.com',
+    },
+    {
+      name: 'Watershed',
+      logo: '/logos/watershed.svg',
+      width: 154,
+      height: 31,
+      href: 'https://watershed.com',
+    },
+    {
+      name: 'Retool',
+      logo: '/logos/retool.svg',
+      width: 113,
+      height: 22,
+      href: 'https://retool.com',
+    },
+    {
+      name: 'Descript',
+      logo: '/logos/descript.svg',
+      width: 112,
+      height: 27,
+      href: 'https://descript.com',
+    },
   ];
 
   const bottomRowCompanies = [
@@ -14,11 +39,36 @@ const Logos = () => {
       logo: '/logos/perplexity.svg',
       width: 141,
       height: 32,
+      href: 'https://perplexity.com',
     },
-    { name: 'Monzo', logo: '/logos/monzo.svg', width: 104, height: 18 },
-    { name: 'Ramp', logo: '/logos/ramp.svg', width: 105, height: 28 },
-    { name: 'Raycast', logo: '/logos/raycast.svg', width: 128, height: 33 },
-    { name: 'Arc', logo: '/logos/arc.svg', width: 90, height: 28 },
+    {
+      name: 'Monzo',
+      logo: '/logos/monzo.svg',
+      width: 104,
+      height: 18,
+      href: 'https://monzo.com',
+    },
+    {
+      name: 'Ramp',
+      logo: '/logos/ramp.svg',
+      width: 105,
+      height: 28,
+      href: 'https://ramp.com',
+    },
+    {
+      name: 'Raycast',
+      logo: '/logos/raycast.svg',
+      width: 128,
+      height: 33,
+      href: 'https://raycast.com',
+    },
+    {
+      name: 'Arc',
+      logo: '/logos/arc.svg',
+      width: 90,
+      height: 28,
+      href: 'https://arc.com',
+    },
   ];
 
   return (
@@ -38,28 +88,30 @@ const Logos = () => {
           {/* Top row - 4 logos */}
           <div className="grid grid-cols-2 items-center justify-items-center gap-x-12 gap-y-8 max-md:w-full sm:grid-cols-4 md:gap-x-20 lg:gap-x-28">
             {topRowCompanies.map((company, index) => (
-              <Image
-                key={index}
-                src={company.logo}
-                alt={`${company.name} logo`}
-                width={company.width}
-                height={company.height}
-                className="object-contain"
-              />
+              <Link href={company.href} target="_blank" key={index}>
+                <Image
+                  src={company.logo}
+                  alt={`${company.name} logo`}
+                  width={company.width}
+                  height={company.height}
+                  className="object-contain transition-opacity hover:opacity-70"
+                />
+              </Link>
             ))}
           </div>
 
           {/* Bottom row - 5 logos */}
           <div className="grid grid-cols-2 items-center justify-items-center gap-x-12 gap-y-8 max-md:w-full sm:grid-cols-5 md:gap-x-20 lg:gap-x-28">
             {bottomRowCompanies.map((company, index) => (
-              <Image
-                key={index}
-                src={company.logo}
-                alt={`${company.name} logo`}
-                width={company.width}
-                height={company.height}
-                className="object-contain"
-              />
+              <Link href={company.href} target="_blank" key={index}>
+                <Image
+                  src={company.logo}
+                  alt={`${company.name} logo`}
+                  width={company.width}
+                  height={company.height}
+                  className="object-contain transition-opacity hover:opacity-70"
+                />
+              </Link>
             ))}
           </div>
         </div>
