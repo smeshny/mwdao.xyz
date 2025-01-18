@@ -67,7 +67,7 @@ const Navbar = () => {
             {ITEMS.map((link) =>
               link.dropdownItems ? (
                 <NavigationMenuItem key={link.label} className="">
-                  <NavigationMenuTrigger className="!bg-transparent px-1.5 data-[state=open]:bg-accent/50">
+                  <NavigationMenuTrigger className="bg-transparent! px-1.5 data-[state=open]:bg-accent/50">
                     {link.label}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -77,7 +77,7 @@ const Navbar = () => {
                           <NavigationMenuLink asChild>
                             <Link
                               href={item.href}
-                              className="group flex select-none items-center gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              className="group flex select-none items-center gap-4 rounded-md p-3 leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                             >
                               <div className="transition-transform duration-300 group-hover:translate-x-1">
                                 <div className="text-sm font-medium leading-none">

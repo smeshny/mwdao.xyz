@@ -50,7 +50,7 @@ export const Features = () => {
           <CardContent className="flex p-0 max-md:flex-col">
             {items.map((item, i) => (
               <div key={i} className="flex flex-1 max-md:flex-col">
-                <div className="flex-1 p-4 !pe-0 md:p-6">
+                <div className="flex-1 p-4 pe-0! md:p-6">
                   <div className="relative aspect-[1.28/1] overflow-hidden">
                     <Image
                       src={item.image}
