@@ -63,9 +63,11 @@ const categories = [
 ];
 
 export const FAQ = ({
+  headerTag = 'h2',
   className,
   className2,
 }: {
+  headerTag?: 'h1' | 'h2';
   className?: string;
   className2?: string;
 }) => {
@@ -78,9 +80,15 @@ export const FAQ = ({
         )}
       >
         <div className="space-y-4">
-          <h1 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
-            Got Questions?
-          </h1>
+          {headerTag === 'h1' ? (
+            <h1 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
+              Got Questions?
+            </h1>
+          ) : (
+            <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
+              Got Questions?
+            </h2>
+          )}
           <p className="max-w-md font-medium leading-snug text-muted-foreground lg:mx-auto">
             If you can't find what you're looking for,{' '}
             <Link href="/contact" className="underline underline-offset-4">

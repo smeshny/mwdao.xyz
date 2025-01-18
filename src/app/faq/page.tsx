@@ -11,6 +11,7 @@ const Page = () => {
       <FAQ
         className="py-28 text-center lg:pb-32 lg:pt-44"
         className2="max-w-xl lg:grid-cols-1"
+        headerTag="h1"
       />
       <DashedLine className="mx-auto max-w-xl" />
       <Testimonials dashedLineClassName="hidden" />
