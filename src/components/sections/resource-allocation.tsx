@@ -2,6 +2,8 @@ import Image from 'next/image';
 
 import { DashedLine } from '../dashed-line';
 
+import { cn } from '@/lib/utils';
+
 const topItems = [
   {
     title: 'Reusable issue templates.',
@@ -15,6 +17,8 @@ const topItems = [
         height: 186,
       },
     ],
+    className: '',
+    fade: [''],
   },
   {
     title: 'Simplify your stack.',
@@ -49,6 +53,8 @@ const topItems = [
       },
       { src: '/logos/asana.svg', alt: 'Asana logo', width: 48, height: 48 },
     ],
+    className: '',
+    fade: [],
   },
 ];
 
@@ -65,6 +71,8 @@ const bottomItems = [
         height: 280,
       },
     ],
+    className: '',
+    fade: ['bottom'],
   },
   {
     title: 'Task discussions.',
@@ -78,6 +86,8 @@ const bottomItems = [
         height: 103,
       },
     ],
+    className: 'justify-normal md:[&>.image]:mt-10',
+    fade: [''],
   },
   {
     title: 'Notifications.',
@@ -91,6 +101,8 @@ const bottomItems = [
         height: 280,
       },
     ],
+    className: '',
+    fade: ['bottom'],
   },
 ];
 
@@ -108,12 +120,7 @@ export const ResourceAllocation = () => {
           {/* Top Features Grid - 2 items */}
           <div className="relative flex max-md:flex-col">
             {topItems.map((item, i) => (
-              <Item
-                key={i}
-                {...item}
-                isLast={i === topItems.length - 1}
-                gridCols={2}
-              />
+              <Item key={i} item={item} isLast={i === topItems.length - 1} />
             ))}
           </div>
           <DashedLine orientation="horizontal" />
@@ -123,9 +130,9 @@ export const ResourceAllocation = () => {
             {bottomItems.map((item, i) => (
               <Item
                 key={i}
-                {...item}
+                item={item}
                 isLast={i === bottomItems.length - 1}
-                gridCols={3}
+                className="md:pb-0"
               />
             ))}
           </div>
@@ -137,36 +144,39 @@ export const ResourceAllocation = () => {
 };
 
 interface ItemProps {
-  title: string;
-  description: string;
-  images: {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-  }[];
+  item: (typeof topItems)[number] | (typeof bottomItems)[number];
   isLast?: boolean;
-  gridCols?: number;
+  className?: string;
 }
 
-const Item = ({ title, description, images, isLast }: ItemProps) => {
+const Item = ({ item, isLast, className }: ItemProps) => {
   return (
-    <div className="relative px-0 py-8 md:p-8">
+    <div
+      className={cn(
+        'relative flex flex-col justify-between px-0 py-6 md:p-8',
+        className,
+        item.className,
+      )}
+    >
       <div className="mb-5 md:mb-8">
-        <h3 className="inline font-semibold">{title} </h3>
+        <h3 className="inline font-semibold">{item.title} </h3>
         <span className="font-medium text-muted-foreground">
           {' '}
-          {description}
+          {item.description}
         </span>
       </div>
-      {images.length > 4 ? (
+
+      {item.fade.includes('bottom') && (
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-background via-transparent to-transparent md:hidden" />
+      )}
+      {item.images.length > 4 ? (
         <div className="relative overflow-hidden">
           <div className="absolute inset-y-0 left-0 z-10 w-[100px] bg-gradient-to-r from-background/80 to-background/20" />
           <div className="absolute inset-y-0 right-0 z-10 w-[100px] bg-gradient-to-l from-background/80 to-background/20" />
           <div className="flex flex-col gap-5">
             {/* First row - right aligned */}
             <div className="flex translate-x-4 justify-end gap-5">
-              {images.slice(0, 4).map((image, j) => (
+              {item.images.slice(0, 4).map((image, j) => (
                 <div
                   key={j}
                   className="grid size-16 place-items-center rounded-2xl bg-background p-2 lg:size-20"
@@ -183,7 +193,7 @@ const Item = ({ title, description, images, isLast }: ItemProps) => {
             </div>
             {/* Second row - left aligned */}
             <div className="flex -translate-x-4 gap-5">
-              {images.slice(4).map((image, j) => (
+              {item.images.slice(4).map((image, j) => (
                 <div
                   key={j}
                   className="grid size-[80px] place-items-center rounded-2xl bg-background"
@@ -201,8 +211,8 @@ const Item = ({ title, description, images, isLast }: ItemProps) => {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4">
-          {images.map((image, j) => (
+        <div className="image grid grid-cols-1 gap-4">
+          {item.images.map((image, j) => (
             <Image
               key={j}
               src={image.src}

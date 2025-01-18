@@ -38,7 +38,7 @@ const ITEMS = [
       },
     ],
   },
-  { label: 'About us', href: '/about' },
+  { label: 'About Us', href: '/about' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Contact', href: '/contact' },
