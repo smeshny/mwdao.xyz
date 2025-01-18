@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button';
 
 export function Footer() {
   const navigation = [
-    { name: 'Product', href: '#product' },
-    { name: 'Pricing', href: '#pricing' },
-    { name: 'About Us', href: '#about' },
-    { name: 'FAQs', href: '#faqs' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Product', href: '/#feature-modern-teams' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'FAQ', href: '/faq' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   const social = [

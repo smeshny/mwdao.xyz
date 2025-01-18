@@ -44,6 +44,34 @@ const items = [
     company: 'Mercury Finance',
     image: '/testimonials/kundo-marta.webp',
   },
+  {
+    quote: "We're misusing Mainline as a CRM and it still works!",
+    author: 'Amy Chase',
+    role: 'PM',
+    company: 'Mercury Finance',
+    image: '/testimonials/amy-chase.webp',
+  },
+  {
+    quote: 'I was able to replace 80% of my team with Mainline bots.',
+    author: 'Jonas Kotara',
+    role: 'Lead Engineer',
+    company: 'Mercury Finance',
+    image: '/testimonials/jonas-kotara.webp',
+  },
+  {
+    quote: 'Founder Mode is hard enough without having a really nice PM app.',
+    author: 'Kevin Yam',
+    role: 'Founder',
+    company: 'Mercury Finance',
+    image: '/testimonials/kevin-yam.webp',
+  },
+  {
+    quote: 'I can use the tool as a substitute from my PM.',
+    author: 'Kundo Marta',
+    role: 'Founder',
+    company: 'Mercury Finance',
+    image: '/testimonials/kundo-marta.webp',
+  },
 ];
 
 export const Testimonials = ({
@@ -80,9 +108,9 @@ export const Testimonials = ({
               className="w-full"
             >
               <CarouselContent className="">
-                {items.map((testimonial) => (
+                {items.map((testimonial, index) => (
                   <CarouselItem
-                    key={testimonial.author}
+                    key={index}
                     className="grow basis-4/5 md:basis-3/5 lg:basis-[28%] xl:basis-1/4"
                   >
                     <Card className="h-full overflow-hidden border-none bg-muted">
@@ -113,7 +141,7 @@ export const Testimonials = ({
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <div className="mt-8 flex gap-3 xl:hidden">
+              <div className="mt-8 flex gap-3">
                 <CarouselPrevious className="static size-10 translate-x-0 translate-y-0" />
                 <CarouselNext className="static size-10 translate-x-0 translate-y-0" />
               </div>
