@@ -80,11 +80,6 @@ export const metadata: Metadata = {
     images: ['/og-image.jpg'],
     creator: '@mainline',
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
 };
 
 export default function RootLayout({
