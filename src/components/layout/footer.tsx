@@ -19,6 +19,8 @@ export function Footer() {
     { name: 'LinkedIn', href: '#' },
   ];
 
+  const legal = [{ name: 'Privacy Policy', href: '/privacy' }];
+
   return (
     <footer className="flex flex-col items-center gap-14 pt-28 lg:pt-32">
       <div className="container space-y-3 text-center">
@@ -36,7 +38,7 @@ export function Footer() {
         </div>
       </div>
 
-      <nav className="container">
+      <nav className="container flex flex-col items-center gap-4">
         <ul className="flex flex-wrap items-center justify-center gap-6">
           {navigation.map((item) => (
             <li key={item.name}>
@@ -55,6 +57,18 @@ export function Footer() {
                 className="flex items-center gap-0.5 font-medium transition-opacity hover:opacity-75"
               >
                 {item.name} <ArrowUpRight className="size-4" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <ul className="flex flex-wrap items-center justify-center gap-6">
+          {legal.map((item) => (
+            <li key={item.name}>
+              <Link
+                href={item.href}
+                className="text-sm text-muted-foreground transition-opacity hover:opacity-75"
+              >
+                {item.name}
               </Link>
             </li>
           ))}

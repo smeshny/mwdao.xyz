@@ -1,6 +1,9 @@
+import createMDX from '@next/mdx';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
+
   output: 'export',
   images: {
     loader: 'custom',
@@ -9,5 +12,12 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
   },
 };
+const withMDX = createMDX({
+  // Add markdown plugins here, if needed
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+  },
+});
 
-export default nextConfig;
+export default withMDX(nextConfig);
