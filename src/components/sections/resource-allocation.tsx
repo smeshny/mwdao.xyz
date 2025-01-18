@@ -110,7 +110,7 @@ export const ResourceAllocation = () => {
   return (
     <section id="resource-allocation" className="pb-28 lg:pb-32">
       <div className="container">
-        <h2 className="text-balance text-center text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl">
           Mainline your resource allocation and execution
         </h2>
 
@@ -160,26 +160,26 @@ const Item = ({ item, isLast, className }: ItemProps) => {
     >
       <div className="mb-5 md:mb-8">
         <h3 className="inline font-semibold">{item.title} </h3>
-        <span className="font-medium text-muted-foreground">
+        <span className="text-muted-foreground font-medium">
           {' '}
           {item.description}
         </span>
       </div>
 
       {item.fade.includes('bottom') && (
-        <div className="absolute inset-0 z-10 bg-linear-to-t from-background via-transparent to-transparent md:hidden" />
+        <div className="from-background absolute inset-0 z-10 bg-linear-to-t via-transparent to-transparent md:hidden" />
       )}
       {item.images.length > 4 ? (
         <div className="relative overflow-hidden">
-          <div className="absolute inset-y-0 left-0 z-10 w-[100px] bg-linear-to-r from-background/80 to-background/20" />
-          <div className="absolute inset-y-0 right-0 z-10 w-[100px] bg-linear-to-l from-background/80 to-background/20" />
+          <div className="from-background/80 to-background/20 absolute inset-y-0 left-0 z-10 w-[100px] bg-linear-to-r" />
+          <div className="from-background/80 to-background/20 absolute inset-y-0 right-0 z-10 w-[100px] bg-linear-to-l" />
           <div className="flex flex-col gap-5">
             {/* First row - right aligned */}
             <div className="flex translate-x-4 justify-end gap-5">
               {item.images.slice(0, 4).map((image, j) => (
                 <div
                   key={j}
-                  className="grid size-16 place-items-center rounded-2xl bg-background p-2 lg:size-20"
+                  className="bg-background grid aspect-square size-16 place-items-center rounded-2xl p-2 lg:size-20"
                 >
                   <Image
                     src={image.src}
@@ -196,7 +196,7 @@ const Item = ({ item, isLast, className }: ItemProps) => {
               {item.images.slice(4).map((image, j) => (
                 <div
                   key={j}
-                  className="grid size-[80px] place-items-center rounded-2xl bg-background"
+                  className="bg-background grid aspect-square size-16 place-items-center rounded-2xl lg:size-20"
                 >
                   <Image
                     src={image.src}
@@ -229,7 +229,7 @@ const Item = ({ item, isLast, className }: ItemProps) => {
         <>
           <DashedLine
             orientation="vertical"
-            className="absolute right-0 top-0 max-md:hidden"
+            className="absolute top-0 right-0 max-md:hidden"
           />
           <DashedLine
             orientation="horizontal"
