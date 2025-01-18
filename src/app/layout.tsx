@@ -59,9 +59,6 @@ export const metadata: Metadata = {
     shortcut: [{ url: '/favicon/favicon.ico' }],
   },
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://mainline-template.vercel.app',
     title: 'Mainline - Modern Next.js Template',
     description:
       'A modern, fully featured Next.js template built with Shadcn/UI, TailwindCSS and TypeScript, perfect for your next web application.',
