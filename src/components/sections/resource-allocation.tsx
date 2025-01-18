@@ -167,12 +167,12 @@ const Item = ({ item, isLast, className }: ItemProps) => {
       </div>
 
       {item.fade.includes('bottom') && (
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-background via-transparent to-transparent md:hidden" />
+        <div className="absolute inset-0 z-10 bg-linear-to-t from-background via-transparent to-transparent md:hidden" />
       )}
       {item.images.length > 4 ? (
         <div className="relative overflow-hidden">
-          <div className="absolute inset-y-0 left-0 z-10 w-[100px] bg-gradient-to-r from-background/80 to-background/20" />
-          <div className="absolute inset-y-0 right-0 z-10 w-[100px] bg-gradient-to-l from-background/80 to-background/20" />
+          <div className="absolute inset-y-0 left-0 z-10 w-[100px] bg-linear-to-r from-background/80 to-background/20" />
+          <div className="absolute inset-y-0 right-0 z-10 w-[100px] bg-linear-to-l from-background/80 to-background/20" />
           <div className="flex flex-col gap-5">
             {/* First row - right aligned */}
             <div className="flex translate-x-4 justify-end gap-5">

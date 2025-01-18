@@ -49,19 +49,16 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '48x48' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon/favicon.ico', sizes: '48x48' },
+      { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
       { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon/favicon.ico' },
     ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+    apple: [{ url: '/favicon/apple-touch-icon.png', sizes: '180x180' }],
     shortcut: [{ url: '/favicon/favicon.ico' }],
   },
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://mainline-template.vercel.app',
     title: 'Mainline - Modern Next.js Template',
     description:
       'A modern, fully featured Next.js template built with Shadcn/UI, TailwindCSS and TypeScript, perfect for your next web application.',
