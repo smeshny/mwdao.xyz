@@ -28,7 +28,7 @@ export const Features = () => {
         {/* Top dashed line with text */}
         <div className="relative flex items-center justify-center">
           <DashedLine className="text-muted-foreground" />
-          <span className="absolute bg-muted px-3 font-mono text-sm font-medium tracking-wide text-muted-foreground max-md:hidden">
+          <span className="bg-muted text-muted-foreground absolute px-3 font-mono text-sm font-medium tracking-wide max-md:hidden">
             MEASURE TWICE. CUT ONCE.
           </span>
         </div>
@@ -38,7 +38,7 @@ export const Features = () => {
           <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
             Made for modern product teams
           </h2>
-          <p className="font-medium leading-snug text-muted-foreground">
+          <p className="text-muted-foreground leading-snug font-medium">
             Mainline is built on the habits that make the best product teams
             successful: staying focused, moving quickly, and always aiming for
             high-quality work.
@@ -65,7 +65,7 @@ export const Features = () => {
                       'group flex items-center justify-between gap-4 pe-4 pt-4 md:pe-6 md:pt-6'
                     }
                   >
-                    <h3 className="text-2xl font-semibold leading-tight tracking-tight">
+                    <h3 className="text-2xl leading-tight font-semibold tracking-tight">
                       {item.title}
                     </h3>
                     <div className="rounded-full border p-2">

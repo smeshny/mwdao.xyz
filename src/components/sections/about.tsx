@@ -88,8 +88,8 @@ export function TextSection({
 }: TextSectionProps) {
   return (
     <div className="flex-1 space-y-4 text-lg font-medium md:space-y-6">
-      {title && <h2 className="text-4xl font-medium text-primary">{title}</h2>}
-      <div className="max-w-[600px] space-y-6 text-muted-foreground">
+      {title && <h2 className="text-primary text-4xl font-medium">{title}</h2>}
+      <div className="text-muted-foreground max-w-[600px] space-y-6">
         {paragraphs.map((paragraph, index) => (
           <p key={index}>{paragraph}</p>
         ))}

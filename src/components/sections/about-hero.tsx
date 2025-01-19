@@ -29,7 +29,7 @@ export function AboutHero() {
             Mainline your product.
           </h1>
 
-          <p className="mt-5 text-2xl text-muted-foreground lg:text-3xl">
+          <p className="text-muted-foreground mt-5 text-2xl lg:text-3xl">
             Mainline is the fit-for-purpose tool for planning and building
             modern software products.
           </p>
@@ -44,7 +44,7 @@ export function AboutHero() {
         >
           <DashedLine
             orientation="vertical"
-            className="absolute left-0 top-0 max-lg:hidden"
+            className="absolute top-0 left-0 max-lg:hidden"
           />
           <DashedLine
             orientation="horizontal"
@@ -55,7 +55,7 @@ export function AboutHero() {
               <div className="font-sans text-5xl font-medium tracking-wide">
                 {stat.value}
               </div>
-              <div className="font-medium text-muted-foreground">
+              <div className="text-muted-foreground font-medium">
                 {stat.label}
               </div>
             </div>

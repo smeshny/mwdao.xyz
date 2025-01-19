@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 const Login = () => {
   return (
     <CreamContainer>
-      <section className="py-28 lg:pb-32 lg:pt-44">
+      <section className="py-28 lg:pt-44 lg:pb-32">
         <div className="container">
           <div className="flex flex-col gap-4">
             <Card className="mx-auto w-full max-w-sm">
@@ -47,12 +47,12 @@ const Login = () => {
                       />
                       <label
                         htmlFor="remember"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
                         Remember me
                       </label>
                     </div>
-                    <a href="#" className="text-sm font-medium text-primary">
+                    <a href="#" className="text-primary text-sm font-medium">
                       Forgot password
                     </a>
                   </div>
@@ -64,9 +64,9 @@ const Login = () => {
                     Sign up with Google
                   </Button>
                 </div>
-                <div className="mx-auto mt-8 flex justify-center gap-1 text-sm text-muted-foreground">
+                <div className="text-muted-foreground mx-auto mt-8 flex justify-center gap-1 text-sm">
                   <p>Don&apos;t have an account?</p>
-                  <Link href="/signup" className="font-medium text-primary">
+                  <Link href="/signup" className="text-primary font-medium">
                     Sign up
                   </Link>
                 </div>

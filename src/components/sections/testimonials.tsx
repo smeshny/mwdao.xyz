@@ -89,7 +89,7 @@ export const Testimonials = ({
             <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
               Trusted by product builders
             </h2>
-            <p className="max-w-md font-medium leading-snug text-muted-foreground">
+            <p className="text-muted-foreground max-w-md leading-snug font-medium">
               Mainline is built on the habits that make the best product teams
               successful: staying focused, moving quickly, and always aiming for
               high-quality work.
@@ -113,7 +113,7 @@ export const Testimonials = ({
                     key={index}
                     className="grow basis-4/5 md:basis-3/5 lg:basis-[28%] xl:basis-1/4"
                   >
-                    <Card className="h-full overflow-hidden border-none bg-muted">
+                    <Card className="bg-muted h-full overflow-hidden border-none">
                       <CardContent className="flex h-full flex-col p-0">
                         <div className="relative h-[288px] lg:h-[328px]">
                           <Image
@@ -124,14 +124,14 @@ export const Testimonials = ({
                           />
                         </div>
                         <div className="flex flex-1 flex-col justify-between gap-10 p-6">
-                          <blockquote className="text-lg font-medium leading-none! text-primary md:text-xl">
+                          <blockquote className="text-primary text-lg leading-none! font-medium md:text-xl">
                             {testimonial.quote}
                           </blockquote>
                           <div className="space-y-0.5">
                             <div className="text-sm font-semibold">
                               {testimonial.author}
                             </div>
-                            <div className="text-xs text-muted-foreground">
+                            <div className="text-muted-foreground text-xs">
                               {testimonial.role}, {testimonial.company}
                             </div>
                           </div>

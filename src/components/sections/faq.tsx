@@ -89,7 +89,7 @@ export const FAQ = ({
               Got Questions?
             </h2>
           )}
-          <p className="max-w-md font-medium leading-snug text-muted-foreground lg:mx-auto">
+          <p className="text-muted-foreground max-w-md leading-snug font-medium lg:mx-auto">
             If you can't find what you're looking for,{' '}
             <Link href="/contact" className="underline underline-offset-4">
               get in touch
@@ -101,7 +101,7 @@ export const FAQ = ({
         <div className="grid gap-6 text-start">
           {categories.map((category, categoryIndex) => (
             <div key={category.title} className="">
-              <h3 className="border-b py-4 font-medium text-muted-foreground">
+              <h3 className="text-muted-foreground border-b py-4 font-medium">
                 {category.title}
               </h3>
               <Accordion type="single" collapsible className="w-full">

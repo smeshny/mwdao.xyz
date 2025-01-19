@@ -14,7 +14,7 @@ export const DashedLine = ({
   return (
     <div
       className={cn(
-        'relative text-muted-foreground',
+        'text-muted-foreground relative',
         isHorizontal ? 'h-px w-full' : 'h-full w-px',
         className,
       )}

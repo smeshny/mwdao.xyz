@@ -6,7 +6,7 @@ import Pricing2 from '@/components/sections/pricing2';
 const Page = () => {
   return (
     <CreamContainer>
-      <Pricing className="py-28 text-center lg:pb-32 lg:pt-44" />
+      <Pricing className="py-28 text-center lg:pt-44 lg:pb-32" />
       <Pricing2 />
     </CreamContainer>
   );

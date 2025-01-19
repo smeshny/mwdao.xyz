@@ -45,7 +45,7 @@ export default function Hero() {
             Mainline your product.
           </h1>
 
-          <p className="mt-5 text-2xl text-muted-foreground lg:text-3xl">
+          <p className="text-muted-foreground mt-5 text-2xl lg:text-3xl">
             Mainline is the fit-for-purpose tool for planning and building
             modern software products.
           </p>
@@ -54,7 +54,7 @@ export default function Hero() {
             <Button>Get started</Button>
             <Link href="#">
               <Button variant="outline" className="h-auto">
-                <span className="flex items-center gap-2 whitespace-pre-wrap text-start">
+                <span className="flex items-center gap-2 text-start whitespace-pre-wrap">
                   Mainline raises $12M from Roba Ventures <ArrowRight />
                 </span>
               </Button>
@@ -66,7 +66,7 @@ export default function Hero() {
         <div className="relative flex flex-1 flex-col justify-center space-y-5 max-lg:pt-10 lg:ps-10">
           <DashedLine
             orientation="vertical"
-            className="absolute left-0 top-0 max-lg:hidden"
+            className="absolute top-0 left-0 max-lg:hidden"
           />
           <DashedLine
             orientation="horizontal"
@@ -79,7 +79,7 @@ export default function Hero() {
                 <Icon className="mt-1 size-4 shrink-0 lg:size-5" />
                 <div>
                   <h2 className="font-semibold">{feature.title}</h2>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {feature.description}
                   </p>
                 </div>
@@ -89,7 +89,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="mt-12 lg:container max-lg:ml-6 max-lg:h-[550px] max-lg:overflow-hidden md:mt-20 lg:mt-24">
+      <div className="mt-12 max-lg:ml-6 max-lg:h-[550px] max-lg:overflow-hidden md:mt-20 lg:container lg:mt-24">
         <div className="relative h-[793px] w-full">
           <Image
             src="/hero.webp"

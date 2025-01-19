@@ -27,7 +27,7 @@ export function Footer() {
         <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
           Start your free trial today
         </h2>
-        <p className="mx-auto max-w-xl text-balance font-medium leading-snug text-muted-foreground">
+        <p className="text-muted-foreground mx-auto max-w-xl leading-snug font-medium text-balance">
           Mainline is the fit-for-purpose tool for planning and building modern
           software products.
         </p>
@@ -66,7 +66,7 @@ export function Footer() {
             <li key={item.name}>
               <Link
                 href={item.href}
-                className="text-sm text-muted-foreground transition-opacity hover:opacity-75"
+                className="text-muted-foreground text-sm transition-opacity hover:opacity-75"
               >
                 {item.name}
               </Link>

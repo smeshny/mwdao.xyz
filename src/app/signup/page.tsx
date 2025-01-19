@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 const Signup = () => {
   return (
     <CreamContainer>
-      <section className="py-28 lg:pb-32 lg:pt-44">
+      <section className="py-28 lg:pt-44 lg:pb-32">
         <div className="container">
           <div className="flex flex-col gap-4">
             <Card className="mx-auto w-full max-w-sm">
@@ -38,7 +38,7 @@ const Signup = () => {
                       placeholder="Enter your password"
                       required
                     />
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="text-muted-foreground mt-1 text-sm">
                       Must be at least 8 characters.
                     </p>
                   </div>
@@ -50,9 +50,9 @@ const Signup = () => {
                     Sign up with Google
                   </Button>
                 </div>
-                <div className="mx-auto mt-8 flex justify-center gap-1 text-sm text-muted-foreground">
+                <div className="text-muted-foreground mx-auto mt-8 flex justify-center gap-1 text-sm">
                   <p>Already have an account?</p>
-                  <Link href="/login" className="font-medium text-primary">
+                  <Link href="/login" className="text-primary font-medium">
                     Log in
                   </Link>
                 </div>

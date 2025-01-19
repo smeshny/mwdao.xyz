@@ -60,7 +60,7 @@ export const Pricing = ({ className }: { className?: string }) => {
           <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
             Pricing
           </h2>
-          <p className="mx-auto max-w-xl text-balance font-medium leading-snug text-muted-foreground">
+          <p className="text-muted-foreground mx-auto max-w-xl leading-snug font-medium text-balance">
             Use Mainline for free with your whole team. Upgrade to enable
             unlimited issues, enhanced security controls, and additional
             features.
@@ -73,15 +73,15 @@ export const Pricing = ({ className }: { className?: string }) => {
               key={plan.name}
               className={`${
                 plan.name === 'Startup'
-                  ? 'border-4 border-primary lg:h-[110%]'
+                  ? 'border-primary border-4 lg:h-[110%]'
                   : ''
               }`}
             >
               <CardContent className="flex h-full flex-col justify-between gap-2 p-6">
                 <div className="space-y-2">
-                  <h3 className="font-semibold text-primary">{plan.name}</h3>
+                  <h3 className="text-primary font-semibold">{plan.name}</h3>
                   <div className="space-y-1">
-                    <div className="text-lg font-medium text-muted-foreground">
+                    <div className="text-muted-foreground text-lg font-medium">
                       {isAnnual ? plan.yearlyPrice : plan.monthlyPrice}{' '}
                       {plan.name !== 'Free' && (
                         <span className="text-muted-foreground">
@@ -102,7 +102,7 @@ export const Pricing = ({ className }: { className?: string }) => {
                     <span className="text-sm font-medium">Billed annually</span>
                   </div>
                 ) : (
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-muted-foreground text-sm">
                     {plan.description}
                   </span>
                 )}
@@ -111,7 +111,7 @@ export const Pricing = ({ className }: { className?: string }) => {
                   {plan.features.map((feature) => (
                     <div
                       key={feature}
-                      className="flex items-center gap-1.5 text-muted-foreground"
+                      className="text-muted-foreground flex items-center gap-1.5"
                     >
                       <Check className="size-5 shrink-0" />
                       <span className="text-sm">{feature}</span>

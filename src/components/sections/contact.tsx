@@ -14,7 +14,7 @@ const contactInfo = [
   {
     title: 'Corporate office',
     content: (
-      <p className="mt-3 text-muted-foreground">
+      <p className="text-muted-foreground mt-3">
         1 Carlsberg Close
         <br />
         1260 Hillview, Australia
@@ -71,7 +71,7 @@ export default function Contact() {
         <h1 className="text-center text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
           Contact us
         </h1>
-        <p className="mt-4 text-center font-medium leading-snug text-muted-foreground lg:mx-auto">
+        <p className="text-muted-foreground mt-4 text-center leading-snug font-medium lg:mx-auto">
           Hopefully this form gets through our spam filters.
         </p>
 

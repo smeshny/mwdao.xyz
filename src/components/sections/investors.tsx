@@ -31,7 +31,7 @@ const investors = [
 export function Investors() {
   return (
     <section className="container py-12">
-      <h2 className="text-4xl font-medium tracking-wide text-primary">
+      <h2 className="text-primary text-4xl font-medium tracking-wide">
         Our investors
       </h2>
       <div className="mt-8 grid grid-cols-2 gap-12 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">

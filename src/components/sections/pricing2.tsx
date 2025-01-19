@@ -229,13 +229,13 @@ const FeatureSections = ({ selectedPlan }: { selectedPlan: number }) => (
   <>
     {comparisonFeatures.map((section, sectionIndex) => (
       <div key={sectionIndex} className="">
-        <div className="border-b border-primary/40 py-4">
+        <div className="border-primary/40 border-b py-4">
           <h3 className="text-lg font-semibold">{section.category}</h3>
         </div>
         {section.features.map((feature, featureIndex) => (
           <div
             key={featureIndex}
-            className="grid grid-cols-2 font-medium text-primary max-md:border-b md:grid-cols-4"
+            className="text-primary grid grid-cols-2 font-medium max-md:border-b md:grid-cols-4"
           >
             <span className="inline-flex items-center py-4">
               {feature.name}
