@@ -24,7 +24,6 @@ const eslintConfig = [
     'plugin:prettier/recommended',
     'next',
     'plugin:jsx-a11y/recommended',
-    'plugin:tailwindcss/recommended',
   ),
   {
     rules: {
