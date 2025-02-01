@@ -113,6 +113,15 @@
   }
 }
 
+@layer components {
+  button {
+    cursor: pointer;
+  }
+  [class*='border'] {
+    @apply border-border;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%; /* #FFFFFF */

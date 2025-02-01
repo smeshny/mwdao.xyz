@@ -1,6 +1,6 @@
 # Mainline NextJS Template
 
-Mainline NextJS Template is a premium landing-page template built by https://www.shadcnblocks.com
+Mainline NextJS Template is a premium template built by https://www.shadcnblocks.com
 
 - [Demo](https://mainline-nextjs-template.vercel.app/)
 
