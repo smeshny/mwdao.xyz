@@ -67,7 +67,7 @@ export const Pricing = ({ className }: { className?: string }) => {
           </p>
         </div>
 
-        <div className="mt-8 grid items-start gap-4 text-start md:mt-12 md:grid-cols-3 lg:mt-20">
+        <div className="mt-8 grid items-start gap-5 text-start md:mt-12 md:grid-cols-3 lg:mt-20">
           {plans.map((plan) => (
             <Card
               key={plan.name}
