@@ -55,7 +55,7 @@ const topItems = [
       { src: '/logos/asana.svg', alt: 'Asana logo', width: 48, height: 48 },
     ],
     className:
-      'flex-1 [&>.title-container]:mb-5 md:[&>.title-container]:mb-8 [&>.title-container]:translate-x-4 [&>.title-container]:translate-x-0',
+      'flex-1 [&>.title-container]:mb-5 md:[&>.title-container]:mb-8 md:[&>.title-container]:translate-x-2 xl:[&>.title-container]:translate-x-4 [&>.title-container]:translate-x-0',
     fade: [],
   },
 ];
@@ -133,7 +133,7 @@ export const ResourceAllocation = () => {
           </div>
           <DashedLine
             orientation="horizontal"
-            className="container max-w-7xl scale-x-105"
+            className="container max-w-7xl scale-x-110"
           />
 
           {/* Bottom Features Grid - 3 items */}
@@ -148,7 +148,10 @@ export const ResourceAllocation = () => {
             ))}
           </div>
         </div>
-        <DashedLine orientation="horizontal" />
+        <DashedLine
+          orientation="horizontal"
+          className="container max-w-7xl scale-x-110"
+        />
       </div>
     </section>
   );
