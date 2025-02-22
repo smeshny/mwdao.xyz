@@ -73,13 +73,8 @@ export const FAQ = ({
 }) => {
   return (
     <section className={cn('py-28 lg:py-32', className)}>
-      <div className="container">
-        <div
-          className={cn(
-            'mx-auto grid max-w-4xl gap-16 lg:grid-cols-2',
-            className2,
-          )}
-        >
+      <div className="container max-w-5xl">
+        <div className={cn('mx-auto grid gap-16 lg:grid-cols-2', className2)}>
           <div className="space-y-4">
             {headerTag === 'h1' ? (
               <h1 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
