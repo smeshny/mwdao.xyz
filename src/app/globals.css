@@ -74,7 +74,7 @@
     max-width: none;
   }
   @media (width >= 1400px) {
-    max-width: 1400px;
+    max-width: 1220px;
   }
 }
 
@@ -102,12 +102,26 @@
   }
   h1,
   h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  .font-sans {
     font-family: var(--font-dm-sans), sans-serif;
+    -webkit-font-feature-settings:
+      'ss02' on,
+      'ss03' on,
+      'ss04' on;
+    -moz-font-feature-settings:
+      'ss02' on,
+      'ss03' on,
+      'ss04' on;
+    -ms-font-feature-settings:
+      'ss02' on,
+      'ss03' on,
+      'ss04' on;
+    font-feature-settings:
+      'ss02' on,
+      'ss03' on,
+      'ss04' on;
   }
+
   .font-mono {
     font-family: var(--font-dm-mono), monospace;
   }

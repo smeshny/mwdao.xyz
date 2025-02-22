@@ -65,7 +65,7 @@ export const Features = () => {
                       'group flex items-center justify-between gap-4 pe-4 pt-4 md:pe-6 md:pt-6'
                     }
                   >
-                    <h3 className="text-2xl leading-tight font-semibold tracking-tight">
+                    <h3 className="font-sans text-2xl leading-tight font-semibold tracking-tight">
                       {item.title}
                     </h3>
                     <div className="rounded-full border p-2">
