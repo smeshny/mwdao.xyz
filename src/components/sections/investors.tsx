@@ -30,7 +30,7 @@ const investors = [
 
 export function Investors() {
   return (
-    <section className="container py-12">
+    <section className="container max-w-5xl py-12">
       <h2 className="text-primary text-4xl font-medium tracking-wide">
         Our investors
       </h2>
