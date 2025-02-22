@@ -31,9 +31,14 @@ const dmSans = localFont({
       style: 'italic',
     },
     {
-      path: '../../fonts/dm-sans/DMSans-Bold.ttf',
-      weight: '700',
+      path: '../../fonts/dm-sans/DMSans-SemiBold.ttf',
+      weight: '600',
       style: 'normal',
+    },
+    {
+      path: '../../fonts/dm-sans/DMSans-SemiBoldItalic.ttf',
+      weight: '600',
+      style: 'italic',
     },
     {
       path: '../../fonts/dm-sans/DMSans-BoldItalic.ttf',
