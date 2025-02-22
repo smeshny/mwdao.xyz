@@ -17,7 +17,8 @@ const topItems = [
         height: 186,
       },
     ],
-    className: '',
+    className:
+      'flex-1 [&>.title-container]:mb-5 md:[&>.title-container]:mb-8 xl:[&>.image-container]:translate-x-6 [&>.image-container]:translate-x-2',
     fade: [''],
   },
   {
@@ -53,7 +54,8 @@ const topItems = [
       },
       { src: '/logos/asana.svg', alt: 'Asana logo', width: 48, height: 48 },
     ],
-    className: '',
+    className:
+      'flex-1 [&>.title-container]:mb-5 md:[&>.title-container]:mb-8 [&>.title-container]:translate-x-4 [&>.title-container]:translate-x-0',
     fade: [],
   },
 ];
@@ -71,7 +73,8 @@ const bottomItems = [
         height: 280,
       },
     ],
-    className: '',
+    className:
+      '[&>.title-container]:mb-5 md:[&>.title-container]:mb-8 xl:[&>.image-container]:translate-x-6 [&>.image-container]:translate-x-2',
     fade: ['bottom'],
   },
   {
@@ -86,7 +89,8 @@ const bottomItems = [
         height: 103,
       },
     ],
-    className: 'justify-normal md:[&>.image]:mt-10',
+    className:
+      'justify-normal [&>.title-container]:mb-5 md:[&>.title-container]:mb-0 [&>.image-container]:mx-auto [&>.image-container]:flex-1 [&>.image-container]:place-items-center md:[&>.image-container]:-translate-y-3',
     fade: [''],
   },
   {
@@ -97,11 +101,12 @@ const bottomItems = [
       {
         src: '/resource-allocation/notifications.webp',
         alt: 'Notifications interface',
-        width: 326,
+        width: 305,
         height: 280,
       },
     ],
-    className: '',
+    className:
+      '[&>.title-container]:mb-5 md:[&>.title-container]:mb-8 xl:[&>.image-container]:translate-x-6 [&>.image-container]:translate-x-2',
     fade: ['bottom'],
   },
 ];
@@ -109,24 +114,30 @@ const bottomItems = [
 export const ResourceAllocation = () => {
   return (
     <section id="resource-allocation" className="pb-28 lg:pb-32">
-      <div className="container">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl">
+      <div className="">
+        <h2 className="container text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl">
           Mainline your resource allocation and execution
         </h2>
 
         <div className="mt-8 md:mt-12 lg:mt-20">
-          <DashedLine orientation="horizontal" />
+          <DashedLine
+            orientation="horizontal"
+            className="container scale-x-105"
+          />
 
           {/* Top Features Grid - 2 items */}
-          <div className="relative flex max-md:flex-col">
+          <div className="relative container flex max-md:flex-col">
             {topItems.map((item, i) => (
               <Item key={i} item={item} isLast={i === topItems.length - 1} />
             ))}
           </div>
-          <DashedLine orientation="horizontal" />
+          <DashedLine
+            orientation="horizontal"
+            className="container max-w-7xl scale-x-105"
+          />
 
           {/* Bottom Features Grid - 3 items */}
-          <div className="relative grid md:grid-cols-3">
+          <div className="relative container grid max-w-7xl md:grid-cols-3">
             {bottomItems.map((item, i) => (
               <Item
                 key={i}
@@ -153,12 +164,12 @@ const Item = ({ item, isLast, className }: ItemProps) => {
   return (
     <div
       className={cn(
-        'relative flex flex-col justify-between px-0 py-6 md:p-8',
+        'relative flex flex-col justify-between px-0 py-6 md:px-6 md:py-8',
         className,
         item.className,
       )}
     >
-      <div className="mb-5 md:mb-8">
+      <div className="title-container text-balance">
         <h3 className="inline font-semibold">{item.title} </h3>
         <span className="text-muted-foreground font-medium">
           {' '}
@@ -167,12 +178,10 @@ const Item = ({ item, isLast, className }: ItemProps) => {
       </div>
 
       {item.fade.includes('bottom') && (
-        <div className="from-background absolute inset-0 z-10 bg-linear-to-t via-transparent to-transparent md:hidden" />
+        <div className="from-muted/80 absolute inset-0 z-10 bg-linear-to-t via-transparent to-transparent md:hidden" />
       )}
       {item.images.length > 4 ? (
         <div className="relative overflow-hidden">
-          <div className="from-background/80 to-background/20 absolute inset-y-0 left-0 z-10 w-[100px] bg-linear-to-r" />
-          <div className="from-background/80 to-background/20 absolute inset-y-0 right-0 z-10 w-[100px] bg-linear-to-l" />
           <div className="flex flex-col gap-5">
             {/* First row - right aligned */}
             <div className="flex translate-x-4 justify-end gap-5">
@@ -188,6 +197,7 @@ const Item = ({ item, isLast, className }: ItemProps) => {
                     height={image.height}
                     className="object-contain object-left-top"
                   />
+                  <div className="from-muted/80 absolute inset-y-0 right-0 z-10 w-16 bg-linear-to-l to-transparent" />
                 </div>
               ))}
             </div>
@@ -205,13 +215,14 @@ const Item = ({ item, isLast, className }: ItemProps) => {
                     height={image.height}
                     className="object-contain object-left-top"
                   />
+                  <div className="from-muted absolute inset-y-0 bottom-0 left-0 z-10 w-14 bg-linear-to-r to-transparent" />
                 </div>
               ))}
             </div>
           </div>
         </div>
       ) : (
-        <div className="image grid grid-cols-1 gap-4">
+        <div className="image-container grid grid-cols-1 gap-4">
           {item.images.map((image, j) => (
             <Image
               key={j}

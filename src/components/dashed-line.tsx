@@ -29,7 +29,7 @@ export const DashedLine = ({
               ]
             : [
                 'h-full w-px',
-                'bg-[repeating-linear-gradient(180deg,transparent,transparent_4px,currentColor_4px,currentColor_8px)]',
+                'bg-[repeating-linear-gradient(180deg,transparent,transparent_4px,currentColor_4px,currentColor_10px)]',
                 '[mask-image:linear-gradient(180deg,transparent,black_25%,black_75%,transparent)]',
               ],
         )}
