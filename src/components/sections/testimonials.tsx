@@ -94,12 +94,12 @@ export const Testimonials = ({
               successful: staying focused, moving quickly, and always aiming for
               high-quality work.
             </p>
-            <Button variant="outline" className="">
+            <Button variant="outline" className="shadow-md">
               Read our Customer Stories <ArrowRight className="size-4" />
             </Button>
           </div>
 
-          <div className="relative mt-8 md:mt-12 lg:mt-20">
+          <div className="relative mt-8 -mr-[max(3rem,calc((100vw-80rem)/2+3rem))] md:mt-12 lg:mt-20">
             <Carousel
               opts={{
                 align: 'start',
@@ -111,7 +111,7 @@ export const Testimonials = ({
                 {items.map((testimonial, index) => (
                   <CarouselItem
                     key={index}
-                    className="grow basis-4/5 md:basis-3/5 lg:basis-[28%] xl:basis-1/4"
+                    className="xl:basis-1/3.5 grow basis-4/5 md:basis-3/5 lg:basis-[28%]"
                   >
                     <Card className="bg-muted h-full overflow-hidden border-none">
                       <CardContent className="flex h-full flex-col p-0">
@@ -124,15 +124,15 @@ export const Testimonials = ({
                           />
                         </div>
                         <div className="flex flex-1 flex-col justify-between gap-10 p-6">
-                          <blockquote className="text-primary text-lg leading-none! font-medium md:text-xl">
+                          <blockquote className="text-primary font-sans text-lg leading-none! font-medium md:text-xl lg:text-2xl">
                             {testimonial.quote}
                           </blockquote>
                           <div className="space-y-0.5">
-                            <div className="text-sm font-semibold">
-                              {testimonial.author}
+                            <div className="font-semibold">
+                              {testimonial.author}, {testimonial.role}
                             </div>
-                            <div className="text-muted-foreground text-xs">
-                              {testimonial.role}, {testimonial.company}
+                            <div className="text-muted-foreground text-sm">
+                              {testimonial.company}
                             </div>
                           </div>
                         </div>
@@ -142,8 +142,8 @@ export const Testimonials = ({
                 ))}
               </CarouselContent>
               <div className="mt-8 flex gap-3">
-                <CarouselPrevious className="static size-10 translate-x-0 translate-y-0" />
-                <CarouselNext className="static size-10 translate-x-0 translate-y-0" />
+                <CarouselPrevious className="bg-muted hover:bg-muted/80 static size-14.5 translate-x-0 translate-y-0 transition-colors [&>svg]:size-6 lg:[&>svg]:size-8" />
+                <CarouselNext className="bg-muted hover:bg-muted/80 static size-14.5 translate-x-0 translate-y-0 transition-colors [&>svg]:size-6 lg:[&>svg]:size-8" />
               </div>
             </Carousel>
           </div>
