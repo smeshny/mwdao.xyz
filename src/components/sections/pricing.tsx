@@ -73,7 +73,7 @@ export const Pricing = ({ className }: { className?: string }) => {
               key={plan.name}
               className={`${
                 plan.name === 'Startup'
-                  ? 'border-primary origin-top border-4'
+                  ? 'outline-primary origin-top outline-4'
                   : ''
               }`}
             >
