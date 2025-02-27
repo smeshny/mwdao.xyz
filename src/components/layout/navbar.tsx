@@ -79,7 +79,7 @@ const Navbar = () => {
                               href={item.href}
                               className="group hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex items-center gap-4 rounded-md p-3 leading-none no-underline outline-hidden transition-colors select-none"
                             >
-                              <div className="transition-transform duration-300 group-hover:translate-x-1">
+                              <div className="space-y-1.5 transition-transform duration-300 group-hover:translate-x-1">
                                 <div className="text-sm leading-none font-medium">
                                   {item.title}
                                 </div>
