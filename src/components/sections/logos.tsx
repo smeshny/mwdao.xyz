@@ -3,19 +3,7 @@ import Link from 'next/link';
 
 import Marquee from 'react-fast-marquee';
 
-type Company = {
-  name: string;
-  logo: string;
-  width: number;
-  height: number;
-  href: string;
-};
-
-type LogoRowProps = {
-  companies: Company[];
-  gridCols: number;
-  direction?: 'left' | 'right';
-};
+import { cn } from '@/lib/utils';
 
 const Logos = () => {
   const topRowCompanies = [
@@ -102,12 +90,12 @@ const Logos = () => {
 
         <div className="flex w-full flex-col items-center gap-8">
           {/* Top row - 4 logos */}
-          <LogoRow companies={topRowCompanies} gridCols={4} />
+          <LogoRow companies={topRowCompanies} gridClassName="grid-cols-4" />
 
           {/* Bottom row - 5 logos */}
           <LogoRow
             companies={bottomRowCompanies}
-            gridCols={5}
+            gridClassName="grid-cols-5"
             direction="right"
           />
         </div>
@@ -118,13 +106,29 @@ const Logos = () => {
 
 export default Logos;
 
-const LogoRow = ({ companies, gridCols, direction }: LogoRowProps) => {
+type Company = {
+  name: string;
+  logo: string;
+  width: number;
+  height: number;
+  href: string;
+};
+
+type LogoRowProps = {
+  companies: Company[];
+  gridClassName: string;
+  direction?: 'left' | 'right';
+};
+const LogoRow = ({ companies, gridClassName, direction }: LogoRowProps) => {
   return (
     <>
       {/* Desktop static version */}
       <div className="hidden md:block">
         <div
-          className={`grid grid-cols-${gridCols} items-center justify-items-center gap-x-20 lg:gap-x-28`}
+          className={cn(
+            'grid items-center justify-items-center gap-x-20 lg:gap-x-28',
+            gridClassName,
+          )}
         >
           {companies.map((company, index) => (
             <Link href={company.href} target="_blank" key={index}>

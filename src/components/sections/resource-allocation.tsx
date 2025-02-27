@@ -90,7 +90,7 @@ const bottomItems = [
       },
     ],
     className:
-      'justify-normal [&>.title-container]:mb-5 md:[&>.title-container]:mb-0 [&>.image-container]:mx-auto [&>.image-container]:flex-1 [&>.image-container]:place-items-center md:[&>.image-container]:-translate-y-3',
+      'justify-normal [&>.title-container]:mb-5 md:[&>.title-container]:mb-0 [&>.image-container]:flex-1 md:[&>.image-container]:place-items-center md:[&>.image-container]:-translate-y-3',
     fade: [''],
   },
   {
