@@ -3,16 +3,16 @@ import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 
 import { DashedLine } from '../dashed-line';
-import { Button } from '../ui/button';
-import { Card, CardContent } from '../ui/card';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '../ui/carousel';
-
+} from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
 
 const items = [

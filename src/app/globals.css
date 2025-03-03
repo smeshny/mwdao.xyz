@@ -121,7 +121,7 @@
     font-feature-settings:
       'ss02' on,
       'ss03' on,
-      'ss04' on;
+      'ss04' on; /* Enables the special `a` character and other characters for DM Sans */
   }
 
   .font-mono {

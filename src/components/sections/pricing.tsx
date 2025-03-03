@@ -4,10 +4,9 @@ import { useState } from 'react';
 
 import { Check } from 'lucide-react';
 
-import { Button } from '../ui/button';
-import { Card, CardContent } from '../ui/card';
-import { Switch } from '../ui/switch';
-
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
 
 const plans = [
