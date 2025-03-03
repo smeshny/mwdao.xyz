@@ -4,12 +4,12 @@ import { useState } from 'react';
 
 import { Check, ChevronsUpDown } from 'lucide-react';
 
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '../ui/collapsible';
+} from '@/components/ui/collapsible';
 
 interface FeatureSection {
   category: string;

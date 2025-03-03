@@ -1,6 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import Marquee from 'react-fast-marquee';
+
+import { cn } from '@/lib/utils';
+
 const Logos = () => {
   const topRowCompanies = [
     {
@@ -86,34 +90,14 @@ const Logos = () => {
 
         <div className="flex w-full flex-col items-center gap-8">
           {/* Top row - 4 logos */}
-          <div className="grid grid-cols-2 items-center justify-items-center gap-x-12 gap-y-8 max-md:w-full sm:grid-cols-4 md:gap-x-20 lg:gap-x-28">
-            {topRowCompanies.map((company, index) => (
-              <Link href={company.href} target="_blank" key={index}>
-                <Image
-                  src={company.logo}
-                  alt={`${company.name} logo`}
-                  width={company.width}
-                  height={company.height}
-                  className="object-contain transition-opacity hover:opacity-70"
-                />
-              </Link>
-            ))}
-          </div>
+          <LogoRow companies={topRowCompanies} gridClassName="grid-cols-4" />
 
           {/* Bottom row - 5 logos */}
-          <div className="grid grid-cols-2 items-center justify-items-center gap-x-12 gap-y-8 max-md:w-full sm:grid-cols-5 md:gap-x-20 lg:gap-x-28">
-            {bottomRowCompanies.map((company, index) => (
-              <Link href={company.href} target="_blank" key={index}>
-                <Image
-                  src={company.logo}
-                  alt={`${company.name} logo`}
-                  width={company.width}
-                  height={company.height}
-                  className="object-contain transition-opacity hover:opacity-70"
-                />
-              </Link>
-            ))}
-          </div>
+          <LogoRow
+            companies={bottomRowCompanies}
+            gridClassName="grid-cols-5"
+            direction="right"
+          />
         </div>
       </div>
     </section>
@@ -121,3 +105,66 @@ const Logos = () => {
 };
 
 export default Logos;
+
+type Company = {
+  name: string;
+  logo: string;
+  width: number;
+  height: number;
+  href: string;
+};
+
+type LogoRowProps = {
+  companies: Company[];
+  gridClassName: string;
+  direction?: 'left' | 'right';
+};
+const LogoRow = ({ companies, gridClassName, direction }: LogoRowProps) => {
+  return (
+    <>
+      {/* Desktop static version */}
+      <div className="hidden md:block">
+        <div
+          className={cn(
+            'grid items-center justify-items-center gap-x-20 lg:gap-x-28',
+            gridClassName,
+          )}
+        >
+          {companies.map((company, index) => (
+            <Link href={company.href} target="_blank" key={index}>
+              <Image
+                src={company.logo}
+                alt={`${company.name} logo`}
+                width={company.width}
+                height={company.height}
+                className="object-contain transition-opacity hover:opacity-70"
+              />
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile marquee version */}
+      <div className="md:hidden">
+        <Marquee direction={direction} pauseOnHover>
+          {companies.map((company, index) => (
+            <Link
+              href={company.href}
+              target="_blank"
+              key={index}
+              className="mx-8 inline-block transition-opacity hover:opacity-70"
+            >
+              <Image
+                src={company.logo}
+                alt={`${company.name} logo`}
+                width={company.width}
+                height={company.height}
+                className="object-contain"
+              />
+            </Link>
+          ))}
+        </Marquee>
+      </div>
+    </>
+  );
+};

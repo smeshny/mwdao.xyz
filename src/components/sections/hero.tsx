@@ -10,7 +10,8 @@ import {
 } from 'lucide-react';
 
 import { DashedLine } from '../dashed-line';
-import { Button } from '../ui/button';
+
+import { Button } from '@/components/ui/button';
 
 const features = [
   {
@@ -38,14 +39,14 @@ const features = [
 export default function Hero() {
   return (
     <section className="py-28 lg:py-32 lg:pt-44">
-      <div className="container flex flex-col justify-between gap-8 md:gap-14 lg:flex-row">
+      <div className="container flex flex-col justify-between gap-8 md:gap-14 lg:flex-row lg:gap-20">
         {/* Left side - Main content */}
         <div className="flex-1">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl md:whitespace-nowrap lg:text-6xl">
             Mainline your product.
           </h1>
 
-          <p className="text-muted-foreground mt-5 text-2xl lg:text-3xl">
+          <p className="text-muted-foreground mt-5 font-sans text-2xl font-medium md:text-3xl lg:text-4xl">
             Mainline is the fit-for-purpose tool for planning and building
             modern software products.
           </p>
@@ -53,10 +54,14 @@ export default function Hero() {
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Button>Get started</Button>
             <Link href="#">
-              <Button variant="outline" className="h-auto">
-                <span className="flex items-center gap-2 text-start whitespace-pre-wrap">
-                  Mainline raises $12M from Roba Ventures <ArrowRight />
+              <Button
+                variant="outline"
+                className="from-background h-auto gap-2 bg-linear-to-r to-transparent shadow-md"
+              >
+                <span className="max-w-56 truncate text-start md:max-w-none">
+                  Mainline raises $12M from Roba Ventures
                 </span>
+                <ArrowRight className="stroke-3" />
               </Button>
             </Link>
           </div>
@@ -78,8 +83,8 @@ export default function Hero() {
               <div key={feature.title} className="flex gap-2.5 lg:gap-5">
                 <Icon className="mt-1 size-4 shrink-0 lg:size-5" />
                 <div>
-                  <h2 className="font-semibold">{feature.title}</h2>
-                  <p className="text-muted-foreground text-sm">
+                  <h2 className="font-inter font-semibold">{feature.title}</h2>
+                  <p className="text-muted-foreground max-w-76 text-sm">
                     {feature.description}
                   </p>
                 </div>

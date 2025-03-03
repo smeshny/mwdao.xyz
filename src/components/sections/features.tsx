@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 
 import { DashedLine } from '../dashed-line';
-import { Card, CardContent } from '../ui/card';
+
+import { Card, CardContent } from '@/components/ui/card';
 
 const items = [
   {
@@ -13,11 +14,11 @@ const items = [
   },
   {
     title: 'Manage projects end-to-end',
-    image: '/features/overview-card.svg',
+    image: '/features/cycle-card.svg',
   },
   {
     title: 'Build momentum and healthy habits',
-    image: '/features/cycle-card.svg',
+    image: '/features/overview-card.svg',
   },
 ];
 
@@ -34,7 +35,7 @@ export const Features = () => {
         </div>
 
         {/* Content */}
-        <div className="mx-auto mt-10 grid max-w-5xl gap-3 lg:mt-24 lg:grid-cols-2">
+        <div className="mx-auto mt-10 grid max-w-4xl items-center gap-3 md:gap-0 lg:mt-24 lg:grid-cols-2">
           <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
             Made for modern product teams
           </h2>
@@ -46,7 +47,7 @@ export const Features = () => {
         </div>
 
         {/* Features Card */}
-        <Card className="mt-8 md:mt-12 lg:mt-20">
+        <Card className="mt-8 rounded-3xl md:mt-12 lg:mt-20">
           <CardContent className="flex p-0 max-md:flex-col">
             {items.map((item, i) => (
               <div key={i} className="flex flex-1 max-md:flex-col">
@@ -58,14 +59,16 @@ export const Features = () => {
                       fill
                       className="object-cover object-left-top ps-4 pt-2"
                     />
+                    <div className="from-background absolute inset-0 z-10 bg-linear-to-t via-transparent to-transparent" />
                   </div>
+
                   <Link
                     href="#"
                     className={
                       'group flex items-center justify-between gap-4 pe-4 pt-4 md:pe-6 md:pt-6'
                     }
                   >
-                    <h3 className="text-2xl leading-tight font-semibold tracking-tight">
+                    <h3 className="max-w-60 font-sans text-2xl leading-tight font-bold tracking-tight">
                       {item.title}
                     </h3>
                     <div className="rounded-full border p-2">
