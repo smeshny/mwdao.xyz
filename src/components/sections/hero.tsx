@@ -46,7 +46,7 @@ export default function Hero() {
             Mainline your product.
           </h1>
 
-          <p className="text-muted-foreground mt-5 font-sans text-2xl font-medium md:text-3xl lg:text-4xl">
+          <p className="text-muted-foreground font-sans-settings mt-5 font-sans text-2xl font-medium md:text-3xl lg:text-4xl">
             Mainline is the fit-for-purpose tool for planning and building
             modern software products.
           </p>

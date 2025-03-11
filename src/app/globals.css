@@ -104,7 +104,8 @@
     font-family: var(--font-dm-sans), sans-serif;
   }
   h1,
-  h2 {
+  h2,
+  .font-sans-settings {
     font-family: var(--font-dm-sans), sans-serif;
     -webkit-font-feature-settings:
       'ss02' on,
