@@ -4,7 +4,7 @@
   "author": "Shadcnblocks.com",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 3006",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix"
@@ -22,6 +22,7 @@
     "@radix-ui/react-navigation-menu": "^1.2.3",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-switch": "^1.1.2",
+    "@styleglide/kit-view-provider": "^0.0.5",
     "@types/mdx": "^2.0.13",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

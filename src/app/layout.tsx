@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 
 import { Footer } from '@/components/layout/footer';
 import Navbar from '@/components/layout/navbar';
+import { StyleGlideProvider } from '@/components/styleglide-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 
@@ -46,7 +47,7 @@ const dmSans = localFont({
       style: 'italic',
     },
   ],
-  variable: '--font-dm-sans',
+  variable: '--display-family',
   display: 'swap',
 });
 
@@ -58,7 +59,7 @@ const dmMono = DM_Mono({
 
 const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--text-family',
 });
 
 export const metadata: Metadata = {
@@ -137,6 +138,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <StyleGlideProvider />
           <Navbar />
           <main className="">{children}</main>
           <Footer />

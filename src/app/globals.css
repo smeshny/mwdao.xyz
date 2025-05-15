@@ -6,9 +6,12 @@
 @variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-dm-sans);
+  --font-sans: var(--display-family);
   --font-mono: var(--font-dm-mono);
-  --font-inter: var(--font-inter);
+  --font-inter: var(--text-family);
+
+  --font-display: var(--display-family);
+  --font-text: var(--text-family);
 
   --color-cream: hsl(var(--cream));
   --color-background: hsl(var(--background));
@@ -98,15 +101,18 @@
 
 @layer utilities {
   body {
-    font-family: var(--font-inter), sans-serif;
+    font-family: var(--font-text);
+    font-weight: var(--text-weight);
   }
   .font-sans {
-    font-family: var(--font-dm-sans), sans-serif;
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
   }
   h1,
   h2,
   .font-sans-settings {
-    font-family: var(--font-dm-sans), sans-serif;
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
     -webkit-font-feature-settings:
       'ss02' on,
       'ss03' on,
@@ -166,6 +172,8 @@
     --chart-3: 197 37% 24%; /* #264653 */
     --chart-4: 43 74% 66%; /* #E9C46A */
     --chart-5: 27 87% 67%; /* #F4A261 */
+    --display-weight: 600;
+    --text-weight: 400;
   }
 
   .dark {

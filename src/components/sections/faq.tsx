@@ -76,15 +76,15 @@ export const FAQ = ({
         <div className={cn('mx-auto grid gap-16 lg:grid-cols-2', className2)}>
           <div className="space-y-4">
             {headerTag === 'h1' ? (
-              <h1 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
+              <h1 className="text-2xl tracking-tight md:text-4xl lg:text-5xl">
                 Got Questions?
               </h1>
             ) : (
-              <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
+              <h2 className="text-2xl tracking-tight md:text-4xl lg:text-5xl">
                 Got Questions?
               </h2>
             )}
-            <p className="text-muted-foreground max-w-md leading-snug font-medium lg:mx-auto">
+            <p className="text-muted-foreground max-w-md leading-snug lg:mx-auto">
               If you can't find what you're looking for,{' '}
               <Link href="/contact" className="underline underline-offset-4">
                 get in touch
@@ -96,7 +96,7 @@ export const FAQ = ({
           <div className="grid gap-6 text-start">
             {categories.map((category, categoryIndex) => (
               <div key={category.title} className="">
-                <h3 className="text-muted-foreground border-b py-4 font-medium">
+                <h3 className="text-muted-foreground border-b py-4">
                   {category.title}
                 </h3>
                 <Accordion type="single" collapsible className="w-full">

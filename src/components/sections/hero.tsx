@@ -42,16 +42,16 @@ export default function Hero() {
       <div className="container flex flex-col justify-between gap-8 md:gap-14 lg:flex-row lg:gap-20">
         {/* Left side - Main content */}
         <div className="flex-1">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl md:whitespace-nowrap lg:text-6xl">
+          <h1 className="max-w-160 text-3xl tracking-tight md:text-4xl lg:text-5xl xl:whitespace-nowrap">
             Mainline your product.
           </h1>
 
-          <p className="text-muted-foreground font-sans-settings mt-5 font-sans text-2xl font-medium md:text-3xl lg:text-4xl">
+          <p className="text-muted-foreground text-1xl mt-5 md:text-3xl">
             Mainline is the fit-for-purpose tool for planning and building
             modern software products.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center gap-4 lg:flex-nowrap">
             <Button>Get started</Button>
             <Link href="#">
               <Button
@@ -81,7 +81,7 @@ export default function Hero() {
             const Icon = feature.icon;
             return (
               <div key={feature.title} className="flex gap-2.5 lg:gap-5">
-                <Icon className="mt-1 size-4 shrink-0 lg:size-5" />
+                <Icon className="text-primary mt-1 size-4 shrink-0 lg:size-5" />
                 <div>
                   <h2 className="font-inter font-semibold">{feature.title}</h2>
                   <p className="text-muted-foreground max-w-76 text-sm">
