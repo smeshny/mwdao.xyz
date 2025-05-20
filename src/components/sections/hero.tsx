@@ -83,7 +83,7 @@ export default function Hero() {
               <div key={feature.title} className="flex gap-2.5 lg:gap-5">
                 <Icon className="text-primary mt-1 size-4 shrink-0 lg:size-5" />
                 <div>
-                  <h2 className="font-inter font-semibold">{feature.title}</h2>
+                  <h2 className="font-text font-semibold">{feature.title}</h2>
                   <p className="text-muted-foreground max-w-76 text-sm">
                     {feature.description}
                   </p>

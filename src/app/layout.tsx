@@ -127,11 +127,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${dmSans.variable} ${dmMono.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
       <head />
-      <body
-        className={`h-screen ${dmSans.variable} ${dmMono.variable} ${inter.variable} antialiased`}
-      >
+      <body className="h-screen antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

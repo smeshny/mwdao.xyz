@@ -6,12 +6,9 @@
 @variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--display-family);
-  --font-mono: var(--font-dm-mono);
-  --font-inter: var(--text-family);
-
   --font-display: var(--display-family);
   --font-text: var(--text-family);
+  --font-mono: var(--font-dm-mono);
 
   --color-cream: hsl(var(--cream));
   --color-background: hsl(var(--background));
@@ -100,17 +97,14 @@
 }
 
 @layer utilities {
-  body {
+  body,
+  .font-text {
     font-family: var(--font-text);
     font-weight: var(--text-weight);
   }
-  .font-sans {
-    font-family: var(--font-display);
-    font-weight: var(--display-weight);
-  }
   h1,
   h2,
-  .font-sans-settings {
+  .font-display {
     font-family: var(--font-display);
     font-weight: var(--display-weight);
     -webkit-font-feature-settings:
@@ -130,7 +124,6 @@
       'ss03' on,
       'ss04' on; /* Enables the special `a` character and other characters for DM Sans */
   }
-
   .font-mono {
     font-family: var(--font-dm-mono), monospace;
   }
