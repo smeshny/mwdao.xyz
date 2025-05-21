@@ -1,6 +1,3 @@
-import { DM_Mono, Inter } from 'next/font/google';
-import localFont from 'next/font/local';
-
 import type { Metadata } from 'next';
 
 import { Footer } from '@/components/layout/footer';
@@ -8,59 +5,6 @@ import Navbar from '@/components/layout/navbar';
 import { StyleGlideProvider } from '@/components/styleglide-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
-
-const dmSans = localFont({
-  src: [
-    {
-      path: '../../fonts/dm-sans/DMSans-Regular.ttf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../../fonts/dm-sans/DMSans-Italic.ttf',
-      weight: '400',
-      style: 'italic',
-    },
-    {
-      path: '../../fonts/dm-sans/DMSans-Medium.ttf',
-      weight: '500',
-      style: 'normal',
-    },
-    {
-      path: '../../fonts/dm-sans/DMSans-MediumItalic.ttf',
-      weight: '500',
-      style: 'italic',
-    },
-    {
-      path: '../../fonts/dm-sans/DMSans-SemiBold.ttf',
-      weight: '600',
-      style: 'normal',
-    },
-    {
-      path: '../../fonts/dm-sans/DMSans-SemiBoldItalic.ttf',
-      weight: '600',
-      style: 'italic',
-    },
-    {
-      path: '../../fonts/dm-sans/DMSans-BoldItalic.ttf',
-      weight: '700',
-      style: 'italic',
-    },
-  ],
-  variable: '--display-family',
-  display: 'swap',
-});
-
-const dmMono = DM_Mono({
-  weight: ['400', '500'],
-  subsets: ['latin'],
-  variable: '--font-dm-mono',
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--text-family',
-});
 
 export const metadata: Metadata = {
   title: {
@@ -127,11 +71,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${dmSans.variable} ${dmMono.variable} ${inter.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" suppressHydrationWarning>
       <head />
       <body className="h-screen antialiased">
         <ThemeProvider
