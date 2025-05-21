@@ -86,10 +86,10 @@ export const Testimonials = ({
       <section className={cn('py-28 lg:py-32', className)}>
         <div className="container">
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
+            <h2 className="text-2xl tracking-tight md:text-4xl lg:text-5xl">
               Trusted by product builders
             </h2>
-            <p className="text-muted-foreground max-w-md leading-snug font-medium">
+            <p className="text-muted-foreground max-w-md leading-snug">
               Mainline is built on the habits that make the best product teams
               successful: staying focused, moving quickly, and always aiming for
               high-quality work.
@@ -124,11 +124,11 @@ export const Testimonials = ({
                           />
                         </div>
                         <div className="flex flex-1 flex-col justify-between gap-10 p-6">
-                          <blockquote className="text-primary font-sans text-lg leading-none! font-medium md:text-xl lg:text-2xl">
+                          <blockquote className="font-display text-lg leading-none! font-medium md:text-xl lg:text-2xl">
                             {testimonial.quote}
                           </blockquote>
                           <div className="space-y-0.5">
-                            <div className="font-semibold">
+                            <div className="text-primary font-semibold">
                               {testimonial.author}, {testimonial.role}
                             </div>
                             <div className="text-muted-foreground text-sm">

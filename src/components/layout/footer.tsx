@@ -24,10 +24,10 @@ export function Footer() {
   return (
     <footer className="flex flex-col items-center gap-14 pt-28 lg:pt-32">
       <div className="container space-y-3 text-center">
-        <h2 className="text-2xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
+        <h2 className="text-2xl tracking-tight md:text-4xl lg:text-5xl">
           Start your free trial today
         </h2>
-        <p className="text-muted-foreground mx-auto max-w-xl leading-snug font-medium text-balance">
+        <p className="text-muted-foreground mx-auto max-w-xl leading-snug text-balance">
           Mainline is the fit-for-purpose tool for planning and building modern
           software products.
         </p>
