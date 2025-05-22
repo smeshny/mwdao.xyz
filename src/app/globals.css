@@ -45,7 +45,7 @@
 
   /* StyleGlide */
   --display-family: 'DM Sans', sans-serif;
-  --text-family: 'Inter', 'sans-serif';
+  --text-family: 'Inter', sans-serif;
   --display-weight: 600;
   --text-weight: 400;
 }
