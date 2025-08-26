@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import Banner from '@/components/layout/banner';
 import { Footer } from '@/components/layout/footer';
 import Navbar from '@/components/layout/navbar';
 import { StyleGlideProvider } from '@/components/styleglide-provider';
@@ -81,6 +82,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <StyleGlideProvider />
+          <Banner url="https://shadcnblocks.com/template/mainline" />
           <Navbar />
           <main className="">{children}</main>
           <Footer />
