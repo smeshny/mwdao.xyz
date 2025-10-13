@@ -8,7 +8,7 @@ type BackgroundProps = {
   className?: string;
 };
 
-const Background = ({
+export const Background = ({
   children,
   variant = 'top',
   className,
@@ -28,5 +28,3 @@ const Background = ({
     </div>
   );
 };
-
-export default Background;

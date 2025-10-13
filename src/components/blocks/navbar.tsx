@@ -44,7 +44,8 @@ const ITEMS = [
   { label: 'FAQ', href: '/faq' },
   { label: 'Contact', href: '/contact' },
 ];
-const Navbar = () => {
+
+export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
@@ -232,5 +233,3 @@ const Navbar = () => {
     </header>
   );
 };
-
-export default Navbar;

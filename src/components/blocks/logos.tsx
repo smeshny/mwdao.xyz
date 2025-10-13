@@ -5,7 +5,15 @@ import Marquee from 'react-fast-marquee';
 
 import { cn } from '@/lib/utils';
 
-const Logos = () => {
+type Company = {
+  name: string;
+  logo: string;
+  width: number;
+  height: number;
+  href: string;
+};
+
+export const Logos = () => {
   const topRowCompanies = [
     {
       name: 'Mercury',
@@ -104,21 +112,12 @@ const Logos = () => {
   );
 };
 
-export default Logos;
-
-type Company = {
-  name: string;
-  logo: string;
-  width: number;
-  height: number;
-  href: string;
-};
-
 type LogoRowProps = {
   companies: Company[];
   gridClassName: string;
   direction?: 'left' | 'right';
 };
+
 const LogoRow = ({ companies, gridClassName, direction }: LogoRowProps) => {
   return (
     <>
@@ -137,7 +136,7 @@ const LogoRow = ({ companies, gridClassName, direction }: LogoRowProps) => {
                 alt={`${company.name} logo`}
                 width={company.width}
                 height={company.height}
-                className="object-contain transition-opacity hover:opacity-70"
+                className="dark:opacity/100 object-contain opacity-50 transition-opacity hover:opacity-70 dark:invert"
               />
             </Link>
           ))}

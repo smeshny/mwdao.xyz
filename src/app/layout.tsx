@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
+import { Footer } from '@/components/blocks/footer';
+import { Navbar } from '@/components/blocks/navbar';
 import Banner from '@/components/layout/banner';
-import { Footer } from '@/components/layout/footer';
-import Navbar from '@/components/layout/navbar';
 import { StyleGlideProvider } from '@/components/styleglide-provider';
 import { ThemeProvider } from '@/components/theme-provider';
-import './globals.css';
+import '../styles/globals.css';
 
 export const metadata: Metadata = {
   title: {

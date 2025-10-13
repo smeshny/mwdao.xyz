@@ -1,11 +1,11 @@
-import Background from '@/components/layout/background';
-import { FAQ } from '@/components/sections/faq';
-import { Features } from '@/components/sections/features';
-import Hero from '@/components/sections/hero';
-import Logos from '@/components/sections/logos';
-import { Pricing } from '@/components/sections/pricing';
-import { ResourceAllocation } from '@/components/sections/resource-allocation';
-import { Testimonials } from '@/components/sections/testimonials';
+import { Background } from '@/components/background';
+import { FAQ } from '@/components/blocks/faq';
+import { Features } from '@/components/blocks/features';
+import { Hero } from '@/components/blocks/hero';
+import { Logos } from '@/components/blocks/logos';
+import { Pricing } from '@/components/blocks/pricing';
+import { ResourceAllocation } from '@/components/blocks/resource-allocation';
+import { Testimonials } from '@/components/blocks/testimonials';
 
 export default function Home() {
   return (

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { DashedLine } from '@/components/dashed-line';
-import Background from '@/components/layout/background';
-import { FAQ } from '@/components/sections/faq';
-import { Testimonials } from '@/components/sections/testimonials';
+import { Background } from '@/components/background';
+import { FAQ } from '@/components/blocks/faq';
+import { Testimonials } from '@/components/blocks/testimonials';
 
 const Page = () => {
   return (

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, X } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,9 +15,9 @@ interface FeatureSection {
   category: string;
   features: {
     name: string;
-    free: string | boolean;
-    startup: string | boolean;
-    enterprise: string | boolean;
+    free: true | false | null | string;
+    startup: true | false | null | string;
+    enterprise: true | false | null | string;
   }[];
 }
 
@@ -98,21 +98,21 @@ const comparisonFeatures: FeatureSection[] = [
       },
       {
         name: 'Mainline AI',
-        free: false,
+        free: null,
         startup: true,
         enterprise: true,
       },
       {
         name: 'Admin roles',
-        free: false,
-        startup: false,
-        enterprise: false,
+        free: null,
+        startup: null,
+        enterprise: true,
       },
       {
         name: 'Audit log',
-        free: false,
-        startup: false,
-        enterprise: false,
+        free: null,
+        startup: null,
+        enterprise: true,
       },
     ],
   },
@@ -127,21 +127,40 @@ const comparisonFeatures: FeatureSection[] = [
       },
       {
         name: 'Account Manager',
-        free: false,
-        startup: false,
+        free: null,
+        startup: null,
         enterprise: true,
       },
       {
         name: 'Uptime SLA',
-        free: false,
-        startup: false,
+        free: null,
+        startup: null,
         enterprise: true,
       },
     ],
   },
 ];
 
-const Pricing2 = () => {
+const renderFeatureValue = (value: true | false | null | string) => {
+  if (value === true) {
+    return <Check className="size-5" />;
+  }
+  if (value === false) {
+    return <X className="size-5" />;
+  }
+  if (value === null) {
+    return null;
+  }
+  // String value
+  return (
+    <div className="flex items-center gap-2">
+      <Check className="size-4" />
+      <span className="text-muted-foreground">{value}</span>
+    </div>
+  );
+};
+
+export const PricingTable = () => {
   const [selectedPlan, setSelectedPlan] = useState(1); // Default to Startup plan
 
   return (
@@ -235,7 +254,7 @@ const FeatureSections = ({ selectedPlan }: { selectedPlan: number }) => (
         {section.features.map((feature, featureIndex) => (
           <div
             key={featureIndex}
-            className="text-primary grid grid-cols-2 font-medium max-md:border-b md:grid-cols-4"
+            className="text-foreground grid grid-cols-2 font-medium max-md:border-b md:grid-cols-4"
           >
             <span className="inline-flex items-center py-4">
               {feature.name}
@@ -243,23 +262,11 @@ const FeatureSections = ({ selectedPlan }: { selectedPlan: number }) => (
             {/* Mobile View - Only Selected Plan */}
             <div className="md:hidden">
               <div className="flex items-center gap-1 py-4 md:border-b">
-                {(() => {
-                  const value = [
-                    feature.free,
-                    feature.startup,
-                    feature.enterprise,
-                  ][selectedPlan];
-                  return typeof value === 'boolean' ? (
-                    value ? (
-                      <Check className="size-5" />
-                    ) : null
-                  ) : (
-                    <div className="flex items-center gap-1">
-                      <Check className="size-4" />
-                      <span>{value}</span>
-                    </div>
-                  );
-                })()}
+                {renderFeatureValue(
+                  [feature.free, feature.startup, feature.enterprise][
+                    selectedPlan
+                  ],
+                )}
               </div>
             </div>
             {/* Desktop View - All Plans */}
@@ -270,16 +277,7 @@ const FeatureSections = ({ selectedPlan }: { selectedPlan: number }) => (
                     key={i}
                     className="flex items-center gap-1 border-b py-4"
                   >
-                    {typeof value === 'boolean' ? (
-                      value ? (
-                        <Check className="size-5" />
-                      ) : null
-                    ) : (
-                      <div className="flex items-center gap-1">
-                        <Check className="size-4" />
-                        <span>{value}</span>
-                      </div>
-                    )}
+                    {renderFeatureValue(value)}
                   </div>
                 ),
               )}
@@ -290,5 +288,3 @@ const FeatureSections = ({ selectedPlan }: { selectedPlan: number }) => (
     ))}
   </>
 );
-
-export default Pricing2;

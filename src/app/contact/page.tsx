@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Background from '@/components/layout/background';
-import Contact from '@/components/sections/contact';
+import { Background } from '@/components/background';
+import Contact from '@/components/blocks/contact';
 
 const Page = () => {
   return (

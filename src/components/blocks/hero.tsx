@@ -9,8 +9,7 @@ import {
   Diamond,
 } from 'lucide-react';
 
-import { DashedLine } from '../dashed-line';
-
+import { DashedLine } from '@/components/dashed-line';
 import { Button } from '@/components/ui/button';
 
 const features = [
@@ -36,7 +35,7 @@ const features = [
   },
 ];
 
-export default function Hero() {
+export const Hero = () => {
   return (
     <section className="py-28 lg:py-32 lg:pt-44">
       <div className="container flex flex-col justify-between gap-8 md:gap-14 lg:flex-row lg:gap-20">
@@ -108,4 +107,4 @@ export default function Hero() {
       </div>
     </section>
   );
-}
+};
