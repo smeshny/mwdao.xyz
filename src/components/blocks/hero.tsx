@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import {
   ArrowRight,
@@ -42,27 +41,33 @@ export const Hero = () => {
         {/* Left side - Main content */}
         <div className="flex-1">
           <h1 className="text-foreground max-w-160 text-3xl tracking-tight md:text-4xl lg:text-5xl xl:whitespace-nowrap">
-            Mainline your product.
+            Mainline Next.js template
           </h1>
 
           <p className="text-muted-foreground text-1xl mt-5 md:text-3xl">
-            Mainline is the fit-for-purpose tool for planning and building
-            modern software products.
+            Mainline is an open-source website template built with shadcn/ui,
+            Tailwind 4 & Next.js
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4 lg:flex-nowrap">
-            <Button>Get started</Button>
-            <Link href="#">
-              <Button
-                variant="outline"
-                className="from-background h-auto gap-2 bg-linear-to-r to-transparent shadow-md"
+            <Button asChild>
+              <a href="https://github.com/shadcnblocks/mainline-nextjs-template">
+                Get template
+              </a>
+            </Button>
+            <Button
+              variant="outline"
+              className="from-background h-auto gap-2 bg-linear-to-r to-transparent shadow-md"
+              asChild
+            >
+              <a
+                href="https://shadcnblocks.com"
+                className="max-w-56 truncate text-start md:max-w-none"
               >
-                <span className="max-w-56 truncate text-start md:max-w-none">
-                  Mainline raises $12M from Roba Ventures
-                </span>
+                Built by shadcnblocks.com
                 <ArrowRight className="stroke-3" />
-              </Button>
-            </Link>
+              </a>
+            </Button>
           </div>
         </div>
 
@@ -80,7 +85,7 @@ export const Hero = () => {
             const Icon = feature.icon;
             return (
               <div key={feature.title} className="flex gap-2.5 lg:gap-5">
-                <Icon className="text-primary mt-1 size-4 shrink-0 lg:size-5" />
+                <Icon className="text-foreground mt-1 size-4 shrink-0 lg:size-5" />
                 <div>
                   <h2 className="font-text text-foreground font-semibold">
                     {feature.title}

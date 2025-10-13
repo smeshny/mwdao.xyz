@@ -2,10 +2,9 @@ import type { Metadata } from 'next';
 
 import { Footer } from '@/components/blocks/footer';
 import { Navbar } from '@/components/blocks/navbar';
-import Banner from '@/components/layout/banner';
 import { StyleGlideProvider } from '@/components/styleglide-provider';
 import { ThemeProvider } from '@/components/theme-provider';
-import '../styles/globals.css';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: {
@@ -13,20 +12,25 @@ export const metadata: Metadata = {
     template: '%s | Mainline',
   },
   description:
-    'A modern, fully featured Next.js template built with Shadcn/UI, TailwindCSS and TypeScript, perfect for your next web application.',
+    'A modern Next.js template built with shadcn/ui, Tailwind & MDX. Open source - MIT License.',
   keywords: [
     'Next.js',
-    'React',
-    'JavaScript',
-    'TypeScript',
-    'TailwindCSS',
-    'Template',
-    'Shadcn/UI',
-    'Web Development',
+    'nextjs template',
+    'nextjs theme',
+    'nextjs starter',
+    'shadcn template',
+    'shadcn theme',
+    'shadcn starter',
+    'tailwind template',
+    'tailwind theme',
+    'tailwind starter',
+    'mdx template',
+    'mdx theme',
+    'mdx starter',
   ],
-  authors: [{ name: 'Mainline Team' }],
-  creator: 'Mainline Team',
-  publisher: 'Mainline',
+  authors: [{ name: 'shadcnblocks.com' }],
+  creator: 'shadcnblocks.com',
+  publisher: 'shadcnblocks.com',
   robots: {
     index: true,
     follow: true,
@@ -45,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Mainline - Modern Next.js Template',
     description:
-      'A modern, fully featured Next.js template built with Shadcn/UI, TailwindCSS and TypeScript, perfect for your next web application.',
+      'A modern Next.js template built with shadcn/ui, Tailwind & MDX. Open source - MIT License.',
     siteName: 'Mainline',
     images: [
       {
@@ -60,9 +64,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Mainline - Modern Next.js Template',
     description:
-      'A modern, fully featured Next.js template built with Shadcn/UI, TailwindCSS and TypeScript, perfect for your next web application.',
+      'A modern Next.js template built with shadcn/ui, Tailwind & MDX. Open source - MIT License.',
     images: ['/og-image.jpg'],
-    creator: '@mainline',
+    creator: '@ausrobdev',
   },
 };
 
@@ -88,7 +92,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <StyleGlideProvider />
-          <Banner url="https://shadcnblocks.com/template/mainline" />
           <Navbar />
           <main className="">{children}</main>
           <Footer />

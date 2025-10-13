@@ -14,7 +14,7 @@ export function Footer() {
   ];
 
   const social = [
-    { name: 'Xwitter', href: '#' },
+    { name: 'Xwitter', href: 'https://x.com/ausrobdev' },
     { name: 'LinkedIn', href: '#' },
   ];
 
@@ -31,8 +31,10 @@ export function Footer() {
           software products.
         </p>
         <div>
-          <Button size="lg" className="mt-4">
-            Get started
+          <Button size="lg" className="mt-4" asChild>
+            <a href="https://github.com/shadcnblocks/mainline-nextjs-template">
+              Get template
+            </a>
           </Button>
         </div>
       </div>

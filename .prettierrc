@@ -10,7 +10,7 @@
   "organizeImportsSkipDestructiveCodeActions": true,
   "overrides": [
     {
-      "files": ["src/app/globals.css"],
+      "files": ["src/app/styles/globals.css"],
       "options": {
         "printWidth": 120
       }

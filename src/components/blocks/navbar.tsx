@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Github } from 'lucide-react';
 
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,6 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { useBannerVisibility } from '@/hooks/use-banner-visibility';
 import { cn } from '@/lib/utils';
 
 const ITEMS = [
@@ -49,13 +48,12 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
-  const { isVisible: bannerVisible } = useBannerVisibility();
 
   return (
     <header
       className={cn(
         'bg-background/70 absolute left-1/2 z-50 w-[min(90%,700px)] -translate-x-1/2 rounded-4xl border backdrop-blur-md transition-all duration-300',
-        bannerVisible ? 'top-22 lg:top-20' : 'top-5 lg:top-12',
+        'top-5 lg:top-12',
       )}
     >
       <div className="flex items-center justify-between px-6 py-3">
@@ -127,6 +125,13 @@ export const Navbar = () => {
               <span className="relative z-10">Login</span>
             </Button>
           </Link>
+          <a
+            href="https://github.com/shadcnblocks/mainline-nextjs-template"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Github className="size-4" />
+            <span className="sr-only">GitHub</span>
+          </a>
 
           {/* Hamburger Menu Button (Mobile Only) */}
           <button
