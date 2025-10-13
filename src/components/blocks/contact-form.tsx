@@ -33,6 +33,14 @@ type Schema = z.infer<typeof formSchema>;
 export function ContactForm() {
   const form = useForm<Schema>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      company: '',
+      employees: '',
+      message: '',
+      agree: false,
+    } as unknown as Schema,
   });
   const formAction = useAction(serverAction, {
     onSuccess: () => {
