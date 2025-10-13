@@ -1,13 +1,13 @@
 import React from 'react';
 
-import CreamContainer from '@/components/layout/cream-container';
+import Background from '@/components/layout/background';
 import Contact from '@/components/sections/contact';
 
 const Page = () => {
   return (
-    <CreamContainer>
+    <Background>
       <Contact />
-    </CreamContainer>
+    </Background>
   );
 };
 

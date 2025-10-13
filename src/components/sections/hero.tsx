@@ -42,7 +42,7 @@ export default function Hero() {
       <div className="container flex flex-col justify-between gap-8 md:gap-14 lg:flex-row lg:gap-20">
         {/* Left side - Main content */}
         <div className="flex-1">
-          <h1 className="max-w-160 text-3xl tracking-tight md:text-4xl lg:text-5xl xl:whitespace-nowrap">
+          <h1 className="text-foreground max-w-160 text-3xl tracking-tight md:text-4xl lg:text-5xl xl:whitespace-nowrap">
             Mainline your product.
           </h1>
 
@@ -83,7 +83,9 @@ export default function Hero() {
               <div key={feature.title} className="flex gap-2.5 lg:gap-5">
                 <Icon className="text-primary mt-1 size-4 shrink-0 lg:size-5" />
                 <div>
-                  <h2 className="font-text font-semibold">{feature.title}</h2>
+                  <h2 className="font-text text-foreground font-semibold">
+                    {feature.title}
+                  </h2>
                   <p className="text-muted-foreground max-w-76 text-sm">
                     {feature.description}
                   </p>
@@ -100,7 +102,7 @@ export default function Hero() {
             src="/hero.webp"
             alt="hero"
             fill
-            className="rounded-3xl object-cover object-left-top shadow-lg max-lg:rounded-tr-none"
+            className="rounded-2xl object-cover object-left-top shadow-lg max-lg:rounded-tr-none"
           />
         </div>
       </div>

@@ -1,12 +1,12 @@
 import { DashedLine } from '@/components/dashed-line';
-import CreamContainer from '@/components/layout/cream-container';
+import Background from '@/components/layout/background';
 import About from '@/components/sections/about';
 import { AboutHero } from '@/components/sections/about-hero';
 import { Investors } from '@/components/sections/investors';
 
 export default function AboutPage() {
   return (
-    <CreamContainer>
+    <Background>
       <div className="py-28 lg:py-32 lg:pt-44">
         <AboutHero />
 
@@ -16,6 +16,6 @@ export default function AboutPage() {
           <Investors />
         </div>
       </div>
-    </CreamContainer>
+    </Background>
   );
 }

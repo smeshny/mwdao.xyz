@@ -1,4 +1,4 @@
-import CreamContainer from '@/components/layout/cream-container';
+import Background from '@/components/layout/background';
 import { FAQ } from '@/components/sections/faq';
 import { Features } from '@/components/sections/features';
 import Hero from '@/components/sections/hero';
@@ -10,17 +10,17 @@ import { Testimonials } from '@/components/sections/testimonials';
 export default function Home() {
   return (
     <>
-      <CreamContainer className="via-muted to-muted/80">
+      <Background className="via-muted to-muted/80">
         <Hero />
         <Logos />
         <Features />
         <ResourceAllocation />
-      </CreamContainer>
+      </Background>
       <Testimonials />
-      <CreamContainer variant="bottom">
+      <Background variant="bottom">
         <Pricing />
         <FAQ />
-      </CreamContainer>
+      </Background>
     </>
   );
 }
