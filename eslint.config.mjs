@@ -21,7 +21,6 @@ const eslintConfig = [
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
-    'plugin:prettier/recommended',
     'next',
     'plugin:jsx-a11y/recommended',
   ),
