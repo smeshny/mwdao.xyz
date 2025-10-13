@@ -32,7 +32,7 @@ type Schema = z.infer<typeof formSchema>;
 
 export function ContactForm() {
   const form = useForm<Schema>({
-    resolver: zodResolver(formSchema as any),
+    resolver: zodResolver(formSchema),
   });
   const formAction = useAction(serverAction, {
     onSuccess: () => {
