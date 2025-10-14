@@ -4,6 +4,7 @@ Mainline is a free template built with shadcn/ui, Tailwind 4 and Next.js 15.
 
 - [Demo](https://mainline-nextjs-template.vercel.app/)
 - [Documentation](https://docs.shadcnblocks.com/templates/getting-started)
+- [Figma](https://www.figma.com/design/cFCLMj7DFv0sK7EVsqKeTa/Mainline?node-id=23250-13201&t=I1nAdchDpknii5Bd-1)
 
 ![Mainline NextJS Template screenshot](./public/og-image.jpg)
 
