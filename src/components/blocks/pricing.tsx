@@ -97,6 +97,7 @@ export const Pricing = ({ className }: { className?: string }) => {
                     <Switch
                       checked={isAnnual}
                       onCheckedChange={() => setIsAnnual(!isAnnual)}
+                      aria-label="Toggle annual billing"
                     />
                     <span className="text-sm font-medium">Billed annually</span>
                   </div>

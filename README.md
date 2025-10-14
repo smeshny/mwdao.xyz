@@ -1,11 +1,9 @@
-# Mainline NextJS Template
+# Mainline Next.js Template
 
-Mainline NextJS Template is a premium template built by https://www.shadcnblocks.com
+Mainline is a free template built with shadcn/ui, Tailwind 4 and Next.js 15.
 
 - [Demo](https://mainline-nextjs-template.vercel.app/)
 - [Documentation](https://docs.shadcnblocks.com/templates/getting-started)
-
-## Screenshot
 
 ![Mainline NextJS Template screenshot](./public/og-image.jpg)
 
@@ -21,12 +19,52 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Tech Stack
+## Features
 
-- Nextjs 15 / App Router
-- Tailwind 4
-- shadcn/ui
+### Core Technology Stack
 
-## Deploy on Vercel
+- **Next.js 15** with App Router
+- **Tailwind CSS 4** for styling
+- **shadcn/ui** components
+- **TypeScript** support
+- **React 19**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com)
+### Key Features
+
+- **Theme System**: Dark/light mode with `next-themes`, compatible with [tweakcn](https://tweakcn.com)
+- **Form Handling**: React Hook Form + Zod validation
+- **Server Actions**: Next-safe-action integration for server-side logic
+- **MDX Support**: For content pages
+- **Animations**: Motion library (Framer Motion) integration
+- **ESLint/Prettier**: Pre-configured code formatting and linting
+- **Custom Fonts**: DM Sans font family included
+- **Icons**: Lucide React + React Icons libraries
+- **Styleglide Integration**: For component previews/development
+- **Turbopack**: Fast development with `npm run dev --turbopack`
+- **Responsive Design**: Mobile-friendly layout
+- **SEO Ready**: Proper metadata and OG images included
+
+### Pre-built Pages
+
+- Home/Landing page
+- About page
+- Pricing page
+- FAQ page
+- Contact page with form
+- Login/Signup pages
+
+### Blocks
+
+- Hero section
+- Logo showcase/marquee
+- Features section
+- Resource allocation section
+- Testimonials with carousel
+- Pricing table
+- FAQ with accordion
+- Footer
+- Navigation bar
+
+## Deployment
+
+Production-ready and tested for deployment on [Vercel](https://vercel.com)

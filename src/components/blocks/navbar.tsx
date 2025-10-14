@@ -50,7 +50,7 @@ export const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <header
+    <section
       className={cn(
         'bg-background/70 absolute left-1/2 z-50 w-[min(90%,700px)] -translate-x-1/2 rounded-4xl border backdrop-blur-md transition-all duration-300',
         'top-5 lg:top-12',
@@ -235,6 +235,6 @@ export const Navbar = () => {
           )}
         </nav>
       </div>
-    </header>
+    </section>
   );
 };

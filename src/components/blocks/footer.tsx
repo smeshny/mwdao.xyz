@@ -76,13 +76,14 @@ export function Footer() {
         </ul>
       </nav>
 
-      <div className="text-primary mt-10 md:mt-14 lg:mt-20">
+      <div className="text-primary mt-10 w-full md:mt-14 lg:mt-20">
         <svg
           width="1570"
           height="293"
           viewBox="0 0 1570 293"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          className="w-full"
         >
           <path
             fillRule="evenodd"
