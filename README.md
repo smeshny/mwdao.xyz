@@ -31,6 +31,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Key Features
 
+- **Shadcn UI**: uses [shadcn/ui](https://ui.shadcn.com/) core UI components
 - **Theme System**: Dark/light mode with `next-themes`, compatible with [tweakcn](https://tweakcn.com)
 - **Form Handling**: React Hook Form + Zod validation
 - **Server Actions**: Next-safe-action integration for server-side logic
@@ -40,7 +41,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - **Custom Fonts**: DM Sans font family included
 - **Icons**: Lucide React + React Icons libraries
 - **Styleglide Integration**: For component previews/development
-- **Turbopack**: Fast development with `npm run dev --turbopack`
 - **Responsive Design**: Mobile-friendly layout
 - **SEO Ready**: Proper metadata and OG images included
 
@@ -68,3 +68,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Deployment
 
 Production-ready and tested for deployment on [Vercel](https://vercel.com)
+
+## Credits
+
+- Template by [shadcnblocks.com](https://shadcnblocks.com)
+- Design by [Callum Flack](https://x.com/callumflack)
+- Dev by [Yassine Zaanouni](https://x.com/YassineZaanouni)
+- Produced by [Rob Austin](https://x.com/ausrobdev)
