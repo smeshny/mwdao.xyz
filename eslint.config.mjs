@@ -21,7 +21,6 @@ const eslintConfig = [
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
-    'plugin:prettier/recommended',
     'next',
     'plugin:jsx-a11y/recommended',
   ),
@@ -45,7 +44,7 @@ const eslintConfig = [
       'jsx-a11y/heading-has-content': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
       'react/no-unescaped-entities': 'off',
-      'no-console': 'error',
+      'no-console': 'warn',
       'import/order': [
         'error',
         {

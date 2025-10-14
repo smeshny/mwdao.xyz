@@ -113,7 +113,10 @@ const bottomItems = [
 
 export const ResourceAllocation = () => {
   return (
-    <section id="resource-allocation" className="pb-28 lg:pb-32">
+    <section
+      id="resource-allocation"
+      className="overflow-hidden pb-28 lg:pb-32"
+    >
       <div className="">
         <h2 className="container text-center text-3xl tracking-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl">
           Mainline your resource allocation and execution

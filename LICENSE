@@ -1,18 +1,14 @@
-Shadcnblocks.com License
+MIT + Commons Clause License Condition v1.0
 
-Copyright (c) 2024 Shadcnblocks.com
+Copyright (c) 2025 shadcnblocks.com - Rob Austin
 
-Things you can do
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, and distribute the Software as part of an application, website, or product, subject to the following conditions:
 
-- This License grants you, the purchaser, an ongoing, non-exclusive, worldwide license to make use of this template.
-- Use the template to develop unlimited end products for unlimited Clients.
-- An end product is a customized implementation of this template, usually a new website,
-  which requires an application of skill and effort to be created.
-- You can modify this template and can combine it with other works and plugins to create your end product.
-  The resulting end product is subject to the terms of the license. You can do these things as
-  long as the end product you then create is one that’s permitted by the license.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-Things you can't do
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-- You can't re-distribute or re-sell this template as stock, in a tool or template.
-- You can't re-distribute, re-sell or provision this template from a 'hosting' service, a "website builder" or a SAAS product.
+## Commons Clause Restriction
+
+You may use this Software, including for commercial purposes, provided that you do not sell the template itself in its original or substantially unmodified form.
+This restriction is intended solely to prevent grifters from reselling this template as-is (or close to) without meaningful customization or added value.

@@ -1,11 +1,65 @@
+import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
+
 import type { Metadata } from 'next';
 
-import Banner from '@/components/layout/banner';
-import { Footer } from '@/components/layout/footer';
-import Navbar from '@/components/layout/navbar';
+import { Footer } from '@/components/blocks/footer';
+import { Navbar } from '@/components/blocks/navbar';
 import { StyleGlideProvider } from '@/components/styleglide-provider';
 import { ThemeProvider } from '@/components/theme-provider';
-import './globals.css';
+import '@/styles/globals.css';
+
+const dmSans = localFont({
+  src: [
+    {
+      path: '../../fonts/dm-sans/DMSans-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../fonts/dm-sans/DMSans-Italic.ttf',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: '../../fonts/dm-sans/DMSans-Medium.ttf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../../fonts/dm-sans/DMSans-MediumItalic.ttf',
+      weight: '500',
+      style: 'italic',
+    },
+    {
+      path: '../../fonts/dm-sans/DMSans-SemiBold.ttf',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../../fonts/dm-sans/DMSans-SemiBoldItalic.ttf',
+      weight: '600',
+      style: 'italic',
+    },
+    {
+      path: '../../fonts/dm-sans/DMSans-Bold.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../../fonts/dm-sans/DMSans-BoldItalic.ttf',
+      weight: '700',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-dm-sans',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -13,20 +67,25 @@ export const metadata: Metadata = {
     template: '%s | Mainline',
   },
   description:
-    'A modern, fully featured Next.js template built with Shadcn/UI, TailwindCSS and TypeScript, perfect for your next web application.',
+    'A modern Next.js template built with shadcn/ui, Tailwind & MDX. Open source - MIT License.',
   keywords: [
     'Next.js',
-    'React',
-    'JavaScript',
-    'TypeScript',
-    'TailwindCSS',
-    'Template',
-    'Shadcn/UI',
-    'Web Development',
+    'nextjs template',
+    'nextjs theme',
+    'nextjs starter',
+    'shadcn template',
+    'shadcn theme',
+    'shadcn starter',
+    'tailwind template',
+    'tailwind theme',
+    'tailwind starter',
+    'mdx template',
+    'mdx theme',
+    'mdx starter',
   ],
-  authors: [{ name: 'Mainline Team' }],
-  creator: 'Mainline Team',
-  publisher: 'Mainline',
+  authors: [{ name: 'shadcnblocks.com' }],
+  creator: 'shadcnblocks.com',
+  publisher: 'shadcnblocks.com',
   robots: {
     index: true,
     follow: true,
@@ -45,7 +104,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Mainline - Modern Next.js Template',
     description:
-      'A modern, fully featured Next.js template built with Shadcn/UI, TailwindCSS and TypeScript, perfect for your next web application.',
+      'A modern Next.js template built with shadcn/ui, Tailwind & MDX. Open source - MIT License.',
     siteName: 'Mainline',
     images: [
       {
@@ -60,9 +119,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Mainline - Modern Next.js Template',
     description:
-      'A modern, fully featured Next.js template built with Shadcn/UI, TailwindCSS and TypeScript, perfect for your next web application.',
+      'A modern Next.js template built with shadcn/ui, Tailwind & MDX. Open source - MIT License.',
     images: ['/og-image.jpg'],
-    creator: '@mainline',
+    creator: '@ausrobdev',
   },
 };
 
@@ -73,8 +132,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
-      <body className="h-screen antialiased">
+      <head>
+        <script
+          async
+          crossOrigin="anonymous"
+          src="https://tweakcn.com/live-preview.min.js"
+        />
+      </head>
+      <body className={`${dmSans.variable} ${inter.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -82,7 +147,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <StyleGlideProvider />
-          <Banner url="https://shadcnblocks.com/template/mainline" />
           <Navbar />
           <main className="">{children}</main>
           <Footer />

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { FcGoogle } from 'react-icons/fc';
 
-import CreamContainer from '@/components/layout/cream-container';
+import { Background } from '@/components/background';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 
 const Login = () => {
   return (
-    <CreamContainer>
+    <Background>
       <section className="py-28 lg:pt-44 lg:pb-32">
         <div className="container">
           <div className="flex flex-col gap-4">
@@ -75,7 +75,7 @@ const Login = () => {
           </div>
         </div>
       </section>
-    </CreamContainer>
+    </Background>
   );
 };
 

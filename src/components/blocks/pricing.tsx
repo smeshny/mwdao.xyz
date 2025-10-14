@@ -78,7 +78,7 @@ export const Pricing = ({ className }: { className?: string }) => {
             >
               <CardContent className="flex flex-col gap-7 px-6 py-5">
                 <div className="space-y-2">
-                  <h3 className="text-primary font-semibold">{plan.name}</h3>
+                  <h3 className="text-foreground font-semibold">{plan.name}</h3>
                   <div className="space-y-1">
                     <div className="text-muted-foreground text-lg font-medium">
                       {isAnnual ? plan.yearlyPrice : plan.monthlyPrice}{' '}
@@ -97,6 +97,7 @@ export const Pricing = ({ className }: { className?: string }) => {
                     <Switch
                       checked={isAnnual}
                       onCheckedChange={() => setIsAnnual(!isAnnual)}
+                      aria-label="Toggle annual billing"
                     />
                     <span className="text-sm font-medium">Billed annually</span>
                   </div>
