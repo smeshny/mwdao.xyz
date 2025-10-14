@@ -1,50 +1,50 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import { Check } from 'lucide-react';
+import { Check } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
-import { cn } from '@/lib/utils';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
 
 const plans = [
   {
-    name: 'Free',
-    monthlyPrice: '$0',
-    yearlyPrice: '$0',
-    description: 'Free for everyone',
+    name: "Free",
+    monthlyPrice: "$0",
+    yearlyPrice: "$0",
+    description: "Free for everyone",
     features: [
-      'Unlimited members',
-      '2 teams',
-      '500 issues',
-      'Slack and Github integrations',
+      "Unlimited members",
+      "2 teams",
+      "500 issues",
+      "Slack and Github integrations",
     ],
   },
   {
-    name: 'Startup',
-    monthlyPrice: '$8',
-    yearlyPrice: '$6',
+    name: "Startup",
+    monthlyPrice: "$8",
+    yearlyPrice: "$6",
     features: [
-      'All free plan features and...',
-      'Mainline AI',
-      'Unlimited teams',
-      'Unlimited issues and file uploads',
-      'Mainline Insights',
-      'Admin roles',
+      "All free plan features and...",
+      "Mainline AI",
+      "Unlimited teams",
+      "Unlimited issues and file uploads",
+      "Mainline Insights",
+      "Admin roles",
     ],
   },
   {
-    name: 'Enterprise',
-    monthlyPrice: '$8',
-    yearlyPrice: '$6',
+    name: "Enterprise",
+    monthlyPrice: "$8",
+    yearlyPrice: "$6",
     features: [
-      'All free plan features and...',
-      'Mainline AI',
-      'Supermainline AGI',
-      'Free daily catered lunch',
-      'random HIPPA audits',
+      "All free plan features and...",
+      "Mainline AI",
+      "Supermainline AGI",
+      "Free daily catered lunch",
+      "random HIPPA audits",
     ],
   },
 ];
@@ -53,7 +53,7 @@ export const Pricing = ({ className }: { className?: string }) => {
   const [isAnnual, setIsAnnual] = useState(true);
 
   return (
-    <section className={cn('py-28 lg:py-32', className)}>
+    <section className={cn("py-28 lg:py-32", className)}>
       <div className="container max-w-5xl">
         <div className="space-y-4 text-center">
           <h2 className="text-2xl tracking-tight md:text-4xl lg:text-5xl">
@@ -71,9 +71,9 @@ export const Pricing = ({ className }: { className?: string }) => {
             <Card
               key={plan.name}
               className={`${
-                plan.name === 'Startup'
-                  ? 'outline-primary origin-top outline-4'
-                  : ''
+                plan.name === "Startup"
+                  ? "outline-primary origin-top outline-4"
+                  : ""
               }`}
             >
               <CardContent className="flex flex-col gap-7 px-6 py-5">
@@ -81,18 +81,18 @@ export const Pricing = ({ className }: { className?: string }) => {
                   <h3 className="text-foreground font-semibold">{plan.name}</h3>
                   <div className="space-y-1">
                     <div className="text-muted-foreground text-lg font-medium">
-                      {isAnnual ? plan.yearlyPrice : plan.monthlyPrice}{' '}
-                      {plan.name !== 'Free' && (
+                      {isAnnual ? plan.yearlyPrice : plan.monthlyPrice}{" "}
+                      {plan.name !== "Free" && (
                         <span className="text-muted-foreground">
                           per user/
-                          {isAnnual ? 'year' : 'month'}
+                          {isAnnual ? "year" : "month"}
                         </span>
                       )}
                     </div>
                   </div>
                 </div>
 
-                {plan.name !== 'Free' ? (
+                {plan.name !== "Free" ? (
                   <div className="flex items-center gap-2">
                     <Switch
                       checked={isAnnual}
@@ -121,7 +121,7 @@ export const Pricing = ({ className }: { className?: string }) => {
 
                 <Button
                   className="w-fit"
-                  variant={plan.name === 'Startup' ? 'default' : 'outline'}
+                  variant={plan.name === "Startup" ? "default" : "outline"}
                 >
                   Get started
                 </Button>

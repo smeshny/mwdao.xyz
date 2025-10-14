@@ -1,7 +1,7 @@
-'use server';
-import { actionClient } from './safe-action';
+"use server";
+import { actionClient } from "./safe-action";
 
-import { formSchema } from '@/lib/form-schema';
+import { formSchema } from "@/lib/form-schema";
 
 export const serverAction = actionClient
   .inputSchema(formSchema)
@@ -11,6 +11,6 @@ export const serverAction = actionClient
     console.log(parsedInput);
     return {
       success: true,
-      message: 'Form submitted successfully',
+      message: "Form submitted successfully",
     };
   });

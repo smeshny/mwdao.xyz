@@ -1,24 +1,24 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 export function Footer() {
   const navigation = [
-    { name: 'Product', href: '/#feature-modern-teams' },
-    { name: 'About Us', href: '/about' },
-    { name: 'Pricing', href: '/pricing' },
-    { name: 'FAQ', href: '/faq' },
-    { name: 'Contact', href: '/contact' },
+    { name: "Product", href: "/#feature-modern-teams" },
+    { name: "About Us", href: "/about" },
+    { name: "Pricing", href: "/pricing" },
+    { name: "FAQ", href: "/faq" },
+    { name: "Contact", href: "/contact" },
   ];
 
   const social = [
-    { name: 'Xwitter', href: 'https://x.com/ausrobdev' },
-    { name: 'LinkedIn', href: '#' },
+    { name: "Xwitter", href: "https://x.com/ausrobdev" },
+    { name: "LinkedIn", href: "#" },
   ];
 
-  const legal = [{ name: 'Privacy Policy', href: '/privacy' }];
+  const legal = [{ name: "Privacy Policy", href: "/privacy" }];
 
   return (
     <footer className="flex flex-col items-center gap-14 pt-28 lg:pt-32">

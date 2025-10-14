@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { Background } from '@/components/background';
-import { Pricing } from '@/components/blocks/pricing';
-import { PricingTable } from '@/components/blocks/pricing-table';
+import { Background } from "@/components/background";
+import { Pricing } from "@/components/blocks/pricing";
+import { PricingTable } from "@/components/blocks/pricing-table";
 
 const Page = () => {
   return (

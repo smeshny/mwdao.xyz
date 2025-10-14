@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { ChevronRight, Github } from 'lucide-react';
+import { ChevronRight, Github } from "lucide-react";
 
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Button } from '@/components/ui/button';
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,31 +17,31 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 const ITEMS = [
   {
-    label: 'Features',
-    href: '#features',
+    label: "Features",
+    href: "#features",
     dropdownItems: [
       {
-        title: 'Modern product teams',
-        href: '/#feature-modern-teams',
+        title: "Modern product teams",
+        href: "/#feature-modern-teams",
         description:
-          'Mainline is built on the habits that make the best product teams successful',
+          "Mainline is built on the habits that make the best product teams successful",
       },
       {
-        title: 'Resource Allocation',
-        href: '/#resource-allocation',
-        description: 'Mainline your resource allocation and execution',
+        title: "Resource Allocation",
+        href: "/#resource-allocation",
+        description: "Mainline your resource allocation and execution",
       },
     ],
   },
-  { label: 'About Us', href: '/about' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'FAQ', href: '/faq' },
-  { label: 'Contact', href: '/contact' },
+  { label: "About Us", href: "/about" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const Navbar = () => {
@@ -52,8 +52,8 @@ export const Navbar = () => {
   return (
     <section
       className={cn(
-        'bg-background/70 absolute left-1/2 z-50 w-[min(90%,700px)] -translate-x-1/2 rounded-4xl border backdrop-blur-md transition-all duration-300',
-        'top-5 lg:top-12',
+        "bg-background/70 absolute left-1/2 z-50 w-[min(90%,700px)] -translate-x-1/2 rounded-4xl border backdrop-blur-md transition-all duration-300",
+        "top-5 lg:top-12",
       )}
     >
       <div className="flex items-center justify-between px-6 py-3">
@@ -105,8 +105,8 @@ export const Navbar = () => {
                   <Link
                     href={link.href}
                     className={cn(
-                      'relative bg-transparent px-1.5 text-sm font-medium transition-opacity hover:opacity-75',
-                      pathname === link.href && 'text-muted-foreground',
+                      "relative bg-transparent px-1.5 text-sm font-medium transition-opacity hover:opacity-75",
+                      pathname === link.href && "text-muted-foreground",
                     )}
                   >
                     {link.label}
@@ -142,15 +142,15 @@ export const Navbar = () => {
             <div className="absolute top-1/2 left-1/2 block w-[18px] -translate-x-1/2 -translate-y-1/2">
               <span
                 aria-hidden="true"
-                className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? 'rotate-45' : '-translate-y-1.5'}`}
+                className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? "rotate-45" : "-translate-y-1.5"}`}
               ></span>
               <span
                 aria-hidden="true"
-                className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? 'opacity-0' : ''}`}
+                className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? "opacity-0" : ""}`}
               ></span>
               <span
                 aria-hidden="true"
-                className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? '-rotate-45' : 'translate-y-1.5'}`}
+                className={`absolute block h-0.5 w-full rounded-full bg-current transition duration-500 ease-in-out ${isMenuOpen ? "-rotate-45" : "translate-y-1.5"}`}
               ></span>
             </div>
           </button>
@@ -160,10 +160,10 @@ export const Navbar = () => {
       {/*  Mobile Menu Navigation */}
       <div
         className={cn(
-          'bg-background fixed inset-x-0 top-[calc(100%+1rem)] flex flex-col rounded-2xl border p-6 transition-all duration-300 ease-in-out lg:hidden',
+          "bg-background fixed inset-x-0 top-[calc(100%+1rem)] flex flex-col rounded-2xl border p-6 transition-all duration-300 ease-in-out lg:hidden",
           isMenuOpen
-            ? 'visible translate-y-0 opacity-100'
-            : 'invisible -translate-y-4 opacity-0',
+            ? "visible translate-y-0 opacity-100"
+            : "invisible -translate-y-4 opacity-0",
         )}
       >
         <nav className="divide-border flex flex-1 flex-col divide-y">
@@ -181,17 +181,17 @@ export const Navbar = () => {
                   {link.label}
                   <ChevronRight
                     className={cn(
-                      'size-4 transition-transform duration-200',
-                      openDropdown === link.label ? 'rotate-90' : '',
+                      "size-4 transition-transform duration-200",
+                      openDropdown === link.label ? "rotate-90" : "",
                     )}
                   />
                 </button>
                 <div
                   className={cn(
-                    'overflow-hidden transition-all duration-300',
+                    "overflow-hidden transition-all duration-300",
                     openDropdown === link.label
-                      ? 'mt-4 max-h-[1000px] opacity-100'
-                      : 'max-h-0 opacity-0',
+                      ? "mt-4 max-h-[1000px] opacity-100"
+                      : "max-h-0 opacity-0",
                   )}
                 >
                   <div className="bg-muted/50 space-y-3 rounded-lg p-4">
@@ -224,8 +224,8 @@ export const Navbar = () => {
                 key={link.label}
                 href={link.href}
                 className={cn(
-                  'text-primary hover:text-primary/80 py-4 text-base font-medium transition-colors first:pt-0 last:pb-0',
-                  pathname === link.href && 'text-muted-foreground',
+                  "text-primary hover:text-primary/80 py-4 text-base font-medium transition-colors first:pt-0 last:pb-0",
+                  pathname === link.href && "text-muted-foreground",
                 )}
                 onClick={() => setIsMenuOpen(false)}
               >

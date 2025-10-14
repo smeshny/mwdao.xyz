@@ -1,76 +1,76 @@
-import Image from 'next/image';
+import Image from "next/image";
 
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight } from "lucide-react";
 
-import { DashedLine } from '../dashed-line';
+import { DashedLine } from "../dashed-line";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 const items = [
   {
     quote: "We're misusing Mainline as a CRM and it still works!",
-    author: 'Amy Chase',
-    role: 'PM',
-    company: 'Mercury Finance',
-    image: '/testimonials/amy-chase.webp',
+    author: "Amy Chase",
+    role: "PM",
+    company: "Mercury Finance",
+    image: "/testimonials/amy-chase.webp",
   },
   {
-    quote: 'I was able to replace 80% of my team with Mainline bots.',
-    author: 'Jonas Kotara',
-    role: 'Lead Engineer',
-    company: 'Mercury Finance',
-    image: '/testimonials/jonas-kotara.webp',
+    quote: "I was able to replace 80% of my team with Mainline bots.",
+    author: "Jonas Kotara",
+    role: "Lead Engineer",
+    company: "Mercury Finance",
+    image: "/testimonials/jonas-kotara.webp",
   },
   {
-    quote: 'Founder Mode is hard enough without having a really nice PM app.',
-    author: 'Kevin Yam',
-    role: 'Founder',
-    company: 'Mercury Finance',
-    image: '/testimonials/kevin-yam.webp',
+    quote: "Founder Mode is hard enough without having a really nice PM app.",
+    author: "Kevin Yam",
+    role: "Founder",
+    company: "Mercury Finance",
+    image: "/testimonials/kevin-yam.webp",
   },
   {
-    quote: 'I can use the tool as a substitute from my PM.',
-    author: 'Kundo Marta',
-    role: 'Founder',
-    company: 'Mercury Finance',
-    image: '/testimonials/kundo-marta.webp',
+    quote: "I can use the tool as a substitute from my PM.",
+    author: "Kundo Marta",
+    role: "Founder",
+    company: "Mercury Finance",
+    image: "/testimonials/kundo-marta.webp",
   },
   {
     quote: "We're misusing Mainline as a CRM and it still works!",
-    author: 'Amy Chase',
-    role: 'PM',
-    company: 'Mercury Finance',
-    image: '/testimonials/amy-chase.webp',
+    author: "Amy Chase",
+    role: "PM",
+    company: "Mercury Finance",
+    image: "/testimonials/amy-chase.webp",
   },
   {
-    quote: 'I was able to replace 80% of my team with Mainline bots.',
-    author: 'Jonas Kotara',
-    role: 'Lead Engineer',
-    company: 'Mercury Finance',
-    image: '/testimonials/jonas-kotara.webp',
+    quote: "I was able to replace 80% of my team with Mainline bots.",
+    author: "Jonas Kotara",
+    role: "Lead Engineer",
+    company: "Mercury Finance",
+    image: "/testimonials/jonas-kotara.webp",
   },
   {
-    quote: 'Founder Mode is hard enough without having a really nice PM app.',
-    author: 'Kevin Yam',
-    role: 'Founder',
-    company: 'Mercury Finance',
-    image: '/testimonials/kevin-yam.webp',
+    quote: "Founder Mode is hard enough without having a really nice PM app.",
+    author: "Kevin Yam",
+    role: "Founder",
+    company: "Mercury Finance",
+    image: "/testimonials/kevin-yam.webp",
   },
   {
-    quote: 'I can use the tool as a substitute from my PM.',
-    author: 'Kundo Marta',
-    role: 'Founder',
-    company: 'Mercury Finance',
-    image: '/testimonials/kundo-marta.webp',
+    quote: "I can use the tool as a substitute from my PM.",
+    author: "Kundo Marta",
+    role: "Founder",
+    company: "Mercury Finance",
+    image: "/testimonials/kundo-marta.webp",
   },
 ];
 
@@ -83,7 +83,7 @@ export const Testimonials = ({
 }) => {
   return (
     <>
-      <section className={cn('overflow-hidden py-28 lg:py-32', className)}>
+      <section className={cn("overflow-hidden py-28 lg:py-32", className)}>
         <div className="container">
           <div className="space-y-4">
             <h2 className="text-2xl tracking-tight md:text-4xl lg:text-5xl">
@@ -102,7 +102,7 @@ export const Testimonials = ({
           <div className="relative mt-8 -mr-[max(3rem,calc((100vw-80rem)/2+3rem))] md:mt-12 lg:mt-20">
             <Carousel
               opts={{
-                align: 'start',
+                align: "start",
                 loop: true,
               }}
               className="w-full"
@@ -151,7 +151,7 @@ export const Testimonials = ({
       </section>
       <DashedLine
         orientation="horizontal"
-        className={cn('mx-auto max-w-[80%]', dashedLineClassName)}
+        className={cn("mx-auto max-w-[80%]", dashedLineClassName)}
       />
     </>
   );

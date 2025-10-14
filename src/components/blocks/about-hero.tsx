@@ -1,21 +1,21 @@
-import { DashedLine } from '@/components/dashed-line';
+import { DashedLine } from "@/components/dashed-line";
 
 const stats = [
   {
-    value: '$150M',
-    label: 'Raised',
+    value: "$150M",
+    label: "Raised",
   },
   {
-    value: '20K',
-    label: 'Companies',
+    value: "20K",
+    label: "Companies",
   },
   {
-    value: '1.3B',
-    label: 'Monthly transactions',
+    value: "1.3B",
+    label: "Monthly transactions",
   },
   {
-    value: '1.5K',
-    label: 'Connections per minute',
+    value: "1.5K",
+    label: "Connections per minute",
   },
 ];
 

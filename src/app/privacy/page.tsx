@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Privacy from './privacy.mdx';
+import Privacy from "./privacy.mdx";
 
 const Page = () => {
   return (

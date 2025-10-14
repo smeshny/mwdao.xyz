@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 import {
   ArrowRight,
@@ -6,30 +6,30 @@ import {
   ChartNoAxesColumn,
   CircleDot,
   Diamond,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { DashedLine } from '@/components/dashed-line';
-import { Button } from '@/components/ui/button';
+import { DashedLine } from "@/components/dashed-line";
+import { Button } from "@/components/ui/button";
 
 const features = [
   {
-    title: 'Tailored workflows',
-    description: 'Track progress across custom issue flows for your team.',
+    title: "Tailored workflows",
+    description: "Track progress across custom issue flows for your team.",
     icon: CircleDot,
   },
   {
-    title: 'Cross-team projects',
-    description: 'Collaborate across teams and departments.',
+    title: "Cross-team projects",
+    description: "Collaborate across teams and departments.",
     icon: Blend,
   },
   {
-    title: 'Milestones',
-    description: 'Break projects down into concrete phases.',
+    title: "Milestones",
+    description: "Break projects down into concrete phases.",
     icon: Diamond,
   },
   {
-    title: 'Progress insights',
-    description: 'Track scope, velocity, and progress over time.',
+    title: "Progress insights",
+    description: "Track scope, velocity, and progress over time.",
     icon: ChartNoAxesColumn,
   },
 ];

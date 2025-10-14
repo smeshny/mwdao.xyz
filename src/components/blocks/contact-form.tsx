@@ -1,14 +1,14 @@
-'use client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Check } from 'lucide-react';
-import { motion } from 'motion/react';
-import { useAction } from 'next-safe-action/hooks';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Check } from "lucide-react";
+import { motion } from "motion/react";
+import { useAction } from "next-safe-action/hooks";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { serverAction } from '@/actions/server-action';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { serverAction } from "@/actions/server-action";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -16,17 +16,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { formSchema } from '@/lib/form-schema';
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { formSchema } from "@/lib/form-schema";
 
 type Schema = z.infer<typeof formSchema>;
 
@@ -34,11 +34,11 @@ export function ContactForm() {
   const form = useForm<Schema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      company: '',
-      employees: '',
-      message: '',
+      name: "",
+      email: "",
+      company: "",
+      employees: "",
+      message: "",
       agree: false,
     } as unknown as Schema,
   });
@@ -70,7 +70,7 @@ export function ContactForm() {
             animate={{ scale: 1 }}
             transition={{
               delay: 0.3,
-              type: 'spring',
+              type: "spring",
               stiffness: 500,
               damping: 15,
             }}
@@ -171,10 +171,10 @@ export function ContactForm() {
           name="employees"
           render={({ field }) => {
             const options = [
-              { value: '1', label: '1' },
-              { value: '2-10', label: '2-10' },
-              { value: '11-50', label: '11-50' },
-              { value: '51-500', label: '51-500' },
+              { value: "1", label: "1" },
+              { value: "2-10", label: "2-10" },
+              { value: "11-50", label: "11-50" },
+              { value: "51-500", label: "51-500" },
             ];
             return (
               <FormItem className="w-full">
@@ -242,7 +242,7 @@ export function ContactForm() {
         />
         <div className="flex w-full items-center justify-end pt-3">
           <Button className="rounded-lg" size="sm">
-            {isExecuting ? 'Submitting...' : 'Submit'}
+            {isExecuting ? "Submitting..." : "Submit"}
           </Button>
         </div>
       </form>
