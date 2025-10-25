@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { AccountCard } from "./account-card";
 import { useLighterAccount } from "../hooks/use-lighter-accounts";
@@ -18,11 +18,58 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const REFRESH_INTERVAL_MS = 30_000; // 30 seconds
 const ADDRESS_PREFIX_DISPLAY_LENGTH = 6;
 const ADDRESS_SUFFIX_DISPLAY_LENGTH = 4;
+
+// LocalStorage utility with best practices
+const STORAGE_KEYS = {
+  INITIAL_BALANCE: "lighter-initial-balance",
+  WATCHED_ADDRESSES: "lighter-watched-addresses",
+} as const;
+
+const localStorageUtils = {
+  getItem: (key: string): string | null => {
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        return window.localStorage.getItem(key);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn(`Failed to get ${key} from localStorage:`, error);
+    }
+    return null;
+  },
+
+  setItem: (key: string, value: string): boolean => {
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        window.localStorage.setItem(key, value);
+        return true;
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn(`Failed to set ${key} in localStorage:`, error);
+    }
+    return false;
+  },
+
+  removeItem: (key: string): boolean => {
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        window.localStorage.removeItem(key);
+        return true;
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn(`Failed to remove ${key} from localStorage:`, error);
+    }
+    return false;
+  },
+};
 
 export function LighterAccountsWatching() {
   const [addressInput, setAddressInput] = useState<string>("");
@@ -215,7 +262,32 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
     totalCollateral: 0,
     totalPositions: 0,
     totalOrders: 0,
+    totalAssetValue: 0,
   });
+  const [initialBalance, setInitialBalance] = useState<string>("10000");
+
+  // Load initial balance from localStorage on mount
+  useEffect(() => {
+    const saved = localStorageUtils.getItem(STORAGE_KEYS.INITIAL_BALANCE);
+    if (saved) {
+      // Validate that saved value is a valid number
+      const numValue = Number.parseFloat(saved);
+      if (!isNaN(numValue) && numValue >= 0) {
+        setInitialBalance(saved);
+      }
+    }
+  }, []);
+
+  // Save initial balance to localStorage whenever it changes
+  useEffect(() => {
+    if (initialBalance && Number.parseFloat(initialBalance) >= 0) {
+      localStorageUtils.setItem(STORAGE_KEYS.INITIAL_BALANCE, initialBalance);
+    }
+  }, [initialBalance]);
+
+  // Validate and parse initial balance
+  const initialBalanceNum = Number.parseFloat(initialBalance) || 0;
+  const profitLoss = totalStats.totalAssetValue - initialBalanceNum; // Positive = profit, Negative = loss
 
   // Fetch data for all addresses and calculate totals
   useEffect(() => {
@@ -233,11 +305,15 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
         let totalCollateral = 0;
         let totalPositions = 0;
         let totalOrders = 0;
+        let totalAssetValue = 0;
 
         results.forEach((result) => {
           if (result.status === "fulfilled" && result.value?.accounts?.length) {
             const account = result.value.accounts[0];
             totalCollateral += Number.parseFloat(account.collateral || "0");
+            totalAssetValue += Number.parseFloat(
+              account.total_asset_value || "0",
+            );
 
             const activePositions = account.positions.filter(
               (position) =>
@@ -253,6 +329,7 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
           totalCollateral,
           totalPositions,
           totalOrders,
+          totalAssetValue,
         });
       } catch {
         // Error fetching account stats - silently continue
@@ -264,8 +341,6 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
 
     return () => clearInterval(interval);
   }, [watchedAddresses]);
-
-  const totalActiveItems = totalStats.totalPositions + totalStats.totalOrders;
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -301,9 +376,7 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Total Collateral
-          </CardTitle>
+          <CardTitle className="text-sm font-medium">Total Assets</CardTitle>
           <div className="rounded-lg bg-green-100 p-2 dark:bg-green-900/30">
             <svg
               className="h-4 w-4 text-green-600 dark:text-green-400"
@@ -323,10 +396,10 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-green-600">
-            ${totalStats.totalCollateral.toLocaleString()}
+            ${totalStats.totalAssetValue.toLocaleString()}
           </div>
           <p className="text-muted-foreground text-xs">
-            Total collateral across all accounts
+            Total asset value across all accounts
           </p>
         </CardContent>
       </Card>
@@ -365,19 +438,17 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Total Active Items
-          </CardTitle>
-          <div className="rounded-lg bg-orange-100 p-2 dark:bg-orange-900/30">
+          <CardTitle className="text-sm font-medium">Initial Balance</CardTitle>
+          <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900/30">
             <svg
-              className="h-4 w-4 text-orange-600 dark:text-orange-400"
+              className="h-4 w-4 text-blue-600 dark:text-blue-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <title>Activity Icon</title>
+              <title>Wallet Icon</title>
               <path
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
@@ -386,12 +457,36 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-orange-600">
-            {totalActiveItems}
+          <div className="space-y-2">
+            <Input
+              type="number"
+              min="0"
+              step="0.01"
+              value={initialBalance}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Only allow positive numbers and empty string
+                if (
+                  value === "" ||
+                  (!isNaN(Number.parseFloat(value)) &&
+                    Number.parseFloat(value) >= 0)
+                ) {
+                  setInitialBalance(value);
+                }
+              }}
+              className="text-lg font-semibold"
+              placeholder="Enter initial balance"
+            />
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Burned:</span>
+              <span
+                className={`font-medium ${profitLoss >= 0 ? "text-green-600" : "text-red-600"}`}
+              >
+                {profitLoss >= 0 ? "+" : "-"}$
+                {Math.abs(profitLoss).toLocaleString()}
+              </span>
+            </div>
           </div>
-          <p className="text-muted-foreground text-xs">
-            Total positions + orders
-          </p>
         </CardContent>
       </Card>
     </div>
@@ -680,17 +775,29 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
     const diffMs = now.getTime() - date.getTime();
     const diffSecs = Math.floor(diffMs / 1000);
 
-    if (diffSecs < 60) return `${diffSecs}s ago`;
+    // Show timestamp with relative time
+    const timestamp = date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
+    if (diffSecs < 60) return `${timestamp} (${diffSecs}s ago)`;
     const diffMins = Math.floor(diffSecs / 60);
-    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffMins < 60) return `${timestamp} (${diffMins}m ago)`;
     const diffHours = Math.floor(diffMins / 60);
-    return `${diffHours}h ago`;
+    return `${timestamp} (${diffHours}h ago)`;
   };
 
   // Register refetch function from AccountRowData
-  const registerRefetch = (address: string, refetch: () => void) => {
-    setRefetchFunctions((prev) => new Map(prev).set(address, refetch));
-  };
+  const registerRefetch = useCallback(
+    (address: string, refetch: () => void) => {
+      setRefetchFunctions((prev) => new Map(prev).set(address, refetch));
+    },
+    [],
+  );
 
   return (
     <Card>

@@ -7,7 +7,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix && prettier -w .",
+    "lint": "prettier -w . && next lint --fix ",
     "format": "prettier -w ."
   },
   "dependencies": {
