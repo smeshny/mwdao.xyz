@@ -50,4 +50,12 @@ export type WatchedAccount = {
   account?: LighterAccount;
   lastUpdated?: Date;
   error?: string;
+  groupName?: string;
+};
+
+export type WalletGroup = {
+  id: string;
+  name: string;
+  initialBalance?: string;
+  createdAt: Date;
 };

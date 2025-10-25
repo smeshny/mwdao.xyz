@@ -1,7 +1,32 @@
+import type { WatchedAccount, WalletGroup } from "../types";
+
 const WATCHED_ADDRESSES_KEY = "lighter-watched-addresses";
+const WATCHED_ACCOUNTS_KEY = "lighter-watched-accounts";
+const WALLET_GROUPS_KEY = "lighter-wallet-groups";
 const WHITESPACE_REGEX = /\s+/;
 const ETHEREUM_ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/;
 
+// Enhanced storage for watched accounts with groups
+export function saveWatchedAccounts(accounts: WatchedAccount[]): void {
+  if (typeof window !== "undefined") {
+    localStorage.setItem(WATCHED_ACCOUNTS_KEY, JSON.stringify(accounts));
+  }
+}
+
+export function loadWatchedAccounts(): WatchedAccount[] {
+  if (typeof window === "undefined") {
+    return [];
+  }
+
+  try {
+    const stored = localStorage.getItem(WATCHED_ACCOUNTS_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
+// Legacy functions for backward compatibility
 export function saveWatchedAddresses(addresses: string[]): void {
   if (typeof window !== "undefined") {
     localStorage.setItem(WATCHED_ADDRESSES_KEY, JSON.stringify(addresses));
@@ -21,6 +46,7 @@ export function loadWatchedAddresses(): string[] {
   }
 }
 
+// Parse address list with group support
 export function parseAddressList(input: string): string[] {
   const lines = input.split("\n");
   const addresses: string[] = [];
@@ -50,4 +76,118 @@ export function parseAddressList(input: string): string[] {
   }
 
   return [...new Set(addresses)]; // Remove duplicates
+}
+
+// Parse address list with group extraction
+export function parseAddressListWithGroups(input: string): {
+  addresses: string[];
+  groupName: string;
+} {
+  const lines = input.split("\n");
+  const addresses: string[] = [];
+  let groupName = "";
+
+  // Extract group name from first line if it doesn't contain an address
+  const firstLine = lines[0]?.trim();
+  if (
+    firstLine &&
+    !firstLine.includes("0x") &&
+    !firstLine.startsWith("#") &&
+    firstLine.length > 0
+  ) {
+    groupName = firstLine;
+  }
+
+  for (const line of lines) {
+    const trimmedLine = line.trim();
+
+    // Skip empty lines, comments, and group name line
+    if (
+      !trimmedLine ||
+      trimmedLine.startsWith("#") ||
+      trimmedLine === groupName
+    ) {
+      continue;
+    }
+
+    // Handle different formats
+    // Format 1: SM1 0x...
+    // Format 2: 0x... (just the address)
+    // Format 3: SM1 0x... # comment
+    const parts = trimmedLine.split(WHITESPACE_REGEX);
+    const address = parts.find((part) => part.startsWith("0x"));
+
+    if (address) {
+      // Extract just the hex part (remove any trailing comments)
+      const hexAddress = address.split("#")[0].trim();
+      if (ETHEREUM_ADDRESS_REGEX.test(hexAddress)) {
+        addresses.push(hexAddress);
+      }
+    }
+  }
+
+  return {
+    addresses: [...new Set(addresses)], // Remove duplicates
+    groupName: groupName.trim() || "Default Group",
+  };
+}
+
+// Wallet groups management
+export function saveWalletGroups(groups: WalletGroup[]): void {
+  if (typeof window !== "undefined") {
+    localStorage.setItem(WALLET_GROUPS_KEY, JSON.stringify(groups));
+  }
+}
+
+export function loadWalletGroups(): WalletGroup[] {
+  if (typeof window === "undefined") {
+    return [];
+  }
+
+  try {
+    const stored = localStorage.getItem(WALLET_GROUPS_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function addWalletGroup(name: string): WalletGroup {
+  const groups = loadWalletGroups();
+  const newGroup: WalletGroup = {
+    id: crypto.randomUUID(),
+    name: name.trim(),
+    createdAt: new Date(),
+  };
+
+  groups.push(newGroup);
+  saveWalletGroups(groups);
+  return newGroup;
+}
+
+export function updateWalletGroup(
+  id: string,
+  updates: Partial<WalletGroup>,
+): void {
+  const groups = loadWalletGroups();
+  const index = groups.findIndex((g) => g.id === id);
+  if (index !== -1) {
+    groups[index] = { ...groups[index], ...updates };
+    saveWalletGroups(groups);
+  }
+}
+
+export function deleteWalletGroup(id: string): void {
+  const groups = loadWalletGroups();
+  const filteredGroups = groups.filter((g) => g.id !== id);
+  saveWalletGroups(filteredGroups);
+
+  // Also remove group from watched accounts
+  const accounts = loadWatchedAccounts();
+  const updatedAccounts = accounts.map((account) =>
+    account.groupName === groups.find((g) => g.id === id)?.name
+      ? { ...account, groupName: undefined }
+      : account,
+  );
+  saveWatchedAccounts(updatedAccounts);
 }

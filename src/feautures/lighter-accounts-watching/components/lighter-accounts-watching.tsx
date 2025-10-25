@@ -3,11 +3,21 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { AccountCard } from "./account-card";
+import { AddWalletsForm } from "./add-wallets-form";
+import { CreateGroupForm } from "./create-group-form";
+import { EditGroupDialog } from "./edit-group-dialog";
+import { GroupTabs } from "./group-tabs";
 import { useLighterAccount } from "../hooks/use-lighter-accounts";
+import type { WatchedAccount, WalletGroup } from "../types";
 import {
   loadWatchedAddresses,
-  parseAddressList,
-  saveWatchedAddresses,
+  loadWatchedAccounts,
+  saveWatchedAccounts,
+  loadWalletGroups,
+  saveWalletGroups,
+  addWalletGroup,
+  updateWalletGroup,
+  deleteWalletGroup,
 } from "../utils/storage";
 
 import { Button } from "@/components/ui/button";
@@ -19,61 +29,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 
 const REFRESH_INTERVAL_MS = 30_000; // 30 seconds
 const ADDRESS_PREFIX_DISPLAY_LENGTH = 6;
 const ADDRESS_SUFFIX_DISPLAY_LENGTH = 4;
 
-// LocalStorage utility with best practices
-const STORAGE_KEYS = {
-  INITIAL_BALANCE: "lighter-initial-balance",
-  WATCHED_ADDRESSES: "lighter-watched-addresses",
-} as const;
-
-const localStorageUtils = {
-  getItem: (key: string): string | null => {
-    try {
-      if (typeof window !== "undefined" && window.localStorage) {
-        return window.localStorage.getItem(key);
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn(`Failed to get ${key} from localStorage:`, error);
-    }
-    return null;
-  },
-
-  setItem: (key: string, value: string): boolean => {
-    try {
-      if (typeof window !== "undefined" && window.localStorage) {
-        window.localStorage.setItem(key, value);
-        return true;
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn(`Failed to set ${key} in localStorage:`, error);
-    }
-    return false;
-  },
-
-  removeItem: (key: string): boolean => {
-    try {
-      if (typeof window !== "undefined" && window.localStorage) {
-        window.localStorage.removeItem(key);
-        return true;
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn(`Failed to remove ${key} from localStorage:`, error);
-    }
-    return false;
-  },
-};
-
 export function LighterAccountsWatching() {
-  const [addressInput, setAddressInput] = useState<string>("");
-  const [watchedAddresses, setWatchedAddresses] = useState<string[]>([]);
+  const [watchedAccounts, setWatchedAccounts] = useState<WatchedAccount[]>([]);
+  const [walletGroups, setWalletGroups] = useState<WalletGroup[]>([]);
+  const [activeGroup, setActiveGroup] = useState<string>("");
+  const [editingGroup, setEditingGroup] = useState<WalletGroup | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   // Prevent hydration mismatch
@@ -81,42 +47,127 @@ export function LighterAccountsWatching() {
     setIsMounted(true);
   }, []);
 
-  // Load watched addresses from localStorage on mount
+  // Load data from localStorage on mount
   useEffect(() => {
     if (!isMounted) return;
-    const saved = loadWatchedAddresses();
-    setWatchedAddresses(saved);
+
+    // Load watched accounts
+    const savedAccounts = loadWatchedAccounts();
+
+    // Migrate old addresses format to new format if needed
+    const oldAddresses = loadWatchedAddresses();
+    if (oldAddresses.length > 0 && savedAccounts.length === 0) {
+      const migratedAccounts: WatchedAccount[] = oldAddresses.map(
+        (address) => ({
+          l1_address: address,
+          groupName: undefined,
+        }),
+      );
+      setWatchedAccounts(migratedAccounts);
+      saveWatchedAccounts(migratedAccounts);
+    } else {
+      setWatchedAccounts(savedAccounts);
+    }
+
+    // Load wallet groups
+    const savedGroups = loadWalletGroups();
+    setWalletGroups(savedGroups);
   }, [isMounted]);
 
-  // Save to localStorage whenever watched addresses change, but not on initial empty load
+  // Save to localStorage whenever data changes
   useEffect(() => {
     if (isMounted) {
-      saveWatchedAddresses(watchedAddresses);
+      saveWatchedAccounts(watchedAccounts);
     }
-  }, [watchedAddresses, isMounted]);
+  }, [watchedAccounts, isMounted]);
 
-  const handleAddMultipleAddresses = () => {
-    const parsedAddresses = parseAddressList(addressInput);
-    if (parsedAddresses.length > 0) {
-      const newAddresses = parsedAddresses.filter(
-        (addr) => !watchedAddresses.includes(addr),
-      );
-      setWatchedAddresses((prev) => [...prev, ...newAddresses]);
-      setAddressInput("");
+  useEffect(() => {
+    if (isMounted) {
+      saveWalletGroups(walletGroups);
+    }
+  }, [walletGroups, isMounted]);
+
+  const handleAddWallets = ({
+    addresses,
+    groupName,
+  }: {
+    addresses: string[];
+    groupName: string;
+  }) => {
+    const newAccounts: WatchedAccount[] = addresses
+      .filter((addr) => !watchedAccounts.some((acc) => acc.l1_address === addr))
+      .map((address) => ({
+        l1_address: address,
+        groupName,
+      }));
+
+    setWatchedAccounts((prev) => [...prev, ...newAccounts]);
+  };
+
+  const handleCreateGroup = (groupName: string) => {
+    const newGroup = addWalletGroup(groupName);
+    setWalletGroups((prev) => [...prev, newGroup]);
+  };
+
+  const handleGroupCreated = (newGroup: WalletGroup) => {
+    setWalletGroups((prev) => [...prev, newGroup]);
+    setActiveGroup(newGroup.name);
+  };
+
+  const handleEditGroup = (group: WalletGroup) => {
+    setEditingGroup(group);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleSaveGroup = (
+    groupId: string,
+    updates: { name: string; initialBalance?: string },
+  ) => {
+    updateWalletGroup(groupId, updates);
+    setWalletGroups((prev) =>
+      prev.map((g) => (g.id === groupId ? { ...g, ...updates } : g)),
+    );
+
+    // Update accounts that reference this group by name
+    if (updates.name) {
+      const oldGroup = walletGroups.find((g) => g.id === groupId);
+      if (oldGroup && oldGroup.name !== updates.name) {
+        setWatchedAccounts((prev) =>
+          prev.map((acc) =>
+            acc.groupName === oldGroup.name
+              ? { ...acc, groupName: updates.name }
+              : acc,
+          ),
+        );
+      }
     }
   };
 
-  // Calculate how many new addresses would be added (only after mount)
-  const parsedAddresses = parseAddressList(addressInput);
-  const newAddressesCount = isMounted
-    ? parsedAddresses.filter((addr) => !watchedAddresses.includes(addr)).length
-    : 0;
+  const handleDeleteGroup = (groupId: string) => {
+    const groupToDelete = walletGroups.find((g) => g.id === groupId);
+    if (!groupToDelete) return;
+
+    deleteWalletGroup(groupId);
+    setWalletGroups((prev) => prev.filter((g) => g.id !== groupId));
+
+    // Clear active group if it was deleted
+    if (activeGroup === groupToDelete.name) {
+      setActiveGroup(null);
+    }
+  };
 
   const handleRemoveAddress = (addressToRemove: string) => {
-    setWatchedAddresses((prev) =>
-      prev.filter((addr) => addr !== addressToRemove),
+    setWatchedAccounts((prev) =>
+      prev.filter((acc) => acc.l1_address !== addressToRemove),
     );
   };
+
+  // Filter accounts by active group
+  const filteredAccounts = activeGroup
+    ? watchedAccounts.filter((acc) => acc.groupName === activeGroup)
+    : [];
+
+  const filteredAddresses = filteredAccounts.map((acc) => acc.l1_address);
 
   // Show loading state during hydration to prevent mismatch
   if (!isMounted) {
@@ -159,83 +210,68 @@ export function LighterAccountsWatching() {
           Lighter Accounts Watching
         </h1>
         <p className="text-muted-foreground max-w-3xl text-lg">
-          Monitor Lighter accounts and their positions in real-time
+          Monitor Lighter accounts and their positions in real-time with group
+          organization
         </p>
       </div>
 
+      {/* Group Tabs */}
+      <GroupTabs
+        groups={walletGroups}
+        activeGroup={activeGroup}
+        onGroupChange={(groupName) => setActiveGroup(groupName || "")}
+        onEditGroup={handleEditGroup}
+        onDeleteGroup={handleDeleteGroup}
+      />
+
       {/* Stats Summary - Moved to top */}
-      {watchedAddresses.length > 0 && (
-        <RealtimeStatsSummary watchedAddresses={watchedAddresses} />
+      {filteredAddresses.length > 0 && activeGroup && (
+        <RealtimeStatsSummary
+          watchedAddresses={filteredAddresses}
+          activeGroup={activeGroup}
+          walletGroups={walletGroups}
+        />
       )}
 
       {/* Balance Summary Table */}
-      {watchedAddresses.length > 0 && (
+      {filteredAddresses.length > 0 && (
         <BalanceSummary
-          addresses={watchedAddresses}
+          addresses={filteredAddresses}
           onRemoveAddress={handleRemoveAddress}
         />
       )}
 
-      {/* Add Address Form */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Add Account Addresses</CardTitle>
-          <CardDescription>
-            Paste Lighter L1 addresses to start monitoring their accounts and
-            positions
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <Textarea
-            className="min-h-32 font-mono"
-            onChange={(e) => setAddressInput(e.target.value)}
-            placeholder={`Paste addresses here. Supports multiple formats:
-SM1 0x042ffe02F6565dAD4c359D335765356B705aB50A
-SM2 0x6446E6FF8564b700059D80F921BEc949235cFc38
-0xCCc054C3FF50C3F132bD4dE74C2F7291ae88e0F9
-SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d # This is a comment`}
-            value={addressInput}
-          />
-          <div className="flex items-center justify-between pt-2">
-            <div className="text-muted-foreground text-sm">
-              {parsedAddresses.length > 0 ? (
-                <span>
-                  Found {parsedAddresses.length} valid address
-                  {parsedAddresses.length !== 1 ? "es" : ""}
-                  {newAddressesCount > 0 && (
-                    <span className="text-green-600">
-                      {" "}
-                      ({newAddressesCount} new)
-                    </span>
-                  )}
-                </span>
-              ) : (
-                <span>Paste addresses using format above</span>
-              )}
-            </div>
-            <Button
-              disabled={parsedAddresses.length === 0}
-              onClick={handleAddMultipleAddresses}
-              type="button"
-              size="lg"
-            >
-              Add {newAddressesCount > 0 ? `${newAddressesCount} ` : ""}Address
-              {newAddressesCount !== 1 ? "es" : ""}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Create Group Form - only show if there are groups or no wallets */}
+      {walletGroups.length === 0 && (
+        <CreateGroupForm
+          onGroupCreated={handleGroupCreated}
+          existingGroups={walletGroups}
+        />
+      )}
+
+      {/* Add Wallets Form */}
+      {walletGroups.length > 0 && (
+        <AddWalletsForm
+          onAddWallets={handleAddWallets}
+          existingGroups={walletGroups}
+          onCreateGroup={handleCreateGroup}
+        />
+      )}
 
       {/* Empty State */}
-      {watchedAddresses.length === 0 && (
+      {filteredAddresses.length === 0 && (
         <Card>
           <CardContent className="py-16">
             <div className="space-y-4 text-center">
               <h3 className="text-muted-foreground text-xl font-medium">
-                No accounts being watched
+                {activeGroup
+                  ? `No wallets in "${activeGroup}" group`
+                  : "No accounts being watched"}
               </h3>
               <p className="text-muted-foreground">
-                Paste Lighter L1 addresses above to start monitoring
+                {activeGroup
+                  ? "Add wallets to this group using the form above"
+                  : "Create groups and add wallet addresses to start monitoring"}
               </p>
               <div className="mx-auto max-w-md text-left">
                 <h4 className="mb-2 text-sm font-medium">Example format:</h4>
@@ -250,6 +286,17 @@ SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d`}
           </CardContent>
         </Card>
       )}
+
+      {/* Edit Group Dialog */}
+      <EditGroupDialog
+        group={editingGroup}
+        isOpen={isEditDialogOpen}
+        onClose={() => {
+          setIsEditDialogOpen(false);
+          setEditingGroup(null);
+        }}
+        onSave={handleSaveGroup}
+      />
     </div>
   );
 }
@@ -257,9 +304,15 @@ SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d`}
 // Real-time stats component that aggregates data from all accounts
 type RealtimeStatsSummaryProps = {
   watchedAddresses: string[];
+  activeGroup: string;
+  walletGroups: WalletGroup[];
 };
 
-function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
+function RealtimeStatsSummary({
+  watchedAddresses,
+  activeGroup,
+  walletGroups,
+}: RealtimeStatsSummaryProps) {
   const [totalStats, setTotalStats] = useState({
     totalCollateral: 0,
     totalPositions: 0,
@@ -267,26 +320,47 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
     totalAssetValue: 0,
   });
 
-  // Initialize with value from localStorage or default to "10000"
-  const getInitialBalance = () => {
-    const saved = localStorageUtils.getItem(STORAGE_KEYS.INITIAL_BALANCE);
-    if (saved) {
-      const numValue = Number.parseFloat(saved);
-      if (!isNaN(numValue) && numValue >= 0) {
-        return saved;
+  // Initialize with value from group or default to "10000"
+  const getInitialBalance = useCallback(() => {
+    // Always use the active group's initial balance if set
+    if (activeGroup && walletGroups.length > 0) {
+      const activeGroupData = walletGroups.find((g) => g.name === activeGroup);
+      if (activeGroupData?.initialBalance) {
+        const numValue = Number.parseFloat(activeGroupData.initialBalance);
+        if (!isNaN(numValue) && numValue >= 0) {
+          return activeGroupData.initialBalance;
+        }
       }
+      // If group exists but no initial balance set, return default
+      return "10000";
     }
+
+    // No active group - return default
     return "10000";
-  };
+  }, [activeGroup, walletGroups]);
 
-  const [initialBalance, setInitialBalance] = useState<string>(getInitialBalance);
+  const [initialBalance, setInitialBalance] =
+    useState<string>(getInitialBalance);
 
-  // Save initial balance to localStorage whenever it changes
+  // Update initial balance when active group changes
+  useEffect(() => {
+    setInitialBalance(getInitialBalance());
+  }, [getInitialBalance]);
+
+  // Save initial balance to group whenever it changes
   useEffect(() => {
     if (initialBalance && Number.parseFloat(initialBalance) >= 0) {
-      localStorageUtils.setItem(STORAGE_KEYS.INITIAL_BALANCE, initialBalance);
+      // Always save to the active group
+      if (activeGroup && walletGroups.length > 0) {
+        const activeGroupData = walletGroups.find(
+          (g) => g.name === activeGroup,
+        );
+        if (activeGroupData) {
+          updateWalletGroup(activeGroupData.id, { initialBalance });
+        }
+      }
     }
-  }, [initialBalance]);
+  }, [initialBalance, activeGroup, walletGroups]);
 
   // Validate and parse initial balance
   const initialBalanceNum = Number.parseFloat(initialBalance) || 0;
