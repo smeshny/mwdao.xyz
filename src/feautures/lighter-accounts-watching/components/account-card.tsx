@@ -22,18 +22,18 @@ export function AccountCard({ account, lastUpdated }: AccountCardProps) {
   );
 
   return (
-    <Card>
-      {/* Header */}
-      <CardHeader className="bg-muted/30">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <div className="flex items-center gap-3">
-              <CardTitle>Account #{account.account_index}</CardTitle>
+    <div className="space-y-4">
+      {/* Account Header - More Compact */}
+      <div className="flex items-center justify-between rounded-lg border bg-muted/20 p-4">
+        <div className="flex items-center gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="font-semibold">Account #{account.account_index}</h3>
               <span
-                className={`rounded px-2 py-1 text-xs font-medium ${
+                className={`rounded-full px-2 py-1 text-xs font-medium ${
                   isActive
-                    ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                    : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+                    ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300"
+                    : "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300"
                 }`}
               >
                 {isActive ? "Active" : "Inactive"}
@@ -44,69 +44,68 @@ export function AccountCard({ account, lastUpdated }: AccountCardProps) {
               {account.l1_address.slice(-ADDRESS_SUFFIX_LENGTH)}
             </p>
           </div>
-          {lastUpdated && (
-            <div className="text-right">
-              <p className="text-muted-foreground text-xs">Last Updated</p>
-              <p className="text-muted-foreground text-xs">
-                {lastUpdated.toLocaleTimeString()}
-              </p>
-            </div>
-          )}
         </div>
-      </CardHeader>
+        {lastUpdated && (
+          <div className="text-right">
+            <p className="text-muted-foreground text-xs">Updated</p>
+            <p className="text-muted-foreground text-xs font-medium">
+              {lastUpdated.toLocaleTimeString()}
+            </p>
+          </div>
+        )}
+      </div>
 
-      {/* Account Stats */}
-      <CardContent className="border-b">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <div className="space-y-1">
-            <p className="text-muted-foreground text-xs">Collateral</p>
-            <p className="text-lg font-semibold">
-              ${Number.parseFloat(account.collateral).toLocaleString()}
-            </p>
-          </div>
-          <div className="space-y-1">
-            <p className="text-muted-foreground text-xs">Available Balance</p>
-            <p className="text-lg font-semibold text-green-600">
-              ${Number.parseFloat(account.available_balance).toLocaleString()}
-            </p>
-          </div>
-          <div className="space-y-1">
-            <p className="text-muted-foreground text-xs">Total Asset Value</p>
-            <p className="text-lg font-semibold">
-              ${Number.parseFloat(account.total_asset_value).toLocaleString()}
-            </p>
-          </div>
-          <div className="space-y-1">
-            <p className="text-muted-foreground text-xs">Open Orders</p>
-            <p className="text-lg font-semibold text-blue-600">
-              {account.pending_order_count}
-            </p>
-          </div>
+      {/* Account Stats - Compact Grid */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="rounded-lg border bg-card p-3 text-center">
+          <p className="text-muted-foreground mb-1 text-xs font-medium">Collateral</p>
+          <p className="font-semibold text-sm">
+            ${Number.parseFloat(account.collateral || "0").toLocaleString()}
+          </p>
         </div>
-      </CardContent>
+        <div className="rounded-lg border bg-card p-3 text-center">
+          <p className="text-muted-foreground mb-1 text-xs font-medium">Available</p>
+          <p className="font-semibold text-green-600 text-sm">
+            ${Number.parseFloat(account.available_balance || "0").toLocaleString()}
+          </p>
+        </div>
+        <div className="rounded-lg border bg-card p-3 text-center">
+          <p className="text-muted-foreground mb-1 text-xs font-medium">Asset Value</p>
+          <p className="font-semibold text-sm">
+            ${Number.parseFloat(account.total_asset_value || "0").toLocaleString()}
+          </p>
+        </div>
+        <div className="rounded-lg border bg-card p-3 text-center">
+          <p className="text-muted-foreground mb-1 text-xs font-medium">Orders</p>
+          <p className="font-semibold text-blue-600 text-sm">
+            {account.pending_order_count}
+          </p>
+        </div>
+      </div>
 
-      {/* Positions */}
-      <CardContent className="space-y-4">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Positions</CardTitle>
-          <span className="text-muted-foreground text-sm">
-            {activePositions.length} active position
-            {activePositions.length !== 1 ? "s" : ""}
+      {/* Positions Section - More Compact */}
+      <div className="space-y-3">
+        <div className="flex items-center gap-2">
+          <h4 className="font-medium">Positions</h4>
+          <span className="text-muted-foreground rounded-full bg-muted px-2 py-1 text-xs">
+            {activePositions.length}
           </span>
         </div>
 
         {activePositions.length > 0 ? (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {activePositions.map((position) => (
-              <PositionCard key={position.market_id} position={position} />
+              <div key={position.market_id} className="rounded-lg border bg-card/50 p-3">
+                <PositionCard position={position} compact={true} />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="text-muted-foreground py-8 text-center">
-            <p>Positions 0</p>
+          <div className="text-muted-foreground rounded-lg border border-dashed bg-muted/10 py-6 text-center">
+            <p className="text-sm">No active positions</p>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

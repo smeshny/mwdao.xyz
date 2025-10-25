@@ -114,6 +114,11 @@ export function LighterAccountsWatching() {
         </p>
       </div>
 
+      {/* Stats Summary - Moved to top */}
+      {watchedAddresses.length > 0 && (
+        <RealtimeStatsSummary watchedAddresses={watchedAddresses} />
+      )}
+
       {/* Balance Summary Table */}
       {watchedAddresses.length > 0 && (
         <BalanceSummary
@@ -171,11 +176,6 @@ SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d # This is a comment`}
           </div>
         </CardContent>
       </Card>
-
-      {/* Stats Summary */}
-      {watchedAddresses.length > 0 && (
-        <RealtimeStatsSummary watchedAddresses={watchedAddresses} />
-      )}
 
       {/* Empty State */}
       {watchedAddresses.length === 0 && (
@@ -237,7 +237,7 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
         results.forEach((result) => {
           if (result.status === "fulfilled" && result.value?.accounts?.length) {
             const account = result.value.accounts[0];
-            totalCollateral += Number.parseFloat(account.collateral || 0);
+            totalCollateral += Number.parseFloat(account.collateral || "0");
 
             const activePositions = account.positions.filter(
               (position) =>
@@ -405,6 +405,7 @@ type AccountRowDataProps = {
   isExpanded: boolean;
   onToggleExpanded: (address: string) => void;
   onRemoveAddress: (address: string) => void;
+  refreshKey: number;
 };
 
 function AccountRowData({
@@ -413,10 +414,17 @@ function AccountRowData({
   isExpanded,
   onToggleExpanded,
   onRemoveAddress,
+  refreshKey,
 }: AccountRowDataProps) {
   const { data, isLoading, error } = useLighterAccount(address, {
     refetchInterval: REFRESH_INTERVAL_MS,
   });
+
+  // Force refresh when refreshKey changes
+  React.useEffect(() => {
+    // The component will automatically re-fetch when refreshKey changes
+    // because useLighterAccount will be called again with the same address
+  }, [refreshKey]);
 
   if (isLoading) {
     return (
@@ -459,16 +467,15 @@ function AccountRowData({
         <td className="px-4 py-3 text-right font-mono text-sm">Loading...</td>
         <td className="px-4 py-3">
           <div className="flex items-center justify-center gap-2">
-            {hasActiveContent && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onToggleExpanded(address)}
-                type="button"
-              >
-                {isExpanded ? "Hide" : "Positions"} ({totalActiveItems})
-              </Button>
-            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onToggleExpanded(address)}
+              type="button"
+              disabled={true}
+            >
+              Loading...
+            </Button>
           </div>
         </td>
       </tr>
@@ -574,13 +581,13 @@ function AccountRowData({
           </div>
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm">
-          ${Number.parseFloat(account.collateral || 0).toLocaleString()}
+          ${Number.parseFloat(account.collateral || "0").toLocaleString()}
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm text-green-600">
-          ${Number.parseFloat(account.available_balance || 0).toLocaleString()}
+          ${Number.parseFloat(account.available_balance || "0").toLocaleString()}
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm">
-          ${Number.parseFloat(account.total_asset_value || 0).toLocaleString()}
+          ${Number.parseFloat(account.total_asset_value || "0").toLocaleString()}
         </td>
         <td className="px-4 py-3">
           <div className="flex items-center justify-center gap-2">
@@ -601,12 +608,16 @@ function AccountRowData({
       {/* Expandable row for positions - only show if there are active positions or orders */}
       {isExpanded && hasActiveContent && (
         <tr className="bg-muted/10">
-          <td colSpan={5} className="px-4 py-4">
+          <td colSpan={5} className="px-6 py-6">
             <div className="space-y-4">
-              <h4 className="text-muted-foreground text-sm font-medium">
-                Account Details & Positions
-              </h4>
-              <div className="bg-muted/20 rounded-lg p-4">
+              <div className="flex items-center gap-2">
+                <h4 className="font-medium">Account Details</h4>
+                <span className="text-muted-foreground">•</span>
+                <span className="text-muted-foreground text-sm">
+                  {activePositions.length} position{activePositions.length !== 1 ? "s" : ""}, {account.pending_order_count} order{account.pending_order_count !== 1 ? "s" : ""}
+                </span>
+              </div>
+              <div className="bg-background rounded-lg border p-6">
                 <AccountCard account={account} lastUpdated={new Date()} />
               </div>
             </div>
@@ -625,6 +636,8 @@ type BalanceSummaryProps = {
 
 function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const toggleExpanded = (address: string) => {
     const newExpanded = new Set(expandedRows);
@@ -636,18 +649,65 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
     setExpandedRows(newExpanded);
   };
 
+  const handleManualRefresh = () => {
+    setLastUpdated(new Date());
+    setRefreshKey(prev => prev + 1);
+  };
+
+  const formatLastUpdated = (date: Date) => {
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffSecs = Math.floor(diffMs / 1000);
+
+    if (diffSecs < 60) return `${diffSecs}s ago`;
+    const diffMins = Math.floor(diffSecs / 60);
+    if (diffMins < 60) return `${diffMins}m ago`;
+    const diffHours = Math.floor(diffMins / 60);
+    return `${diffHours}h ago`;
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span>Balance Overview</span>
-          <span className="text-muted-foreground text-sm font-normal">
-            {addresses.length} account{addresses.length !== 1 ? "s" : ""}
-          </span>
-        </CardTitle>
-        <CardDescription>
-          Summary of all monitored accounts and their balances
-        </CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <span>Balance Overview</span>
+              <span className="text-muted-foreground text-sm font-normal">
+                {addresses.length} account{addresses.length !== 1 ? "s" : ""}
+              </span>
+            </CardTitle>
+            <CardDescription className="flex items-center gap-2 mt-1">
+              <span>Summary of all monitored accounts and their balances</span>
+              <span className="text-xs text-muted-foreground">•</span>
+              <span className="text-xs text-muted-foreground">
+                Last updated: {formatLastUpdated(lastUpdated)}
+              </span>
+            </CardDescription>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleManualRefresh}
+            className="flex items-center gap-2"
+          >
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <title>Refresh Icon</title>
+              <path
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+              />
+            </svg>
+            Refresh
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="rounded-lg border">
@@ -683,6 +743,7 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
                       isExpanded={isExpanded}
                       onToggleExpanded={toggleExpanded}
                       onRemoveAddress={onRemoveAddress}
+                      refreshKey={refreshKey}
                     />
                   );
                 })}

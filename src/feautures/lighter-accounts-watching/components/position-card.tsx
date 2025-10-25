@@ -6,9 +6,10 @@ import { Card, CardContent } from "@/components/ui/card";
 
 type PositionCardProps = {
   position: LighterPosition;
+  compact?: boolean;
 };
 
-export function PositionCard({ position }: PositionCardProps) {
+export function PositionCard({ position, compact = false }: PositionCardProps) {
   const hasPosition = Number.parseFloat(position.position) !== 0;
   const hasUnrealizedPnL = Number.parseFloat(position.unrealized_pnl) !== 0;
 
@@ -24,6 +25,46 @@ export function PositionCard({ position }: PositionCardProps) {
       ? "text-green-600"
       : "text-red-600";
 
+  // Compact version
+  if (compact) {
+    return (
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <span className="font-medium text-sm">{position.symbol}</span>
+          {hasPosition && (
+            <span
+              className={`rounded px-1.5 py-0.5 text-xs font-medium ${positionTypeColor} bg-muted/50`}
+            >
+              {positionType}
+            </span>
+          )}
+        </div>
+
+        <div className="flex items-center gap-4 text-xs">
+          {hasPosition && (
+            <>
+              <span className="text-muted-foreground">
+                Size: <span className="font-mono font-medium">{position.position}</span>
+              </span>
+              <span className="text-muted-foreground">
+                Value: <span className="font-mono font-medium">${Number.parseFloat(position.position_value).toLocaleString()}</span>
+              </span>
+            </>
+          )}
+          <span className={`${pnlColor} font-mono font-medium`}>
+            PnL: ${Number.parseFloat(position.unrealized_pnl).toLocaleString()}
+          </span>
+          {Number.parseFloat(position.liquidation_price) > 0 && (
+            <span className="text-yellow-600 font-mono font-medium">
+              Liq: ${Number.parseFloat(position.liquidation_price).toLocaleString()}
+            </span>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Full version
   return (
     <Card>
       <CardContent className="p-4">
