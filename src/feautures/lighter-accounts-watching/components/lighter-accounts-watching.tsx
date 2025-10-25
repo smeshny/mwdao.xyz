@@ -21,8 +21,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 const REFRESH_INTERVAL_MS = 30_000; // 30 seconds
-const ADDRESS_PREFIX_DISPLAY_LENGTH = 10;
-const ADDRESS_SUFFIX_DISPLAY_LENGTH = 8;
+const ADDRESS_PREFIX_DISPLAY_LENGTH = 6;
+const ADDRESS_SUFFIX_DISPLAY_LENGTH = 4;
 
 export function LighterAccountsWatching() {
   const [addressInput, setAddressInput] = useState<string>("");
@@ -227,7 +227,7 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
         const { fetchLighterAccount } = await import("../services/lighter");
 
         const results = await Promise.allSettled(
-          watchedAddresses.map(address => fetchLighterAccount(address))
+          watchedAddresses.map((address) => fetchLighterAccount(address)),
         );
 
         let totalCollateral = 0;
@@ -235,7 +235,7 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
         let totalOrders = 0;
 
         results.forEach((result) => {
-          if (result.status === 'fulfilled' && result.value?.accounts?.length) {
+          if (result.status === "fulfilled" && result.value?.accounts?.length) {
             const account = result.value.accounts[0];
             totalCollateral += Number.parseFloat(account.collateral || 0);
 
@@ -398,7 +398,6 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
   );
 }
 
-
 // Account Row Data Component for Table
 type AccountRowDataProps = {
   address: string;
@@ -424,6 +423,28 @@ function AccountRowData({
       <tr className="hover:bg-muted/20 border-b transition-colors">
         <td className="px-4 py-3">
           <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onRemoveAddress(address)}
+              type="button"
+              className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 hover:text-red-700"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <title>Remove Icon</title>
+                <path
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                />
+              </svg>
+            </Button>
             <span className="text-muted-foreground font-mono text-sm font-medium">
               #{index + 1}
             </span>
@@ -438,15 +459,16 @@ function AccountRowData({
         <td className="px-4 py-3 text-right font-mono text-sm">Loading...</td>
         <td className="px-4 py-3">
           <div className="flex items-center justify-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onRemoveAddress(address)}
-              type="button"
-              className="text-red-600 hover:bg-red-50 hover:text-red-700"
-            >
-              Remove
-            </Button>
+            {hasActiveContent && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onToggleExpanded(address)}
+                type="button"
+              >
+                {isExpanded ? "Hide" : "Positions"} ({totalActiveItems})
+              </Button>
+            )}
           </div>
         </td>
       </tr>
@@ -458,6 +480,28 @@ function AccountRowData({
       <tr className="hover:bg-muted/20 border-b transition-colors">
         <td className="px-4 py-3">
           <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onRemoveAddress(address)}
+              type="button"
+              className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 hover:text-red-700"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <title>Remove Icon</title>
+                <path
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                />
+              </svg>
+            </Button>
             <span className="text-muted-foreground font-mono text-sm font-medium">
               #{index + 1}
             </span>
@@ -477,17 +521,7 @@ function AccountRowData({
           Error
         </td>
         <td className="px-4 py-3">
-          <div className="flex items-center justify-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onRemoveAddress(address)}
-              type="button"
-              className="text-red-600 hover:bg-red-50 hover:text-red-700"
-            >
-              Remove
-            </Button>
-          </div>
+          <div className="flex items-center justify-center gap-2"></div>
         </td>
       </tr>
     );
@@ -508,6 +542,28 @@ function AccountRowData({
       <tr className="hover:bg-muted/20 border-b transition-colors">
         <td className="px-4 py-3">
           <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onRemoveAddress(address)}
+              type="button"
+              className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 hover:text-red-700"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <title>Remove Icon</title>
+                <path
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                />
+              </svg>
+            </Button>
             <span className="text-muted-foreground font-mono text-sm font-medium">
               #{index + 1}
             </span>
@@ -538,15 +594,6 @@ function AccountRowData({
                 {isExpanded ? "Hide" : "Positions"} ({totalActiveItems})
               </Button>
             )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onRemoveAddress(address)}
-              type="button"
-              className="text-red-600 hover:bg-red-50 hover:text-red-700"
-            >
-              Remove
-            </Button>
           </div>
         </td>
       </tr>

@@ -5,8 +5,8 @@ import { PositionCard } from "./position-card";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const ADDRESS_PREFIX_LENGTH = 8;
-const ADDRESS_SUFFIX_LENGTH = 8;
+const ADDRESS_PREFIX_LENGTH = 6;
+const ADDRESS_SUFFIX_LENGTH = 4;
 
 type AccountCardProps = {
   account: LighterAccount;
@@ -103,7 +103,7 @@ export function AccountCard({ account, lastUpdated }: AccountCardProps) {
           </div>
         ) : (
           <div className="text-muted-foreground py-8 text-center">
-            <p>No active positions</p>
+            <p>Positions 0</p>
           </div>
         )}
       </CardContent>
