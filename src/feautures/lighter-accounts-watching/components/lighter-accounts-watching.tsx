@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 
 import { AccountCard } from "./account-card";
-import { StatsSummary } from "./stats-summary";
 import { useLighterAccount } from "../hooks/use-lighter-accounts";
 import {
   loadWatchedAddresses,
@@ -255,8 +254,8 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
           totalPositions,
           totalOrders,
         });
-      } catch (error) {
-        console.error('Error fetching account stats:', error);
+      } catch {
+        // Error fetching account stats - silently continue
       }
     };
 
@@ -399,71 +398,6 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
   );
 }
 
-type AccountContainerProps = {
-  address: string;
-};
-
-function AccountContainer({ address }: AccountContainerProps) {
-  const { data, isLoading, error, refetch } = useLighterAccount(address, {
-    refetchInterval: REFRESH_INTERVAL_MS, // Refresh every 30 seconds
-  });
-
-  if (isLoading) {
-    return (
-      <Card>
-        <CardContent className="p-8">
-          <div className="text-muted-foreground text-center">
-            <p>Loading account data...</p>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (error) {
-    return (
-      <Card className="border-destructive/50">
-        <CardContent className="p-8">
-          <div className="space-y-4 text-center">
-            <div>
-              <p className="text-destructive font-medium">
-                Error loading account data
-              </p>
-              <p className="text-muted-foreground text-sm">
-                {(error as Error).message}
-              </p>
-            </div>
-            <Button
-              variant="destructive"
-              onClick={() => refetch()}
-              type="button"
-            >
-              Retry
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (!data?.accounts?.length) {
-    return (
-      <Card>
-        <CardContent className="p-8">
-          <div className="text-muted-foreground space-y-2 text-center">
-            <p>No account found for address</p>
-            <p className="font-mono text-sm">
-              {address.slice(0, ADDRESS_PREFIX_DISPLAY_LENGTH)}...
-              {address.slice(-ADDRESS_SUFFIX_DISPLAY_LENGTH)}
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  return <AccountCard account={data.accounts[0]} lastUpdated={new Date()} />;
-}
 
 // Account Row Data Component for Table
 type AccountRowDataProps = {
