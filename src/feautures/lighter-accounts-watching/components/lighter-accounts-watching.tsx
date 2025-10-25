@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { AccountCard } from "./account-card";
 import { StatsSummary } from "./stats-summary";
@@ -10,6 +10,16 @@ import {
   parseAddressList,
   saveWatchedAddresses,
 } from "../utils/storage";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 
 const REFRESH_INTERVAL_MS = 30_000; // 30 seconds
 const ADDRESS_PREFIX_DISPLAY_LENGTH = 10;
@@ -60,57 +70,71 @@ export function LighterAccountsWatching() {
     );
   };
 
-  const handleClearAll = () => {
-    setWatchedAddresses([]);
-  };
-
   // Show loading state during hydration to prevent mismatch
   if (!isMounted) {
     return (
-      <div className="min-h-screen bg-gray-950 text-white">
-        <div className="mx-auto max-w-7xl p-6">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="mb-2 text-3xl font-bold">
-              Lighter Accounts Watching
-            </h1>
-            <p className="text-gray-400">
-              Monitor Lighter accounts and their positions in real-time
-            </p>
-          </div>
+      <div className="container mx-auto space-y-8 p-6">
+        {/* Header */}
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight">
+            Lighter Accounts Watching
+          </h1>
+          <p className="text-muted-foreground">
+            Monitor Lighter accounts and their positions in real-time
+          </p>
+        </div>
 
-          {/* Loading skeleton */}
-          <div className="animate-pulse">
-            <div className="mb-8 rounded-lg border border-gray-700 bg-gray-900 p-6">
-              <div className="mb-4 h-6 w-32 rounded bg-gray-700"></div>
-              <div className="h-32 w-full rounded-lg bg-gray-800"></div>
-              <div className="mt-4 flex justify-between">
-                <div className="h-4 w-48 rounded bg-gray-700"></div>
-                <div className="h-10 w-32 rounded bg-gray-700"></div>
+        {/* Loading skeleton */}
+        <div className="animate-pulse">
+          <Card>
+            <CardHeader>
+              <div className="bg-muted h-6 w-32 rounded"></div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-muted h-32 w-full rounded"></div>
+              <div className="flex justify-between">
+                <div className="bg-muted h-4 w-48 rounded"></div>
+                <div className="bg-muted h-10 w-32 rounded"></div>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
-      <div className="mx-auto max-w-7xl p-6">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="mb-2 text-3xl font-bold">Lighter Accounts Watching</h1>
-          <p className="text-gray-400">
-            Monitor Lighter accounts and their positions in real-time
-          </p>
-        </div>
+    <div className="container mx-auto space-y-10 px-4 py-8">
+      {/* Header */}
+      <div className="space-y-4">
+        <h1 className="text-4xl font-bold tracking-tight">
+          Lighter Accounts Watching
+        </h1>
+        <p className="text-muted-foreground max-w-3xl text-lg">
+          Monitor Lighter accounts and their positions in real-time
+        </p>
+      </div>
 
-        {/* Add Address Form */}
-        <div className="mb-8 rounded-lg border border-gray-700 bg-gray-900 p-6">
-          <h2 className="mb-4 text-xl font-semibold">Add Account Addresses</h2>
-          <textarea
-            className="h-32 w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 font-mono text-sm text-white placeholder-gray-500 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
+      {/* Balance Summary Table */}
+      {watchedAddresses.length > 0 && (
+        <BalanceSummary
+          addresses={watchedAddresses}
+          onRemoveAddress={handleRemoveAddress}
+        />
+      )}
+
+      {/* Add Address Form */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Add Account Addresses</CardTitle>
+          <CardDescription>
+            Paste Lighter L1 addresses to start monitoring their accounts and
+            positions
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <Textarea
+            className="min-h-32 font-mono"
             onChange={(e) => setAddressInput(e.target.value)}
             placeholder={`Paste addresses here. Supports multiple formats:
 SM1 0x042ffe02F6565dAD4c359D335765356B705aB50A
@@ -119,14 +143,14 @@ SM2 0x6446E6FF8564b700059D80F921BEc949235cFc38
 SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d # This is a comment`}
             value={addressInput}
           />
-          <div className="mt-4 flex items-center justify-between">
-            <div className="text-sm text-gray-400">
+          <div className="flex items-center justify-between pt-2">
+            <div className="text-muted-foreground text-sm">
               {parsedAddresses.length > 0 ? (
                 <span>
                   Found {parsedAddresses.length} valid address
                   {parsedAddresses.length !== 1 ? "es" : ""}
                   {newAddressesCount > 0 && (
-                    <span className="text-green-400">
+                    <span className="text-green-600">
                       {" "}
                       ({newAddressesCount} new)
                     </span>
@@ -136,113 +160,242 @@ SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d # This is a comment`}
                 <span>Paste addresses using format above</span>
               )}
             </div>
-            <button
-              className="rounded-lg bg-blue-600 px-6 py-2 font-medium transition-colors hover:bg-blue-700 disabled:bg-gray-700 disabled:text-gray-500"
+            <Button
               disabled={parsedAddresses.length === 0}
               onClick={handleAddMultipleAddresses}
               type="button"
+              size="lg"
             >
               Add {newAddressesCount > 0 ? `${newAddressesCount} ` : ""}Address
               {newAddressesCount !== 1 ? "es" : ""}
-            </button>
+            </Button>
           </div>
-        </div>
+        </CardContent>
+      </Card>
 
-        {/* Watched Addresses */}
-        {watchedAddresses.length > 0 && (
-          <div className="mb-8">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold">
-                Watching {watchedAddresses.length} Account
-                {watchedAddresses.length !== 1 ? "s" : ""}
-              </h2>
-              <button
-                className="text-sm font-medium text-red-400 transition-colors hover:text-red-300"
-                onClick={handleClearAll}
-                type="button"
-              >
-                Clear All
-              </button>
-            </div>
-            <div className="grid max-h-64 gap-3 overflow-y-auto">
-              {watchedAddresses.map((address, index) => (
-                <div
-                  className="flex items-center justify-between rounded-lg border border-gray-700 bg-gray-800 px-4 py-3"
-                  key={address}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-sm text-gray-500">
-                      #{index + 1}
-                    </span>
-                    <span className="font-mono text-gray-300">
-                      {address.slice(0, ADDRESS_PREFIX_DISPLAY_LENGTH)}...
-                      {address.slice(-ADDRESS_SUFFIX_DISPLAY_LENGTH)}
-                    </span>
-                  </div>
-                  <button
-                    className="text-sm font-medium text-red-400 transition-colors hover:text-red-300"
-                    onClick={() => handleRemoveAddress(address)}
-                    type="button"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+      {/* Stats Summary */}
+      {watchedAddresses.length > 0 && (
+        <RealtimeStatsSummary watchedAddresses={watchedAddresses} />
+      )}
 
-        {/* Stats Summary */}
-        {watchedAddresses.length > 0 && (
-          <SimpleStatsSummary watchedAddresses={watchedAddresses} />
-        )}
-
-        {/* Account Cards */}
-        <div className="space-y-6">
-          {watchedAddresses.map((address) => (
-            <AccountContainer address={address} key={address} />
-          ))}
-        </div>
-
-        {/* Empty State */}
-        {watchedAddresses.length === 0 && (
-          <div className="py-16 text-center">
-            <h3 className="mb-2 text-xl font-medium text-gray-400">
-              No accounts being watched
-            </h3>
-            <p className="mb-6 text-gray-500">
-              Paste Lighter L1 addresses above to start monitoring
-            </p>
-            <div className="mx-auto max-w-md text-left">
-              <h4 className="mb-2 text-sm font-medium text-gray-300">
-                Example format:
-              </h4>
-              <pre className="overflow-x-auto rounded-lg border border-gray-800 bg-gray-900 p-3 text-xs text-gray-400">
-                {`SM1 0x042ffe02F6565dAD4c359D335765356B705aB50A
+      {/* Empty State */}
+      {watchedAddresses.length === 0 && (
+        <Card>
+          <CardContent className="py-16">
+            <div className="space-y-4 text-center">
+              <h3 className="text-muted-foreground text-xl font-medium">
+                No accounts being watched
+              </h3>
+              <p className="text-muted-foreground">
+                Paste Lighter L1 addresses above to start monitoring
+              </p>
+              <div className="mx-auto max-w-md text-left">
+                <h4 className="mb-2 text-sm font-medium">Example format:</h4>
+                <pre className="bg-muted text-muted-foreground overflow-x-auto rounded-lg border p-3 text-xs">
+                  {`SM1 0x042ffe02F6565dAD4c359D335765356B705aB50A
 SM2 0x6446E6FF8564b700059D80F921BEc949235cFc38
 SM3 0xCCc054C3FF50C3F132bD4dE74C2F7291ae88e0F9
 SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d`}
-              </pre>
+                </pre>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
 
-// Simple stats component without hooks violation
-type SimpleStatsSummaryProps = {
+// Real-time stats component that aggregates data from all accounts
+type RealtimeStatsSummaryProps = {
   watchedAddresses: string[];
 };
 
-function SimpleStatsSummary({ watchedAddresses }: SimpleStatsSummaryProps) {
+function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
+  const [totalStats, setTotalStats] = useState({
+    totalCollateral: 0,
+    totalPositions: 0,
+    totalOrders: 0,
+  });
+
+  // Fetch data for all addresses and calculate totals
+  useEffect(() => {
+    if (watchedAddresses.length === 0) return;
+
+    const fetchAllAccountData = async () => {
+      try {
+        // We'll use the service directly for batch fetching
+        const { fetchLighterAccount } = await import("../services/lighter");
+
+        const results = await Promise.allSettled(
+          watchedAddresses.map(address => fetchLighterAccount(address))
+        );
+
+        let totalCollateral = 0;
+        let totalPositions = 0;
+        let totalOrders = 0;
+
+        results.forEach((result) => {
+          if (result.status === 'fulfilled' && result.value?.accounts?.length) {
+            const account = result.value.accounts[0];
+            totalCollateral += Number.parseFloat(account.collateral || 0);
+
+            const activePositions = account.positions.filter(
+              (position) =>
+                Number.parseFloat(position.position) !== 0 ||
+                Number.parseFloat(position.unrealized_pnl) !== 0,
+            );
+            totalPositions += activePositions.length;
+            totalOrders += account.pending_order_count || 0;
+          }
+        });
+
+        setTotalStats({
+          totalCollateral,
+          totalPositions,
+          totalOrders,
+        });
+      } catch (error) {
+        console.error('Error fetching account stats:', error);
+      }
+    };
+
+    fetchAllAccountData();
+    const interval = setInterval(fetchAllAccountData, 30000); // Update every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [watchedAddresses]);
+
+  const totalActiveItems = totalStats.totalPositions + totalStats.totalOrders;
+
   return (
-    <StatsSummary
-      addresses={watchedAddresses}
-      totalCollateral={0}
-      totalPositions={0}
-    />
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            Watched Accounts
+          </CardTitle>
+          <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900/30">
+            <svg
+              className="h-4 w-4 text-blue-600 dark:text-blue-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <title>User Icon</title>
+              <path
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+              />
+            </svg>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{watchedAddresses.length}</div>
+          <p className="text-muted-foreground text-xs">
+            Accounts being monitored
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            Total Collateral
+          </CardTitle>
+          <div className="rounded-lg bg-green-100 p-2 dark:bg-green-900/30">
+            <svg
+              className="h-4 w-4 text-green-600 dark:text-green-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <title>Dollar Icon</title>
+              <path
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+              />
+            </svg>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold text-green-600">
+            ${totalStats.totalCollateral.toLocaleString()}
+          </div>
+          <p className="text-muted-foreground text-xs">
+            Total collateral across all accounts
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            Active Positions
+          </CardTitle>
+          <div className="rounded-lg bg-purple-100 p-2 dark:bg-purple-900/30">
+            <svg
+              className="h-4 w-4 text-purple-600 dark:text-purple-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <title>Chart Icon</title>
+              <path
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+              />
+            </svg>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold text-blue-600">
+            {totalStats.totalPositions}
+          </div>
+          <p className="text-muted-foreground text-xs">
+            Active positions ({totalStats.totalOrders} orders)
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            Total Active Items
+          </CardTitle>
+          <div className="rounded-lg bg-orange-100 p-2 dark:bg-orange-900/30">
+            <svg
+              className="h-4 w-4 text-orange-600 dark:text-orange-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <title>Activity Icon</title>
+              <path
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+              />
+            </svg>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold text-orange-600">
+            {totalActiveItems}
+          </div>
+          <p className="text-muted-foreground text-xs">
+            Total positions + orders
+          </p>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 
@@ -257,47 +410,306 @@ function AccountContainer({ address }: AccountContainerProps) {
 
   if (isLoading) {
     return (
-      <div className="rounded-xl border border-gray-700 bg-gray-900 p-8">
-        <div className="text-center text-gray-400">
-          <p>Loading account data...</p>
-        </div>
-      </div>
+      <Card>
+        <CardContent className="p-8">
+          <div className="text-muted-foreground text-center">
+            <p>Loading account data...</p>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   if (error) {
     return (
-      <div className="rounded-xl border border-red-700 bg-gray-900 p-8">
-        <div className="text-center">
-          <p className="mb-2 text-red-400">Error loading account data</p>
-          <p className="mb-4 text-sm text-gray-400">
-            {(error as Error).message}
-          </p>
-          <button
-            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium transition-colors hover:bg-red-700"
-            onClick={() => refetch()}
-            type="button"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
+      <Card className="border-destructive/50">
+        <CardContent className="p-8">
+          <div className="space-y-4 text-center">
+            <div>
+              <p className="text-destructive font-medium">
+                Error loading account data
+              </p>
+              <p className="text-muted-foreground text-sm">
+                {(error as Error).message}
+              </p>
+            </div>
+            <Button
+              variant="destructive"
+              onClick={() => refetch()}
+              type="button"
+            >
+              Retry
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   if (!data?.accounts?.length) {
     return (
-      <div className="rounded-xl border border-gray-700 bg-gray-900 p-8">
-        <div className="text-center text-gray-400">
-          <p>No account found for address</p>
-          <p className="mt-2 font-mono text-sm text-gray-500">
-            {address.slice(0, ADDRESS_PREFIX_DISPLAY_LENGTH)}...
-            {address.slice(-ADDRESS_SUFFIX_DISPLAY_LENGTH)}
-          </p>
-        </div>
-      </div>
+      <Card>
+        <CardContent className="p-8">
+          <div className="text-muted-foreground space-y-2 text-center">
+            <p>No account found for address</p>
+            <p className="font-mono text-sm">
+              {address.slice(0, ADDRESS_PREFIX_DISPLAY_LENGTH)}...
+              {address.slice(-ADDRESS_SUFFIX_DISPLAY_LENGTH)}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return <AccountCard account={data.accounts[0]} lastUpdated={new Date()} />;
+}
+
+// Account Row Data Component for Table
+type AccountRowDataProps = {
+  address: string;
+  index: number;
+  isExpanded: boolean;
+  onToggleExpanded: (address: string) => void;
+  onRemoveAddress: (address: string) => void;
+};
+
+function AccountRowData({
+  address,
+  index,
+  isExpanded,
+  onToggleExpanded,
+  onRemoveAddress,
+}: AccountRowDataProps) {
+  const { data, isLoading, error } = useLighterAccount(address, {
+    refetchInterval: REFRESH_INTERVAL_MS,
+  });
+
+  if (isLoading) {
+    return (
+      <tr className="hover:bg-muted/20 border-b transition-colors">
+        <td className="px-4 py-3">
+          <div className="flex items-center gap-3">
+            <span className="text-muted-foreground font-mono text-sm font-medium">
+              #{index + 1}
+            </span>
+            <span className="font-mono text-sm">
+              {address.slice(0, ADDRESS_PREFIX_DISPLAY_LENGTH)}...
+              {address.slice(-ADDRESS_SUFFIX_DISPLAY_LENGTH)}
+            </span>
+          </div>
+        </td>
+        <td className="px-4 py-3 text-right font-mono text-sm">Loading...</td>
+        <td className="px-4 py-3 text-right font-mono text-sm">Loading...</td>
+        <td className="px-4 py-3 text-right font-mono text-sm">Loading...</td>
+        <td className="px-4 py-3">
+          <div className="flex items-center justify-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onRemoveAddress(address)}
+              type="button"
+              className="text-red-600 hover:bg-red-50 hover:text-red-700"
+            >
+              Remove
+            </Button>
+          </div>
+        </td>
+      </tr>
+    );
+  }
+
+  if (error || !data?.accounts?.length) {
+    return (
+      <tr className="hover:bg-muted/20 border-b transition-colors">
+        <td className="px-4 py-3">
+          <div className="flex items-center gap-3">
+            <span className="text-muted-foreground font-mono text-sm font-medium">
+              #{index + 1}
+            </span>
+            <span className="font-mono text-sm">
+              {address.slice(0, ADDRESS_PREFIX_DISPLAY_LENGTH)}...
+              {address.slice(-ADDRESS_SUFFIX_DISPLAY_LENGTH)}
+            </span>
+          </div>
+        </td>
+        <td className="px-4 py-3 text-right font-mono text-sm text-red-600">
+          Error
+        </td>
+        <td className="px-4 py-3 text-right font-mono text-sm text-red-600">
+          Error
+        </td>
+        <td className="px-4 py-3 text-right font-mono text-sm text-red-600">
+          Error
+        </td>
+        <td className="px-4 py-3">
+          <div className="flex items-center justify-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onRemoveAddress(address)}
+              type="button"
+              className="text-red-600 hover:bg-red-50 hover:text-red-700"
+            >
+              Remove
+            </Button>
+          </div>
+        </td>
+      </tr>
+    );
+  }
+
+  const account = data.accounts[0];
+  const activePositions = account.positions.filter(
+    (position) =>
+      Number.parseFloat(position.position) !== 0 ||
+      Number.parseFloat(position.unrealized_pnl) !== 0,
+  );
+  const hasActiveContent =
+    activePositions.length > 0 || account.pending_order_count > 0;
+  const totalActiveItems = activePositions.length + account.pending_order_count;
+
+  return (
+    <React.Fragment key={address}>
+      <tr className="hover:bg-muted/20 border-b transition-colors">
+        <td className="px-4 py-3">
+          <div className="flex items-center gap-3">
+            <span className="text-muted-foreground font-mono text-sm font-medium">
+              #{index + 1}
+            </span>
+            <span className="font-mono text-sm">
+              {address.slice(0, ADDRESS_PREFIX_DISPLAY_LENGTH)}...
+              {address.slice(-ADDRESS_SUFFIX_DISPLAY_LENGTH)}
+            </span>
+          </div>
+        </td>
+        <td className="px-4 py-3 text-right font-mono text-sm">
+          ${Number.parseFloat(account.collateral || 0).toLocaleString()}
+        </td>
+        <td className="px-4 py-3 text-right font-mono text-sm text-green-600">
+          ${Number.parseFloat(account.available_balance || 0).toLocaleString()}
+        </td>
+        <td className="px-4 py-3 text-right font-mono text-sm">
+          ${Number.parseFloat(account.total_asset_value || 0).toLocaleString()}
+        </td>
+        <td className="px-4 py-3">
+          <div className="flex items-center justify-center gap-2">
+            {hasActiveContent && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onToggleExpanded(address)}
+                type="button"
+              >
+                {isExpanded ? "Hide" : "Positions"} ({totalActiveItems})
+              </Button>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onRemoveAddress(address)}
+              type="button"
+              className="text-red-600 hover:bg-red-50 hover:text-red-700"
+            >
+              Remove
+            </Button>
+          </div>
+        </td>
+      </tr>
+
+      {/* Expandable row for positions - only show if there are active positions or orders */}
+      {isExpanded && hasActiveContent && (
+        <tr className="bg-muted/10">
+          <td colSpan={5} className="px-4 py-4">
+            <div className="space-y-4">
+              <h4 className="text-muted-foreground text-sm font-medium">
+                Account Details & Positions
+              </h4>
+              <div className="bg-muted/20 rounded-lg p-4">
+                <AccountCard account={account} lastUpdated={new Date()} />
+              </div>
+            </div>
+          </td>
+        </tr>
+      )}
+    </React.Fragment>
+  );
+}
+
+// Balance Summary Table Component
+type BalanceSummaryProps = {
+  addresses: string[];
+  onRemoveAddress: (address: string) => void;
+};
+
+function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+
+  const toggleExpanded = (address: string) => {
+    const newExpanded = new Set(expandedRows);
+    if (newExpanded.has(address)) {
+      newExpanded.delete(address);
+    } else {
+      newExpanded.add(address);
+    }
+    setExpandedRows(newExpanded);
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
+          <span>Balance Overview</span>
+          <span className="text-muted-foreground text-sm font-normal">
+            {addresses.length} account{addresses.length !== 1 ? "s" : ""}
+          </span>
+        </CardTitle>
+        <CardDescription>
+          Summary of all monitored accounts and their balances
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="rounded-lg border">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-muted/30 border-b">
+                  <th className="px-4 py-3 text-left text-sm font-medium">
+                    Account
+                  </th>
+                  <th className="px-4 py-3 text-right text-sm font-medium">
+                    Collateral
+                  </th>
+                  <th className="px-4 py-3 text-right text-sm font-medium">
+                    Available
+                  </th>
+                  <th className="px-4 py-3 text-right text-sm font-medium">
+                    Asset Value
+                  </th>
+                  <th className="px-4 py-3 text-center text-sm font-medium">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {addresses.map((address, index) => {
+                  const isExpanded = expandedRows.has(address);
+                  return (
+                    <AccountRowData
+                      key={address}
+                      address={address}
+                      index={index}
+                      isExpanded={isExpanded}
+                      onToggleExpanded={toggleExpanded}
+                      onRemoveAddress={onRemoveAddress}
+                    />
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
 }

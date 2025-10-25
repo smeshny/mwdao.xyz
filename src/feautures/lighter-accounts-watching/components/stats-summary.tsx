@@ -1,5 +1,7 @@
 "use client";
 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 type StatsSummaryProps = {
   addresses: string[];
   totalCollateral?: number;
@@ -12,16 +14,15 @@ export function StatsSummary({
   totalPositions = 0,
 }: StatsSummaryProps) {
   return (
-    <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-      <div className="rounded-lg border border-gray-700 bg-gray-900 p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-gray-400">Watched Accounts</p>
-            <p className="text-2xl font-bold text-white">{addresses.length}</p>
-          </div>
-          <div className="rounded-lg bg-blue-600/20 p-3">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            Watched Accounts
+          </CardTitle>
+          <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900/30">
             <svg
-              className="h-6 w-6 text-blue-400"
+              className="h-4 w-4 text-blue-600 dark:text-blue-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -35,20 +36,23 @@ export function StatsSummary({
               />
             </svg>
           </div>
-        </div>
-      </div>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{addresses.length}</div>
+          <p className="text-muted-foreground text-xs">
+            Accounts being monitored
+          </p>
+        </CardContent>
+      </Card>
 
-      <div className="rounded-lg border border-gray-700 bg-gray-900 p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-gray-400">Total Collateral</p>
-            <p className="text-2xl font-bold text-green-400">
-              ${totalCollateral.toLocaleString()}
-            </p>
-          </div>
-          <div className="rounded-lg bg-green-600/20 p-3">
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            Total Collateral
+          </CardTitle>
+          <div className="rounded-lg bg-green-100 p-2 dark:bg-green-900/30">
             <svg
-              className="h-6 w-6 text-green-400"
+              className="h-4 w-4 text-green-600 dark:text-green-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -62,18 +66,25 @@ export function StatsSummary({
               />
             </svg>
           </div>
-        </div>
-      </div>
-
-      <div className="rounded-lg border border-gray-700 bg-gray-900 p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-gray-400">Active Positions</p>
-            <p className="text-2xl font-bold text-blue-400">{totalPositions}</p>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold text-green-600">
+            ${totalCollateral.toLocaleString()}
           </div>
-          <div className="rounded-lg bg-purple-600/20 p-3">
+          <p className="text-muted-foreground text-xs">
+            Total collateral across all accounts
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            Active Positions
+          </CardTitle>
+          <div className="rounded-lg bg-purple-100 p-2 dark:bg-purple-900/30">
             <svg
-              className="h-6 w-6 text-purple-400"
+              className="h-4 w-4 text-purple-600 dark:text-purple-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -87,8 +98,16 @@ export function StatsSummary({
               />
             </svg>
           </div>
-        </div>
-      </div>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold text-blue-600">
+            {totalPositions}
+          </div>
+          <p className="text-muted-foreground text-xs">
+            Total active positions
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }
