@@ -88,10 +88,12 @@ export function LighterAccountsWatching() {
     setWatchedAddresses(saved);
   }, [isMounted]);
 
-  // Save to localStorage whenever watched addresses change
+  // Save to localStorage whenever watched addresses change, but not on initial empty load
   useEffect(() => {
-    saveWatchedAddresses(watchedAddresses);
-  }, [watchedAddresses]);
+    if (isMounted) {
+      saveWatchedAddresses(watchedAddresses);
+    }
+  }, [watchedAddresses, isMounted]);
 
   const handleAddMultipleAddresses = () => {
     const parsedAddresses = parseAddressList(addressInput);
@@ -264,19 +266,20 @@ function RealtimeStatsSummary({ watchedAddresses }: RealtimeStatsSummaryProps) {
     totalOrders: 0,
     totalAssetValue: 0,
   });
-  const [initialBalance, setInitialBalance] = useState<string>("10000");
 
-  // Load initial balance from localStorage on mount
-  useEffect(() => {
+  // Initialize with value from localStorage or default to "10000"
+  const getInitialBalance = () => {
     const saved = localStorageUtils.getItem(STORAGE_KEYS.INITIAL_BALANCE);
     if (saved) {
-      // Validate that saved value is a valid number
       const numValue = Number.parseFloat(saved);
       if (!isNaN(numValue) && numValue >= 0) {
-        setInitialBalance(saved);
+        return saved;
       }
     }
-  }, []);
+    return "10000";
+  };
+
+  const [initialBalance, setInitialBalance] = useState<string>(getInitialBalance);
 
   // Save initial balance to localStorage whenever it changes
   useEffect(() => {
