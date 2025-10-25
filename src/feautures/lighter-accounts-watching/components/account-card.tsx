@@ -3,8 +3,6 @@
 import type { LighterAccount } from "../types";
 import { PositionCard } from "./position-card";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 const ADDRESS_PREFIX_LENGTH = 6;
 const ADDRESS_SUFFIX_LENGTH = 4;
 
@@ -24,11 +22,13 @@ export function AccountCard({ account, lastUpdated }: AccountCardProps) {
   return (
     <div className="space-y-4">
       {/* Account Header - More Compact */}
-      <div className="flex items-center justify-between rounded-lg border bg-muted/20 p-4">
+      <div className="bg-muted/20 flex items-center justify-between rounded-lg border p-4">
         <div className="flex items-center gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold">Account #{account.account_index}</h3>
+              <h3 className="font-semibold">
+                Account #{account.account_index}
+              </h3>
               <span
                 className={`rounded-full px-2 py-1 text-xs font-medium ${
                   isActive
@@ -57,27 +57,41 @@ export function AccountCard({ account, lastUpdated }: AccountCardProps) {
 
       {/* Account Stats - Compact Grid */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div className="rounded-lg border bg-card p-3 text-center">
-          <p className="text-muted-foreground mb-1 text-xs font-medium">Collateral</p>
-          <p className="font-semibold text-sm">
+        <div className="bg-card rounded-lg border p-3 text-center">
+          <p className="text-muted-foreground mb-1 text-xs font-medium">
+            Collateral
+          </p>
+          <p className="text-sm font-semibold">
             ${Number.parseFloat(account.collateral || "0").toLocaleString()}
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-3 text-center">
-          <p className="text-muted-foreground mb-1 text-xs font-medium">Available</p>
-          <p className="font-semibold text-green-600 text-sm">
-            ${Number.parseFloat(account.available_balance || "0").toLocaleString()}
+        <div className="bg-card rounded-lg border p-3 text-center">
+          <p className="text-muted-foreground mb-1 text-xs font-medium">
+            Available
+          </p>
+          <p className="text-sm font-semibold text-green-600">
+            $
+            {Number.parseFloat(
+              account.available_balance || "0",
+            ).toLocaleString()}
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-3 text-center">
-          <p className="text-muted-foreground mb-1 text-xs font-medium">Asset Value</p>
-          <p className="font-semibold text-sm">
-            ${Number.parseFloat(account.total_asset_value || "0").toLocaleString()}
+        <div className="bg-card rounded-lg border p-3 text-center">
+          <p className="text-muted-foreground mb-1 text-xs font-medium">
+            Asset Value
+          </p>
+          <p className="text-sm font-semibold">
+            $
+            {Number.parseFloat(
+              account.total_asset_value || "0",
+            ).toLocaleString()}
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-3 text-center">
-          <p className="text-muted-foreground mb-1 text-xs font-medium">Orders</p>
-          <p className="font-semibold text-blue-600 text-sm">
+        <div className="bg-card rounded-lg border p-3 text-center">
+          <p className="text-muted-foreground mb-1 text-xs font-medium">
+            Orders
+          </p>
+          <p className="text-sm font-semibold text-blue-600">
             {account.pending_order_count}
           </p>
         </div>
@@ -87,7 +101,7 @@ export function AccountCard({ account, lastUpdated }: AccountCardProps) {
       <div className="space-y-3">
         <div className="flex items-center gap-2">
           <h4 className="font-medium">Positions</h4>
-          <span className="text-muted-foreground rounded-full bg-muted px-2 py-1 text-xs">
+          <span className="text-muted-foreground bg-muted rounded-full px-2 py-1 text-xs">
             {activePositions.length}
           </span>
         </div>
@@ -95,13 +109,16 @@ export function AccountCard({ account, lastUpdated }: AccountCardProps) {
         {activePositions.length > 0 ? (
           <div className="space-y-2">
             {activePositions.map((position) => (
-              <div key={position.market_id} className="rounded-lg border bg-card/50 p-3">
+              <div
+                key={position.market_id}
+                className="bg-card/50 rounded-lg border p-3"
+              >
                 <PositionCard position={position} compact={true} />
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-muted-foreground rounded-lg border border-dashed bg-muted/10 py-6 text-center">
+          <div className="text-muted-foreground bg-muted/10 rounded-lg border border-dashed py-6 text-center">
             <p className="text-sm">No active positions</p>
           </div>
         )}

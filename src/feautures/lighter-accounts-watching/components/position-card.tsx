@@ -30,7 +30,7 @@ export function PositionCard({ position, compact = false }: PositionCardProps) {
     return (
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="font-medium text-sm">{position.symbol}</span>
+          <span className="text-sm font-medium">{position.symbol}</span>
           {hasPosition && (
             <span
               className={`rounded px-1.5 py-0.5 text-xs font-medium ${positionTypeColor} bg-muted/50`}
@@ -44,10 +44,16 @@ export function PositionCard({ position, compact = false }: PositionCardProps) {
           {hasPosition && (
             <>
               <span className="text-muted-foreground">
-                Size: <span className="font-mono font-medium">{position.position}</span>
+                Size:{" "}
+                <span className="font-mono font-medium">
+                  {position.position}
+                </span>
               </span>
               <span className="text-muted-foreground">
-                Value: <span className="font-mono font-medium">${Number.parseFloat(position.position_value).toLocaleString()}</span>
+                Value:{" "}
+                <span className="font-mono font-medium">
+                  ${Number.parseFloat(position.position_value).toLocaleString()}
+                </span>
               </span>
             </>
           )}
@@ -55,8 +61,9 @@ export function PositionCard({ position, compact = false }: PositionCardProps) {
             PnL: ${Number.parseFloat(position.unrealized_pnl).toLocaleString()}
           </span>
           {Number.parseFloat(position.liquidation_price) > 0 && (
-            <span className="text-yellow-600 font-mono font-medium">
-              Liq: ${Number.parseFloat(position.liquidation_price).toLocaleString()}
+            <span className="font-mono font-medium text-yellow-600">
+              Liq: $
+              {Number.parseFloat(position.liquidation_price).toLocaleString()}
             </span>
           )}
         </div>

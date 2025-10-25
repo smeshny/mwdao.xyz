@@ -405,7 +405,7 @@ type AccountRowDataProps = {
   isExpanded: boolean;
   onToggleExpanded: (address: string) => void;
   onRemoveAddress: (address: string) => void;
-  refreshKey: number;
+  registerRefetch: (address: string, refetch: () => void) => void;
 };
 
 function AccountRowData({
@@ -414,17 +414,16 @@ function AccountRowData({
   isExpanded,
   onToggleExpanded,
   onRemoveAddress,
-  refreshKey,
+  registerRefetch,
 }: AccountRowDataProps) {
-  const { data, isLoading, error } = useLighterAccount(address, {
+  const { data, isLoading, error, refetch } = useLighterAccount(address, {
     refetchInterval: REFRESH_INTERVAL_MS,
   });
 
-  // Force refresh when refreshKey changes
+  // Register the refetch function with parent
   React.useEffect(() => {
-    // The component will automatically re-fetch when refreshKey changes
-    // because useLighterAccount will be called again with the same address
-  }, [refreshKey]);
+    registerRefetch(address, refetch);
+  }, [address, refetch, registerRefetch]);
 
   if (isLoading) {
     return (
@@ -584,10 +583,12 @@ function AccountRowData({
           ${Number.parseFloat(account.collateral || "0").toLocaleString()}
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm text-green-600">
-          ${Number.parseFloat(account.available_balance || "0").toLocaleString()}
+          $
+          {Number.parseFloat(account.available_balance || "0").toLocaleString()}
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm">
-          ${Number.parseFloat(account.total_asset_value || "0").toLocaleString()}
+          $
+          {Number.parseFloat(account.total_asset_value || "0").toLocaleString()}
         </td>
         <td className="px-4 py-3">
           <div className="flex items-center justify-center gap-2">
@@ -614,7 +615,10 @@ function AccountRowData({
                 <h4 className="font-medium">Account Details</h4>
                 <span className="text-muted-foreground">•</span>
                 <span className="text-muted-foreground text-sm">
-                  {activePositions.length} position{activePositions.length !== 1 ? "s" : ""}, {account.pending_order_count} order{account.pending_order_count !== 1 ? "s" : ""}
+                  {activePositions.length} position
+                  {activePositions.length !== 1 ? "s" : ""},{" "}
+                  {account.pending_order_count} order
+                  {account.pending_order_count !== 1 ? "s" : ""}
                 </span>
               </div>
               <div className="bg-background rounded-lg border p-6">
@@ -637,7 +641,12 @@ type BalanceSummaryProps = {
 function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Store refetch functions for all accounts
+  const [refetchFunctions, setRefetchFunctions] = useState<
+    Map<string, () => void>
+  >(new Map());
 
   const toggleExpanded = (address: string) => {
     const newExpanded = new Set(expandedRows);
@@ -649,9 +658,21 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
     setExpandedRows(newExpanded);
   };
 
-  const handleManualRefresh = () => {
+  const handleManualRefresh = async () => {
+    setIsRefreshing(true);
     setLastUpdated(new Date());
-    setRefreshKey(prev => prev + 1);
+
+    // Call all stored refetch functions
+    const promises = Array.from(refetchFunctions.values()).map((refetch) =>
+      refetch(),
+    );
+    try {
+      await Promise.allSettled(promises);
+    } catch {
+      // Ignore individual fetch errors during refresh
+    } finally {
+      setIsRefreshing(false);
+    }
   };
 
   const formatLastUpdated = (date: Date) => {
@@ -666,6 +687,11 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
     return `${diffHours}h ago`;
   };
 
+  // Register refetch function from AccountRowData
+  const registerRefetch = (address: string, refetch: () => void) => {
+    setRefetchFunctions((prev) => new Map(prev).set(address, refetch));
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -677,10 +703,10 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
                 {addresses.length} account{addresses.length !== 1 ? "s" : ""}
               </span>
             </CardTitle>
-            <CardDescription className="flex items-center gap-2 mt-1">
+            <CardDescription className="mt-1 flex items-center gap-2">
               <span>Summary of all monitored accounts and their balances</span>
-              <span className="text-xs text-muted-foreground">•</span>
-              <span className="text-xs text-muted-foreground">
+              <span className="text-muted-foreground text-xs">•</span>
+              <span className="text-muted-foreground text-xs">
                 Last updated: {formatLastUpdated(lastUpdated)}
               </span>
             </CardDescription>
@@ -689,10 +715,11 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
             variant="outline"
             size="sm"
             onClick={handleManualRefresh}
+            disabled={isRefreshing}
             className="flex items-center gap-2"
           >
             <svg
-              className="h-4 w-4"
+              className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -705,7 +732,7 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
                 strokeWidth={2}
               />
             </svg>
-            Refresh
+            {isRefreshing ? "Refreshing..." : "Refresh"}
           </Button>
         </div>
       </CardHeader>
@@ -743,7 +770,7 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
                       isExpanded={isExpanded}
                       onToggleExpanded={toggleExpanded}
                       onRemoveAddress={onRemoveAddress}
-                      refreshKey={refreshKey}
+                      registerRefetch={registerRefetch}
                     />
                   );
                 })}
