@@ -1,21 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import type { WalletGroup } from "../types";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type GroupTabsProps = {
   groups: WalletGroup[];
   activeGroup: string;
-  onGroupChange: (groupName: string | null) => void;
+  onGroupChange: (groupName: string) => void;
   onEditGroup?: (group: WalletGroup) => void;
   onDeleteGroup?: (groupId: string) => void;
 };
 
-export function GroupTabs({
+export function GroupTabsWithShadcn({
   groups,
   activeGroup,
   onGroupChange,
@@ -23,7 +23,7 @@ export function GroupTabs({
   onDeleteGroup,
 }: GroupTabsProps) {
   // Show first group by default if no active group
-  React.useEffect(() => {
+  useEffect(() => {
     if (!activeGroup && groups.length > 0) {
       onGroupChange(groups[0].name);
     }
@@ -42,36 +42,33 @@ export function GroupTabs({
 
   return (
     <div className="space-y-4">
-      {/* Tab Navigation */}
-      <div className="flex flex-wrap gap-2 border-b">
-        {groups.map((group) => {
-          const isActive = activeGroup === group.name;
+      {/* Tab Navigation and Group Actions */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Tabs value={activeGroup} onValueChange={onGroupChange}>
+            <TabsList className="bg-transparent p-0">
+              {groups.map((group) => (
+                <TabsTrigger
+                  key={group.id}
+                  value={group.name}
+                  className="data-[state=active]:bg-background text-sm data-[state=active]:shadow-sm"
+                >
+                  {group.name}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
 
-          return (
-            <Button
-              key={group.id}
-              variant={isActive ? "default" : "ghost"}
-              onClick={() => onGroupChange(group.name)}
-              className={cn(
-                "rounded-t-lg rounded-b-none border-b-2 transition-colors",
-                isActive
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "hover:border-muted-foreground/30 border-transparent",
-              )}
-            >
-              {group.name}
-            </Button>
-          );
-        })}
-      </div>
+          {activeGroup && (
+            <div className="text-muted-foreground text-sm">
+              Showing wallets for group:{" "}
+              <span className="font-medium">{activeGroup}</span>
+            </div>
+          )}
+        </div>
 
-      {/* Group Actions */}
-      {activeGroup && onEditGroup && onDeleteGroup && (
-        <div className="flex items-center justify-between">
-          <div className="text-muted-foreground text-sm">
-            Showing wallets for group:{" "}
-            <span className="font-medium">{activeGroup}</span>
-          </div>
+        {/* Group Actions */}
+        {activeGroup && onEditGroup && onDeleteGroup && (
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -95,8 +92,8 @@ export function GroupTabs({
               Delete Group
             </Button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

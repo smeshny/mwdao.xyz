@@ -26,7 +26,7 @@ type EditGroupDialogProps = {
   ) => void;
 };
 
-export function EditGroupDialog({
+export function EditGroupDialogShadcn({
   group,
   isOpen,
   onClose,

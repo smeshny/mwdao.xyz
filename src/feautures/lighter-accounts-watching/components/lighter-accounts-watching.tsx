@@ -5,8 +5,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { AccountCard } from "./account-card";
 import { AddWalletsForm } from "./add-wallets-form";
 import { CreateGroupForm } from "./create-group-form";
-import { EditGroupDialog } from "./edit-group-dialog";
-import { GroupTabs } from "./group-tabs";
+import { EditGroupDialogShadcn } from "./edit-group-dialog-shadcn";
+import { GroupTabsWithShadcn } from "./group-tabs-shadcn";
 import { useLighterAccount } from "../hooks/use-lighter-accounts";
 import type { WatchedAccount, WalletGroup } from "../types";
 import {
@@ -216,10 +216,10 @@ export function LighterAccountsWatching() {
       </div>
 
       {/* Group Tabs */}
-      <GroupTabs
+      <GroupTabsWithShadcn
         groups={walletGroups}
         activeGroup={activeGroup}
-        onGroupChange={(groupName) => setActiveGroup(groupName || "")}
+        onGroupChange={setActiveGroup}
         onEditGroup={handleEditGroup}
         onDeleteGroup={handleDeleteGroup}
       />
@@ -288,7 +288,7 @@ SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d`}
       )}
 
       {/* Edit Group Dialog */}
-      <EditGroupDialog
+      <EditGroupDialogShadcn
         group={editingGroup}
         isOpen={isEditDialogOpen}
         onClose={() => {
