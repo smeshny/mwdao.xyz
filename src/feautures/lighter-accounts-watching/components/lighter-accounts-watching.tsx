@@ -152,7 +152,7 @@ export function LighterAccountsWatching() {
 
     // Clear active group if it was deleted
     if (activeGroup === groupToDelete.name) {
-      setActiveGroup(null);
+      setActiveGroup("");
     }
   };
 
