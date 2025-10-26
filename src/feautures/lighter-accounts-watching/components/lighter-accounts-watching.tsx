@@ -172,7 +172,7 @@ export function LighterAccountsWatching() {
   // Show loading state during hydration to prevent mismatch
   if (!isMounted) {
     return (
-      <div className="container mx-auto space-y-8 p-6">
+      <div className="container mx-auto space-y-8 px-4 lg:px-6">
         {/* Header */}
         <div className="space-y-2">
           <h1 className="text-3xl font-bold tracking-tight">
@@ -203,7 +203,7 @@ export function LighterAccountsWatching() {
   }
 
   return (
-    <div className="container mx-auto space-y-10 px-4 py-8">
+    <div className="container mx-auto space-y-10 px-4 lg:px-6">
       {/* Header */}
       <div className="space-y-4">
         <h1 className="text-4xl font-bold tracking-tight">
