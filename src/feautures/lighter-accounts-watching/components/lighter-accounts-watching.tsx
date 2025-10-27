@@ -245,6 +245,7 @@ export function LighterAccountsWatching() {
       {walletGroups.length === 0 && (
         <CreateGroupForm
           onGroupCreated={handleGroupCreated}
+          onAddWallets={handleAddWallets}
           existingGroups={walletGroups}
         />
       )}

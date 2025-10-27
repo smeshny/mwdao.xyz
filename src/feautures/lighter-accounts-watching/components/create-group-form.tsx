@@ -3,7 +3,11 @@
 import React, { useState } from "react";
 
 import type { WalletGroup } from "../types";
-import { addWalletGroup, updateWalletGroup } from "../utils/storage";
+import {
+  addWalletGroup,
+  parseAddressListWithGroups,
+  updateWalletGroup,
+} from "../utils/storage";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,18 +18,25 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 type CreateGroupFormProps = {
   onGroupCreated: (group: WalletGroup) => void;
+  onAddWallets: (wallets: { addresses: string[]; groupName: string }) => void;
   existingGroups: WalletGroup[];
 };
 
 export function CreateGroupForm({
   onGroupCreated,
+  onAddWallets,
   existingGroups,
 }: CreateGroupFormProps) {
   const [groupName, setGroupName] = useState<string>("");
   const [initialBalance, setInitialBalance] = useState<string>("");
+  const [addressInput, setAddressInput] = useState<string>("");
+
+  const parsedAddresses = parseAddressListWithGroups(addressInput);
 
   const handleCreateGroup = () => {
     const trimmedName = groupName.trim();
@@ -49,9 +60,18 @@ export function CreateGroupForm({
       newGroup.initialBalance = initialBalance;
     }
 
+    // Add wallets if provided
+    if (parsedAddresses.addresses.length > 0) {
+      onAddWallets({
+        addresses: parsedAddresses.addresses,
+        groupName: trimmedName,
+      });
+    }
+
     onGroupCreated(newGroup);
     setGroupName("");
     setInitialBalance("");
+    setAddressInput("");
   };
 
   return (
@@ -59,10 +79,10 @@ export function CreateGroupForm({
       <CardHeader>
         <CardTitle>Create New Group</CardTitle>
         <CardDescription>
-          Create a new group to organize your wallets
+          Create a new group and optionally add wallets to it
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         <div className="space-y-2">
           <label htmlFor="groupName" className="text-sm font-medium">
             Group Name
@@ -104,12 +124,42 @@ export function CreateGroupForm({
           </p>
         </div>
 
+        <div className="space-y-4">
+          <Label className="text-base font-medium">
+            Wallet Addresses (Optional)
+          </Label>
+          <Textarea
+            className="min-h-32 font-mono"
+            onChange={(e) => setAddressInput(e.target.value)}
+            placeholder={`Paste addresses here. Supports multiple formats:
+
+SM1 0x042ffe02F6565dAD4c359D335765356B705aB50A
+SM2 0x6446E6FF8564b700059D80F921BEc949235cFc38
+0xCCc054C3FF50C3F132bD4dE74C2F7291ae88e0F9
+SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d # This is a comment`}
+            value={addressInput}
+          />
+
+          <div className="text-muted-foreground text-sm">
+            {parsedAddresses.addresses.length > 0 ? (
+              <span>
+                Found {parsedAddresses.addresses.length} valid address
+                {parsedAddresses.addresses.length !== 1 ? "es" : ""}
+              </span>
+            ) : (
+              <span>Optional: Paste addresses to add them to this group</span>
+            )}
+          </div>
+        </div>
+
         <Button
           onClick={handleCreateGroup}
           disabled={!groupName.trim()}
           className="w-full"
         >
           Create Group
+          {parsedAddresses.addresses.length > 0 &&
+            ` & Add ${parsedAddresses.addresses.length} Address${parsedAddresses.addresses.length !== 1 ? "es" : ""}`}
         </Button>
       </CardContent>
     </Card>
