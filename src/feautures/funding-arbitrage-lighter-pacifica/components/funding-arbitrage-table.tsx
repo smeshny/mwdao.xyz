@@ -100,7 +100,10 @@ export function FundingArbitrageTable(props: FundingArbitrageTableProps = {}) {
       <CardHeader>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex min-w-64 flex-1 items-center gap-2">
-            <FundingArbitrageSearch value={searchQuery} onChange={setSearchQuery} />
+            <FundingArbitrageSearch
+              value={searchQuery}
+              onChange={setSearchQuery}
+            />
           </div>
           <FundingArbitrageTimeframeSelector
             value={timeframe}
@@ -115,7 +118,7 @@ export function FundingArbitrageTable(props: FundingArbitrageTableProps = {}) {
       </CardHeader>
 
       <CardContent>
-        <div className="rounded-lg border bg-background p-4 shadow-sm">
+        <div className="bg-background rounded-lg border p-4 shadow-sm">
           <Table>
             <TableCaption>{tableCaption}</TableCaption>
             <TableHeader>
@@ -184,8 +187,8 @@ export function FundingArbitrageTable(props: FundingArbitrageTableProps = {}) {
         </div>
       </CardContent>
 
-      <CardFooter className="flex justify-between items-center border-t bg-muted/50 px-6 py-3">
-        <div className="text-sm text-muted-foreground">
+      <CardFooter className="bg-muted/50 flex items-center justify-between border-t px-6 py-3">
+        <div className="text-muted-foreground text-sm">
           {lastUpdated ? (
             <>Last updated {lastUpdated.toLocaleTimeString()}</>
           ) : (

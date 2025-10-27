@@ -6,7 +6,6 @@ import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 
 import type { SortDirection } from "../utils/sorting";
 
-
 import { TableHead } from "@/components/ui/table";
 
 type SortableTableHeadProps = {

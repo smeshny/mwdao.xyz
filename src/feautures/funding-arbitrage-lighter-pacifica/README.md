@@ -25,6 +25,7 @@ A React component for monitoring and analyzing funding rate arbitrage opportunit
 ### Understanding the Data
 
 For each market, the system shows:
+
 - **Market symbol**: Trading pair (e.g., BTC, ETH)
 - **Pacifica rates**: Current and next funding rates
 - **Lighter rates**: Current funding rates
@@ -49,11 +50,13 @@ For each market, the system shows:
 Connects to multiple exchanges:
 
 ### Pacifica API
+
 - Endpoint: `https://api.pacifica.fi/api/v1/info`
 - Update frequency: Every hour
 - Provides current and next funding rates
 
 ### Lighter API
+
 - Endpoint: `https://mainnet.zklighter.elliot.ai/api/v1/funding-rates`
 - Update frequency: Every 8 hours
 - Provides current funding rates
@@ -62,15 +65,16 @@ Connects to multiple exchanges:
 
 ```tsx
 <FundingArbitrageTable
-  maxSymbols={50}           // Limit number of markets displayed
+  maxSymbols={50} // Limit number of markets displayed
   refreshIntervalMs={30000} // Auto-refresh interval in milliseconds
-  targetSymbols={['BTC', 'ETH']} // Specific symbols to monitor
+  targetSymbols={["BTC", "ETH"]} // Specific symbols to monitor
 />
 ```
 
 ## Architecture
 
 The component follows a feature-based architecture:
+
 - **Components**: Reusable UI components with clear responsibilities
 - **Hooks**: Custom React hooks for state management
 - **Services**: API integration and data fetching

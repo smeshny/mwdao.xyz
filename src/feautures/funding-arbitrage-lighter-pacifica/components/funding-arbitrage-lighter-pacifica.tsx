@@ -28,8 +28,8 @@ export function FundingArbitrageLighterPacifica() {
 
         {/* Loading skeleton */}
         <div className="animate-pulse">
-          <div className="rounded-lg border bg-background p-4 shadow-sm">
-            <div className="bg-muted h-8 w-48 rounded mb-4"></div>
+          <div className="bg-background rounded-lg border p-4 shadow-sm">
+            <div className="bg-muted mb-4 h-8 w-48 rounded"></div>
             <div className="bg-muted h-64 w-full rounded"></div>
           </div>
         </div>
