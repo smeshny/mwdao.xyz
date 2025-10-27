@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 

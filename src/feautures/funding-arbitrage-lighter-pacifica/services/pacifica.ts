@@ -24,7 +24,7 @@ export type PacificaFundingSnapshot = {
 };
 
 export async function fetchPacificaMarketInfo(
-  options: FetchPacificaMarketInfoOptions = {}
+  options: FetchPacificaMarketInfoOptions = {},
 ) {
   const { signal } = options;
   const url = `${PACIFICA_BASE_URL}${PACIFICA_MARKET_INFO_PATH}`;
@@ -40,7 +40,7 @@ export async function fetchPacificaMarketInfo(
 
   if (!response.ok) {
     throw new Error(
-      `Failed to fetch Pacifica market info: ${response.status} ${response.statusText}`
+      `Failed to fetch Pacifica market info: ${response.status} ${response.statusText}`,
     );
   }
 
@@ -54,7 +54,7 @@ export async function fetchPacificaMarketInfo(
 }
 
 export async function fetchPacificaFundingSnapshots(
-  options: FetchPacificaMarketInfoOptions = {}
+  options: FetchPacificaMarketInfoOptions = {},
 ) {
   const marketInfo = await fetchPacificaMarketInfo(options);
 
@@ -62,7 +62,7 @@ export async function fetchPacificaFundingSnapshots(
 }
 
 function createFundingSnapshot(
-  entry: PacificaMarketInfoEntry
+  entry: PacificaMarketInfoEntry,
 ): PacificaFundingSnapshot {
   return {
     symbol: entry.symbol,

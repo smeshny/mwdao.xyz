@@ -33,7 +33,7 @@ export type UseFundingArbitrageResult = {
 };
 
 export function useFundingArbitrage(
-  options: UseFundingArbitrageOptions = {}
+  options: UseFundingArbitrageOptions = {},
 ): UseFundingArbitrageResult {
   const { maxSymbols, refreshIntervalMs, targetSymbols } = options;
 
@@ -80,12 +80,12 @@ export function useFundingArbitrage(
               symbol,
               lighterMap,
               pacificaMap,
-            })
+            }),
           )
           .filter(isDefined);
 
         const sorted = combined.sort(
-          (a, b) => Math.abs(b.spread) - Math.abs(a.spread)
+          (a, b) => Math.abs(b.spread) - Math.abs(a.spread),
         );
 
         setOpportunities(sorted);
@@ -97,14 +97,14 @@ export function useFundingArbitrage(
 
         setError(
           (unknownError as Error).message ||
-            "Unable to load funding arbitrage data."
+            "Unable to load funding arbitrage data.",
         );
         setOpportunities([]);
       } finally {
         setLoading(false);
       }
     },
-    [maxSymbols, normalizedTargetSymbols]
+    [maxSymbols, normalizedTargetSymbols],
   );
 
   const refetch = useCallback(async () => {
@@ -230,22 +230,22 @@ function buildOpportunityForSymbol({
 
   const pacificaFundingRate = normalizeFundingRatePerHour(
     pacificaEntry.fundingRate,
-    pacificaWindow
+    pacificaWindow,
   );
 
   const pacificaNextFundingRate = normalizeFundingRatePerHour(
     pacificaEntry.nextFundingRate,
-    pacificaWindow
+    pacificaWindow,
   );
 
   const lighterFundingRate = normalizeFundingRatePerHour(
     lighterEntry.rate,
-    LIGHTER_FUNDING_WINDOW_HOURS
+    LIGHTER_FUNDING_WINDOW_HOURS,
   );
 
   const spreadMetrics = calculateSpreadMetrics(
     pacificaFundingRate,
-    lighterFundingRate
+    lighterFundingRate,
   );
 
   const opportunity: FundingArbitrageOpportunity = {

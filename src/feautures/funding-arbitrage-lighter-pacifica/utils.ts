@@ -31,7 +31,7 @@ export function derivePacificaSymbol(symbol: string) {
     normalized.length > THOUSAND_PREFIX_LENGTH
   ) {
     normalized = `${THOUSAND_SYMBOL_PREFIX}${normalized.slice(
-      THOUSAND_PREFIX_LENGTH
+      THOUSAND_PREFIX_LENGTH,
     )}`;
   }
 
@@ -40,7 +40,7 @@ export function derivePacificaSymbol(symbol: string) {
 
 export function calculateSpreadMetrics(
   pacificaRate: number | null,
-  lighterRate: number | null
+  lighterRate: number | null,
 ): Pick<
   FundingArbitrageOpportunity,
   "spread" | "spreadDirection" | "spreadPercentage"
@@ -84,7 +84,7 @@ export function formatPercentage(value: number | null, fractionDigits = 4) {
 
 export function formatRate(
   value: number | null,
-  fractionDigits = MIN_RATE_DECIMALS
+  fractionDigits = MIN_RATE_DECIMALS,
 ) {
   if (value === null || Number.isNaN(value)) {
     return "—";

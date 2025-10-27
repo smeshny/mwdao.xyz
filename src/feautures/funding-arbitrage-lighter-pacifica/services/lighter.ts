@@ -13,7 +13,7 @@ export type FetchLighterFundingOptions = {
 };
 
 export async function fetchLighterFundingRates(
-  options: FetchLighterFundingOptions = {}
+  options: FetchLighterFundingOptions = {},
 ) {
   const { signal } = options;
 
@@ -30,7 +30,7 @@ export async function fetchLighterFundingRates(
 
   if (!response.ok) {
     throw new Error(
-      `Failed to fetch Lighter funding rates: ${response.status} ${response.statusText}`
+      `Failed to fetch Lighter funding rates: ${response.status} ${response.statusText}`,
     );
   }
 

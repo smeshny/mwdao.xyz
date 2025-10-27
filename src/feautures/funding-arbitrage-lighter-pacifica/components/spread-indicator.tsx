@@ -1,9 +1,9 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-
 import type { FundingArbitrageOpportunity } from "../types";
 import { formatPercentage, formatRate } from "../utils";
+
+import { cn } from "@/lib/utils";
 
 type SpreadIndicatorProps = {
   opportunity: Pick<
@@ -32,8 +32,8 @@ export function SpreadIndicator({
     <div className="flex flex-col gap-1">
       <span
         className={cn(
-          "inline-flex w-fit items-center rounded-full px-2 py-0.5 font-medium text-xs uppercase tracking-wide",
-          variantClassNames
+          "inline-flex w-fit items-center rounded-full px-2 py-0.5 text-xs font-medium tracking-wide uppercase",
+          variantClassNames,
         )}
       >
         {spreadLabel}
@@ -48,12 +48,12 @@ export function SpreadIndicator({
       </div>
       {suggestion ? (
         <div className="mt-1 flex flex-wrap items-center gap-1.5">
-          <span className="inline-flex w-fit items-center rounded-full bg-blue-500/15 px-2 py-0.5 font-medium text-blue-500 text-xs uppercase tracking-wide dark:bg-blue-500/10">
+          <span className="inline-flex w-fit items-center rounded-full bg-blue-500/15 px-2 py-0.5 text-xs font-medium tracking-wide text-blue-500 uppercase dark:bg-blue-500/10">
             {suggestion.short === "pacifica"
               ? "Short Pacifica"
               : "Short Lighter"}
           </span>
-          <span className="inline-flex w-fit items-center rounded-full bg-emerald-500/15 px-2 py-0.5 font-medium text-emerald-500 text-xs uppercase tracking-wide dark:bg-emerald-500/10">
+          <span className="inline-flex w-fit items-center rounded-full bg-emerald-500/15 px-2 py-0.5 text-xs font-medium tracking-wide text-emerald-500 uppercase dark:bg-emerald-500/10">
             {suggestion.long === "pacifica" ? "Long Pacifica" : "Long Lighter"}
           </span>
         </div>
@@ -63,7 +63,7 @@ export function SpreadIndicator({
 }
 
 function getVariantClassNames(
-  spreadDirection: FundingArbitrageOpportunity["spreadDirection"]
+  spreadDirection: FundingArbitrageOpportunity["spreadDirection"],
 ) {
   if (spreadDirection === "pacifica_leads") {
     return "bg-emerald-500/15 text-emerald-500 dark:bg-emerald-500/10";
@@ -77,7 +77,7 @@ function getVariantClassNames(
 }
 
 function getSpreadLabel(
-  spreadDirection: FundingArbitrageOpportunity["spreadDirection"]
+  spreadDirection: FundingArbitrageOpportunity["spreadDirection"],
 ) {
   switch (spreadDirection) {
     case "pacifica_leads":
@@ -96,7 +96,7 @@ type Suggestion = {
 
 function getArbSuggestion(
   pacificaRate?: number | null,
-  lighterRate?: number | null
+  lighterRate?: number | null,
 ): Suggestion {
   if (pacificaRate == null || lighterRate == null) {
     return null;
