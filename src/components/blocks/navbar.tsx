@@ -22,7 +22,6 @@ import { cn } from "@/lib/utils";
 const ITEMS = [
   {
     label: "Tools",
-    href: "#tools",
     dropdownItems: [
       {
         title: "Lighter Accounts Watching",
@@ -37,8 +36,8 @@ const ITEMS = [
       },
     ],
   },
+  { label: "Docs", href: "https://docs.mwdao.xyz/" },
   { label: "About", href: "#" },
-  { label: "FAQ", href: "#" },
   { label: "Contact", href: "#" },
 ];
 

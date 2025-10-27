@@ -1,9 +1,9 @@
 import {
   ArrowRight,
-  Blend,
+  Brain,
   ChartNoAxesColumn,
-  CircleDot,
-  Diamond,
+  Github,
+  Users,
 } from "lucide-react";
 
 import { DashedLine } from "@/components/dashed-line";
@@ -11,23 +11,23 @@ import { Button } from "@/components/ui/button";
 
 const features = [
   {
-    title: "Tailored workflows",
-    description: "Track progress across custom issue flows for your team.",
-    icon: CircleDot,
+    title: "Open-source tools",
+    description: "All our tools are open-source and free to use",
+    icon: Github,
   },
   {
-    title: "Cross-team projects",
-    description: "Collaborate across teams and departments.",
-    icon: Blend,
+    title: "Tools for everyone",
+    description: "Tools for everyone, from beginners to experts",
+    icon: Users,
   },
   {
-    title: "Milestones",
-    description: "Break projects down into concrete phases.",
-    icon: Diamond,
+    title: "AI-powered tools",
+    description: "Make better decisions",
+    icon: Brain,
   },
   {
-    title: "Progress insights",
-    description: "Track scope, velocity, and progress over time.",
+    title: "Grow your wealth",
+    description: "Grow your wealth with our tools",
     icon: ChartNoAxesColumn,
   },
 ];
@@ -48,8 +48,12 @@ export const Hero = () => {
 
           <div className="mt-8 flex flex-wrap items-center gap-4 lg:flex-nowrap">
             <Button asChild>
-              <a href="https://github.com/shadcnblocks/mainline-nextjs-template">
-                Get template
+              <a
+                href="https://docs.mwdao.xyz/dao/treasury"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Donate to MWDAO
               </a>
             </Button>
             <Button
@@ -58,10 +62,10 @@ export const Hero = () => {
               asChild
             >
               <a
-                href="https://shadcnblocks.com"
+                href="#tools"
                 className="max-w-56 truncate text-start md:max-w-none"
               >
-                Built by shadcnblocks.com
+                Explore available tools
                 <ArrowRight className="stroke-3" />
               </a>
             </Button>
