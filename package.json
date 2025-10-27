@@ -7,8 +7,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "prettier -w . && next lint --fix ",
-    "format": "prettier -w ."
+    "lint": "prettier -w . && next lint --fix "
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
