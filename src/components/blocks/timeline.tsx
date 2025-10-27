@@ -126,7 +126,7 @@ export const Timeline = () => {
         </h2>
 
         <div className="mx-auto mt-16 max-w-2xl">
-          {sortedDates.map((date, dateIndex) => (
+          {sortedDates.map((date) => (
             <div key={date} className="relative">
               {/* Date Heading */}
               <div className="mb-4 ps-2 first:mt-0">
@@ -137,15 +137,8 @@ export const Timeline = () => {
 
               {/* Timeline Items */}
               <div className="space-y-1">
-                {groupedEvents[date].map((event, index) => (
-                  <TimelineItem
-                    key={event.id}
-                    event={event}
-                    isLast={
-                      dateIndex === sortedDates.length - 1 &&
-                      index === groupedEvents[date].length - 1
-                    }
-                  />
+                {groupedEvents[date].map((event) => (
+                  <TimelineItem key={event.id} event={event} />
                 ))}
               </div>
             </div>
@@ -158,13 +151,12 @@ export const Timeline = () => {
 
 interface TimelineItemProps {
   event: TimelineEvent;
-  isLast?: boolean;
 }
 
-const TimelineItem = ({ event, isLast }: TimelineItemProps) => {
+const TimelineItem = ({ event }: TimelineItemProps) => {
   return (
-    <div className="group relative flex gap-x-3 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-900/50">
-      <a className="absolute inset-0 z-[1]" href="#" />
+    <div className="group relative flex cursor-pointer gap-x-3 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-900/50">
+      <div className="absolute inset-0 z-[1]" />
 
       {/* Timeline connector */}
       <div className="relative after:absolute after:start-3.5 after:top-0 after:bottom-0 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 last:after:hidden dark:after:bg-gray-700">
