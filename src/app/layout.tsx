@@ -94,9 +94,8 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon/favicon.ico", sizes: "48x48" },
-      { url: "/favicon/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon/favicon-96x96.png", sizes: "96x96", type: "image/png" },
-      { url: "/favicon/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon/android-chrome-192x192", sizes: "96x96", type: "image/png" },
+      { url: "/favicon/android-chrome-512x512", sizes: "512x512", type: "image/png" },
       { url: "/favicon/favicon.ico" },
     ],
     apple: [{ url: "/favicon/apple-touch-icon.png", sizes: "180x180" }],
