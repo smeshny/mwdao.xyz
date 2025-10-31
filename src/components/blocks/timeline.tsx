@@ -4,6 +4,7 @@ interface User {
   name: string;
   avatar?: string;
   initials?: string;
+  url?: string;
 }
 
 interface TimelineEvent {
@@ -13,6 +14,7 @@ interface TimelineEvent {
   description?: string;
   icon: React.ReactNode;
   users?: User[];
+  projectUrl?: string;
 }
 
 const timelineData: TimelineEvent[] = [
@@ -22,10 +24,13 @@ const timelineData: TimelineEvent[] = [
     title: "Berachain faucet",
     description: "Community faucet for Berachain testnet tokens",
     icon: <span>🐻⛓</span>,
+    projectUrl: "https://berachain-faucet.com/",
     users: [
       {
         name: "smeshny",
-        avatar: "https://avatars.githubusercontent.com/u/14953852?v=4&size=64",
+        avatar:
+          "https://pbs.twimg.com/profile_images/1446761872884215808/i3_UWN1L_400x400.jpg",
+        url: "https://x.com/smeshny",
       },
     ],
   },
@@ -36,15 +41,19 @@ const timelineData: TimelineEvent[] = [
     description:
       "Simple exchange for Monad testnet tokens. Over 35K transactions was made.",
     icon: <span>😈</span>,
+    projectUrl: "https://monad-bridge.com/",
     users: [
       {
         name: "smeshny",
-        avatar: "https://avatars.githubusercontent.com/u/14953852?v=4&size=64",
+        avatar:
+          "https://pbs.twimg.com/profile_images/1446761872884215808/i3_UWN1L_400x400.jpg",
+        url: "https://x.com/smeshny",
       },
       {
         name: "loowl.eth",
         avatar:
           "https://pbs.twimg.com/profile_images/1647529458193125377/1QI6bT8R_400x400.jpg",
+        url: "https://twitter.com/loowl_eth",
       },
     ],
   },
@@ -54,10 +63,13 @@ const timelineData: TimelineEvent[] = [
     title: "Bullas gampepass analytics",
     description: "Analytics of Bullas gampepass to find best strategies",
     icon: <span>🐂</span>,
+    projectUrl: "https://bullas-analytics.com/",
     users: [
       {
         name: "smeshny",
-        avatar: "https://avatars.githubusercontent.com/u/14953852?v=4&size=64",
+        avatar:
+          "https://pbs.twimg.com/profile_images/1446761872884215808/i3_UWN1L_400x400.jpg",
+        url: "https://x.com/smeshny",
       },
     ],
   },
@@ -68,10 +80,13 @@ const timelineData: TimelineEvent[] = [
     description:
       "Monitoring of Lighter accounts, their positions and money burned",
     icon: <span>🕯️</span>,
+    projectUrl: "https://lighter-monitor.com/",
     users: [
       {
         name: "smeshny",
-        avatar: "https://avatars.githubusercontent.com/u/14953852?v=4&size=64",
+        avatar:
+          "https://pbs.twimg.com/profile_images/1446761872884215808/i3_UWN1L_400x400.jpg",
+        url: "https://x.com/smeshny",
       },
     ],
   },
@@ -158,9 +173,21 @@ const TimelineItem = ({ event }: TimelineItemProps) => {
           <div className="mt-1 shrink-0 leading-none text-gray-500 dark:text-gray-400">
             {event.icon}
           </div>
-          <h3 className="font-semibold text-gray-800 dark:text-gray-200">
-            {event.title}
-          </h3>
+          {event.projectUrl ? (
+            <a
+              href={event.projectUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="-mx-1 cursor-pointer rounded px-1 font-semibold text-gray-800 transition-all duration-200 hover:bg-blue-50 dark:text-gray-200 dark:hover:bg-blue-950/30"
+              title={`Open ${event.title} in new tab`}
+            >
+              {event.title}
+            </a>
+          ) : (
+            <h3 className="font-semibold text-gray-800 dark:text-gray-200">
+              {event.title}
+            </h3>
+          )}
         </div>
 
         {event.description && (
@@ -172,10 +199,15 @@ const TimelineItem = ({ event }: TimelineItemProps) => {
         {event.users && event.users.length > 0 && (
           <div className="-ms-1 mt-1 flex flex-wrap gap-1">
             {event.users.map((user, userIndex) => (
-              <button
+              <a
                 key={userIndex}
-                type="button"
-                className="relative z-10 inline-flex items-center gap-x-1.5 rounded-lg border border-transparent p-1 text-xs text-gray-500 transition-colors hover:bg-white hover:shadow-sm disabled:pointer-events-none disabled:opacity-50 dark:text-gray-400 dark:hover:bg-gray-800"
+                href={user.url || "#"}
+                target={user.url ? "_blank" : "_self"}
+                rel={user.url ? "noopener noreferrer" : undefined}
+                className="relative z-10 inline-flex items-center gap-x-1.5 rounded-lg border border-transparent p-1 text-xs text-gray-500 transition-all duration-200 hover:bg-white hover:shadow-sm dark:text-gray-400 dark:hover:bg-gray-800"
+                title={
+                  user.url ? `Open ${user.name} profile in new tab` : user.name
+                }
               >
                 {user.avatar ? (
                   <Image
@@ -191,7 +223,7 @@ const TimelineItem = ({ event }: TimelineItemProps) => {
                   </span>
                 )}
                 {user.name}
-              </button>
+              </a>
             ))}
           </div>
         )}
