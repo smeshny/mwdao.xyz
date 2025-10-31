@@ -1,13 +1,14 @@
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import { Footer } from "@/components/blocks/footer";
 import { Navbar } from "@/components/blocks/navbar";
 import { Providers } from "@/components/providers/query-client-provider";
 import { StyleGlideProvider } from "@/components/styleglide-provider";
 import { ThemeProvider } from "@/components/theme-provider";
+import { baseMetadata, defaultViewport } from "@/lib/seo/metadata";
 import "@/styles/globals.css";
 
 const dmSans = localFont({
@@ -62,79 +63,8 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  ),
-  title: {
-    default: "Mainline - Modern Next.js Template",
-    template: "%s | Mainline",
-  },
-  description:
-    "A modern Next.js template built with shadcn/ui, Tailwind & MDX. Open source - MIT License.",
-  keywords: [
-    "Next.js",
-    "nextjs template",
-    "nextjs theme",
-    "nextjs starter",
-    "shadcn template",
-    "shadcn theme",
-    "shadcn starter",
-    "tailwind template",
-    "tailwind theme",
-    "tailwind starter",
-    "mdx template",
-    "mdx theme",
-    "mdx starter",
-  ],
-  authors: [{ name: "shadcnblocks.com" }],
-  creator: "shadcnblocks.com",
-  publisher: "shadcnblocks.com",
-  robots: {
-    index: true,
-    follow: true,
-  },
-  icons: {
-    icon: [
-      { url: "/favicon/favicon.ico", sizes: "48x48" },
-      {
-        url: "/favicon/android-chrome-192x192.png",
-        sizes: "96x96",
-        type: "image/png",
-      },
-      {
-        url: "/favicon/android-chrome-512x512.png",
-        sizes: "512x512",
-        type: "image/png",
-      },
-      { url: "/favicon/favicon.ico" },
-    ],
-    apple: [{ url: "/favicon/apple-touch-icon.png", sizes: "180x180" }],
-    shortcut: [{ url: "/favicon/favicon.ico" }],
-  },
-  openGraph: {
-    title: "Mainline - Modern Next.js Template",
-    description:
-      "A modern Next.js template built with shadcn/ui, Tailwind & MDX. Open source - MIT License.",
-    siteName: "Mainline",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Mainline - Modern Next.js Template",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Mainline - Modern Next.js Template",
-    description:
-      "A modern Next.js template built with shadcn/ui, Tailwind & MDX. Open source - MIT License.",
-    images: ["/og-image.jpg"],
-    creator: "@ausrobdev",
-  },
-};
+export const metadata: Metadata = baseMetadata;
+export const viewport: Viewport = defaultViewport;
 
 export default function RootLayout({
   children,
