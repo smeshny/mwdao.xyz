@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface User {
   name: string;
@@ -24,7 +25,8 @@ const timelineData: TimelineEvent[] = [
     title: "Berachain faucet",
     description: "Community faucet for Berachain testnet tokens",
     icon: <span>🐻⛓</span>,
-    projectUrl: "https://berachain-faucet.com/",
+    projectUrl:
+      "https://docs.mwdao.xyz/web3-side-projects/berachain-faucet-sunsetted",
     users: [
       {
         name: "smeshny",
@@ -41,7 +43,7 @@ const timelineData: TimelineEvent[] = [
     description:
       "Simple exchange for Monad testnet tokens. Over 35K transactions was made.",
     icon: <span>😈</span>,
-    projectUrl: "https://monad-bridge.com/",
+    projectUrl: "https://bridge.mwdao.xyz/",
     users: [
       {
         name: "smeshny",
@@ -63,7 +65,8 @@ const timelineData: TimelineEvent[] = [
     title: "Bullas gampepass analytics",
     description: "Analytics of Bullas gampepass to find best strategies",
     icon: <span>🐂</span>,
-    projectUrl: "https://bullas-analytics.com/",
+    projectUrl:
+      "https://docs.mwdao.xyz/web3-side-projects/bullas-game-analytics",
     users: [
       {
         name: "smeshny",
@@ -80,7 +83,7 @@ const timelineData: TimelineEvent[] = [
     description:
       "Monitoring of Lighter accounts, their positions and money burned",
     icon: <span>🕯️</span>,
-    projectUrl: "https://lighter-monitor.com/",
+    projectUrl: "https://mwdao.xyz/lighter-accounts-watching",
     users: [
       {
         name: "smeshny",
@@ -169,26 +172,29 @@ const TimelineItem = ({ event }: TimelineItemProps) => {
 
       {/* Content */}
       <div className="grow p-2 pb-8">
-        <div className="flex items-start gap-x-1.5">
-          <div className="mt-1 shrink-0 leading-none text-gray-500 dark:text-gray-400">
-            {event.icon}
-          </div>
-          {event.projectUrl ? (
-            <a
-              href={event.projectUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="-mx-1 cursor-pointer rounded px-1 font-semibold text-gray-800 transition-all duration-200 hover:bg-blue-50 dark:text-gray-200 dark:hover:bg-blue-950/30"
-              title={`Open ${event.title} in new tab`}
-            >
-              {event.title}
-            </a>
-          ) : (
-            <h3 className="font-semibold text-gray-800 dark:text-gray-200">
+        {event.projectUrl ? (
+          <Link
+            href={event.projectUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative z-10 inline-flex items-center gap-x-1.5 rounded-lg border border-transparent p-1 font-semibold text-gray-800 transition-all duration-200 hover:bg-white hover:shadow-sm dark:text-gray-200 dark:hover:bg-gray-800"
+            title={`Open ${event.title} in new tab`}
+          >
+            <div className="shrink-0 leading-none text-gray-500 dark:text-gray-400">
+              {event.icon}
+            </div>
+            {event.title}
+          </Link>
+        ) : (
+          <div className="flex items-start gap-x-1.5">
+            <div className="mt-1 shrink-0 leading-none text-gray-500 dark:text-gray-400">
+              {event.icon}
+            </div>
+            <h3 className="relative z-10 font-semibold text-gray-800 dark:text-gray-200">
               {event.title}
             </h3>
-          )}
-        </div>
+          </div>
+        )}
 
         {event.description && (
           <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
