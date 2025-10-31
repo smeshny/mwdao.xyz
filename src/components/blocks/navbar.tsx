@@ -128,8 +128,12 @@ export const Navbar = () => {
         {/* Auth Buttons */}
         <div className="flex items-center gap-2.5">
           <ThemeToggle />
-          <Link href="#" className="max-lg:hidden">
-            <Button variant="outline" disabled>
+          <Link href="#" className="cursor-not-allowed max-lg:hidden">
+            <Button
+              variant="outline"
+              disabled
+              className="pointer-events-none cursor-not-allowed"
+            >
               <span className="relative z-10">Connect wallet</span>
             </Button>
           </Link>
