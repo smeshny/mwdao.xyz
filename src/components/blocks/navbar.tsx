@@ -217,7 +217,7 @@ export const Navbar = () => {
                       openDropdown === link.label ? null : link.label,
                     )
                   }
-                  className="text-primary flex w-full items-center justify-between text-base font-medium"
+                  className="dark:text-primary text-foreground flex w-full items-center justify-between text-base font-medium"
                 >
                   {link.label}
                   <ChevronRight
@@ -247,7 +247,7 @@ export const Navbar = () => {
                         }}
                       >
                         <div className="transition-transform duration-200 group-hover:translate-x-1">
-                          <div className="text-primary font-medium">
+                          <div className="dark:text-primary text-foreground font-medium">
                             {item.title}
                           </div>
 
@@ -267,7 +267,7 @@ export const Navbar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "text-primary hover:text-primary/80 py-4 text-base font-medium transition-colors first:pt-0 last:pb-0",
+                  "dark:text-primary text-foreground dark:hover:text-primary/80 hover:text-foreground/80 py-4 text-base font-medium transition-colors first:pt-0 last:pb-0",
                   pathname === link.href && "text-muted-foreground",
                 )}
                 onClick={() => setIsMenuOpen(false)}
