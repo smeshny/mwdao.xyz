@@ -124,7 +124,7 @@ export const Timeline = () => {
   });
 
   return (
-    <section id="timeline" className="py-14">
+    <section id="timeline" className="py-0">
       <div className="container max-w-4xl">
         <h2 className="text-center text-3xl tracking-tight text-balance sm:text-4xl md:text-4xl lg:text-4xl">
           Tools development timeline
