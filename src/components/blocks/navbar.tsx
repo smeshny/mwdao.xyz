@@ -25,14 +25,9 @@ const ITEMS = [
     dropdownItems: [
       {
         title: "Lighter Accounts Watching",
-        href: "/lighter-accounts-watching",
+        href: "/lighter-accounts-monitoring",
         description:
           "Watch your Lighter accounts and get info about their positions and burned money",
-      },
-      {
-        title: "Funding Arbitrage Lighter Pacifica",
-        href: "/funding-arbitrage-lighter-pacifica",
-        description: "Compare funding rates between Lighter and Pacifica",
       },
     ],
   },

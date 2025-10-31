@@ -1,5 +1,5 @@
 import { Background } from "@/components/background";
-import { LighterAccountsWatching } from "@/feautures/lighter-accounts-watching/components/lighter-accounts-watching";
+import { LighterAccountsWatching } from "@/feautures/lighter-accounts-monitoring/components/lighter-accounts-watching";
 
 export default function LighterAccountsWatchingPage() {
   return (
