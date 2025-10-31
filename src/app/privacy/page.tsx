@@ -1,15 +1,25 @@
-"use client";
+import type { Metadata } from "next";
 
-import Privacy from "./privacy.mdx";
+import PrivacyArticle from "./PrivacyArticle";
 
-const Page = () => {
+import { Background } from "@/components/background";
+import { buildMetadata } from "@/lib/seo/metadata";
+
+export default function Page() {
   return (
-    <section className="mx-auto max-w-2xl px-4 py-28 lg:pt-44 lg:pb-32">
-      <article className="prose prose-lg dark:prose-invert">
-        <Privacy />
-      </article>
-    </section>
+    <Background className="via-muted to-muted/80">
+      <section className="mx-auto max-w-2xl px-4 py-28 lg:pt-44 lg:pb-32">
+        <PrivacyArticle />
+      </section>
+    </Background>
   );
-};
+}
 
-export default Page;
+export function generateMetadata(): Metadata {
+  return buildMetadata({
+    title: "Privacy Policy",
+    description:
+      "Privacy Policy for MimbleWimbleDAO (MWDAO.xyz): how we collect, use, and protect your data.",
+    path: "/privacy",
+  });
+}
