@@ -24,16 +24,16 @@ const ITEMS = [
     label: "Tools",
     dropdownItems: [
       {
-        title: "Lighter Accounts Watching",
-        href: "/lighter-accounts-monitoring",
+        title: "Lighter Accounts Monitoring",
+        href: "/tools/lighter-accounts-monitoring",
         description:
-          "Watch your Lighter accounts and get info about their positions and burned money",
+          "Monitor your Lighter accounts and get info about their positions and burned money",
       },
     ],
   },
-  { label: "Docs", href: "https://docs.mwdao.xyz/" },
-  { label: "About", href: "#" },
-  { label: "Contact", href: "#" },
+  { label: "Docs", href: "https://docs.mwdao.xyz/", external: true },
+  { label: "About", href: "#", disabled: true },
+  { label: "Contact", href: "#", disabled: true },
 ];
 
 export const Navbar = () => {
@@ -88,15 +88,37 @@ export const Navbar = () => {
                 </NavigationMenuItem>
               ) : (
                 <NavigationMenuItem key={link.label} className="">
-                  <Link
-                    href={link.href}
-                    className={cn(
-                      "relative bg-transparent px-1.5 text-sm font-medium transition-opacity hover:opacity-75",
-                      pathname === link.href && "text-muted-foreground",
-                    )}
-                  >
-                    {link.label}
-                  </Link>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "relative bg-transparent px-1.5 text-sm font-medium transition-opacity hover:opacity-75",
+                        pathname === link.href && "text-muted-foreground",
+                      )}
+                    >
+                      {link.label}
+                    </a>
+                  ) : link.disabled ? (
+                    <span
+                      className={cn(
+                        "text-muted-foreground/50 relative cursor-not-allowed bg-transparent px-1.5 text-sm font-medium",
+                      )}
+                    >
+                      {link.label}
+                    </span>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "relative bg-transparent px-1.5 text-sm font-medium transition-opacity hover:opacity-75",
+                        pathname === link.href && "text-muted-foreground",
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </NavigationMenuItem>
               ),
             )}
@@ -234,6 +256,29 @@ export const Navbar = () => {
                   </div>
                 </div>
               </div>
+            ) : link.external ? (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "text-primary hover:text-primary/80 py-4 text-base font-medium transition-colors first:pt-0 last:pb-0",
+                  pathname === link.href && "text-muted-foreground",
+                )}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.label}
+              </a>
+            ) : link.disabled ? (
+              <span
+                key={link.label}
+                className={cn(
+                  "text-muted-foreground/50 cursor-not-allowed py-4 text-base font-medium transition-colors first:pt-0 last:pb-0",
+                )}
+              >
+                {link.label}
+              </span>
             ) : (
               <Link
                 key={link.label}

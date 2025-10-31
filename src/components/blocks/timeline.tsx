@@ -83,7 +83,7 @@ const timelineData: TimelineEvent[] = [
     description:
       "Monitoring of Lighter accounts, their positions and money burned",
     icon: <span>🕯️</span>,
-    projectUrl: "https://mwdao.xyz/lighter-accounts-watching",
+    projectUrl: "/tools/lighter-accounts-monitoring",
     users: [
       {
         name: "smeshny",
@@ -160,7 +160,7 @@ interface TimelineItemProps {
 
 const TimelineItem = ({ event }: TimelineItemProps) => {
   return (
-    <div className="group relative flex cursor-pointer gap-x-3 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-900/50">
+    <div className="group relative flex cursor-pointer gap-x-2 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-900/50">
       <div className="absolute inset-0 z-[1]" />
 
       {/* Timeline connector */}
