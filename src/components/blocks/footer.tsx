@@ -14,7 +14,7 @@ export function Footer() {
 
   const social = [
     { name: "Xwitter", href: "https://x.com/smeshny" },
-    { name: "GitHub", href: "https://github.com/smeshny" },
+    { name: "GitHub", href: "https://github.com/smeshny/mwdao.xyz" },
   ];
 
   const legal = [{ name: "Privacy Policy", href: "/privacy" }];

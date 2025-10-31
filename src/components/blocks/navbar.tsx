@@ -138,7 +138,7 @@ export const Navbar = () => {
             </Button>
           </Link>
           <a
-            href="https://github.com/smeshny"
+            href="https://github.com/smeshny/mwdao.xyz"
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-foreground transition-colors"
