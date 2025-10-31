@@ -3,30 +3,23 @@ import type { Metadata, Viewport } from "next";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const siteMeta = {
-  name: "Mainline",
+  name: "MimbleWimbleDAO",
   url: siteUrl,
-  titleDefault: "Mainline - Modern Next.js Template",
-  titleTemplate: "%s | Mainline",
+  titleDefault: "MimbleWimbleDAO",
+  titleTemplate: "%s | MWDAO.xyz",
   description:
-    "A modern Next.js template built with shadcn/ui, Tailwind & MDX. Open source - MIT License.",
+    "MWDAO.xyz is a community of builders, developers, and entrepreneurs who are passionate about building the future of the WEB3.",
   keywords: [
-    "Next.js",
-    "nextjs template",
-    "nextjs theme",
-    "nextjs starter",
-    "shadcn template",
-    "shadcn theme",
-    "shadcn starter",
-    "tailwind template",
-    "tailwind theme",
-    "tailwind starter",
-    "mdx template",
-    "mdx theme",
-    "mdx starter",
+    "MimbleWimbleDAO",
+    "MWDAO.xyz",
+    "MimbleWimbleDAO web3",
+    "MimbleWimbleDAO blockchain",
+    "MimbleWimbleDAO crypto",
+    "MimbleWimbleDAO NFT",
   ],
-  author: "shadcnblocks.com",
-  twitter: "@ausrobdev",
-  ogImage: "/og-image.jpg",
+  author: "MimbleWimbleDAO",
+  twitter: "@smeshny",
+  ogImage: "/og-image.png",
 };
 
 export function absoluteUrl(path: string = "/"): string {
