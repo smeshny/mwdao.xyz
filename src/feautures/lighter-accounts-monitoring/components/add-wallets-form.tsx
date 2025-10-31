@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 import type { WalletGroup } from "../types";
-import { parseAddressListWithGroups } from "../utils/storage";
+import { parseAddressEntries } from "../utils/storage";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +18,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 type AddWalletsFormProps = {
-  onAddWallets: (wallets: { addresses: string[]; groupName: string }) => void;
+  onAddWallets: (payload: {
+    entries: { address: string; label?: string }[];
+    groupName: string;
+  }) => void;
   existingGroups: WalletGroup[];
   onCreateGroup: (groupName: string) => void;
 };
@@ -31,30 +34,31 @@ export function AddWalletsForm({
   const [addressInput, setAddressInput] = useState<string>("");
   const [selectedGroupName, setSelectedGroupName] = useState<string>("");
   const [newGroupName, setNewGroupName] = useState<string>("");
-  const [useNewGroup, setUseNewGroup] = useState<boolean>(false);
 
-  const parsedAddresses = parseAddressListWithGroups(addressInput);
+  const parsedEntries = parseAddressEntries(addressInput);
+  const isCreatingNew = selectedGroupName === "__create__";
+  const effectiveGroupName = isCreatingNew
+    ? newGroupName.trim()
+    : selectedGroupName;
   const isValid =
-    parsedAddresses.addresses.length > 0 &&
-    (useNewGroup ? newGroupName.trim() : selectedGroupName);
+    parsedEntries.length > 0 &&
+    effectiveGroupName &&
+    effectiveGroupName.trim().length > 0;
 
   const handleAddWallets = () => {
     if (!isValid) return;
 
-    const groupName = useNewGroup ? newGroupName.trim() : selectedGroupName;
+    const groupName = effectiveGroupName.trim();
 
-    if (useNewGroup && newGroupName.trim()) {
+    if (isCreatingNew && newGroupName.trim()) {
       onCreateGroup(newGroupName.trim());
     }
 
-    onAddWallets({
-      addresses: parsedAddresses.addresses,
-      groupName,
-    });
+    onAddWallets({ entries: parsedEntries, groupName });
 
     setAddressInput("");
     setNewGroupName("");
-    setUseNewGroup(false);
+    setSelectedGroupName("");
   };
 
   return (
@@ -67,68 +71,33 @@ export function AddWalletsForm({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Group Selection */}
-        <div className="space-y-4">
-          <Label className="text-base font-medium">
-            Select or Create Group
-          </Label>
+        {/* Group Selection (compact with inline create) */}
+        <div className="space-y-2">
+          <Label className="text-base font-medium">Group</Label>
+          <div className="flex gap-2">
+            <select
+              value={selectedGroupName}
+              onChange={(e) => setSelectedGroupName(e.target.value)}
+              className="border-input bg-background ring-offset-background focus:ring-ring w-full rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            >
+              <option value="">Select group...</option>
+              {existingGroups.map((group) => (
+                <option key={group.id} value={group.name}>
+                  {group.name}
+                </option>
+              ))}
+              <option value="__create__">+ Create new group…</option>
+            </select>
 
-          {!useNewGroup ? (
-            <div className="space-y-3">
-              <select
-                value={selectedGroupName}
-                onChange={(e) => setSelectedGroupName(e.target.value)}
-                className="border-input bg-background ring-offset-background focus:ring-ring w-full rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
-              >
-                <option value="">Select existing group...</option>
-                {existingGroups.map((group) => (
-                  <option key={group.id} value={group.name}>
-                    {group.name}
-                  </option>
-                ))}
-              </select>
-
-              <Button
-                variant="outline"
-                onClick={() => setUseNewGroup(true)}
-                type="button"
-                className="w-full"
-              >
-                + Create New Group
-              </Button>
-            </div>
-          ) : (
-            <div className="space-y-3">
+            {isCreatingNew && (
               <Input
                 value={newGroupName}
                 onChange={(e) => setNewGroupName(e.target.value)}
-                placeholder="Enter new group name..."
-                className="w-full"
+                placeholder="New group name"
+                className="w-1/2"
               />
-
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setUseNewGroup(false);
-                    setNewGroupName("");
-                  }}
-                  type="button"
-                  className="flex-1"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleAddWallets}
-                  disabled={!isValid}
-                  type="button"
-                  className="flex-1"
-                >
-                  Create & Add
-                </Button>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Address Input */}
@@ -148,27 +117,25 @@ SM4 0x000000000000000000000000000000000000dead # This is a comment`}
 
           <div className="flex items-center justify-between pt-2">
             <div className="text-muted-foreground text-sm">
-              {parsedAddresses.addresses.length > 0 ? (
+              {parsedEntries.length > 0 ? (
                 <span>
-                  Found {parsedAddresses.addresses.length} valid address
-                  {parsedAddresses.addresses.length !== 1 ? "es" : ""}
+                  Found {parsedEntries.length} valid address
+                  {parsedEntries.length !== 1 ? "es" : ""}
                 </span>
               ) : (
                 <span>Paste addresses using format above</span>
               )}
             </div>
 
-            {!useNewGroup && (
-              <Button
-                disabled={!isValid}
-                onClick={handleAddWallets}
-                type="button"
-                size="lg"
-              >
-                Add {parsedAddresses.addresses.length} Address
-                {parsedAddresses.addresses.length !== 1 ? "es" : ""}
-              </Button>
-            )}
+            <Button
+              disabled={!isValid}
+              onClick={handleAddWallets}
+              type="button"
+              size="lg"
+            >
+              Add {parsedEntries.length} Address
+              {parsedEntries.length !== 1 ? "es" : ""}
+            </Button>
           </div>
         </div>
       </CardContent>

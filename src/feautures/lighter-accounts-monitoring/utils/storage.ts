@@ -78,6 +78,39 @@ export function parseAddressList(input: string): string[] {
   return [...new Set(addresses)]; // Remove duplicates
 }
 
+// Parse address list and capture optional user labels (e.g., "SM1 0x...")
+export function parseAddressEntries(
+  input: string,
+): { address: string; label?: string }[] {
+  const lines = input.split("\n");
+  const entries: { address: string; label?: string }[] = [];
+
+  for (const raw of lines) {
+    const line = raw.split("#")[0].trim(); // strip comments
+    if (!line) continue;
+    const parts = line.split(WHITESPACE_REGEX).filter(Boolean);
+    if (parts.length === 0) continue;
+    // Find address token
+    const addrIdx = parts.findIndex((p) => p.startsWith("0x"));
+    if (addrIdx === -1) continue;
+    const address = parts[addrIdx];
+    if (!ETHEREUM_ADDRESS_REGEX.test(address)) continue;
+    const label = addrIdx > 0 ? parts.slice(0, addrIdx).join(" ") : undefined;
+    entries.push({ address, label });
+  }
+
+  // de-duplicate by address, keeping first label encountered
+  const seen = new Set<string>();
+  const deduped: { address: string; label?: string }[] = [];
+  for (const e of entries) {
+    if (!seen.has(e.address)) {
+      seen.add(e.address);
+      deduped.push(e);
+    }
+  }
+  return deduped;
+}
+
 // Parse address list with group extraction
 export function parseAddressListWithGroups(input: string): {
   addresses: string[];

@@ -18,6 +18,9 @@ export function AccountCard({ account, lastUpdated }: AccountCardProps) {
       Number.parseFloat(position.position) !== 0 ||
       Number.parseFloat(position.unrealized_pnl) !== 0,
   );
+  const displayTitle = account.name?.trim()
+    ? account.name.trim()
+    : `Account #${account.account_index}`;
 
   return (
     <div className="space-y-4">
@@ -26,9 +29,7 @@ export function AccountCard({ account, lastUpdated }: AccountCardProps) {
         <div className="flex items-center gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold">
-                Account #{account.account_index}
-              </h3>
+              <h3 className="font-semibold">{displayTitle}</h3>
               <span
                 className={`rounded-full px-2 py-1 text-xs font-medium ${
                   isActive
@@ -42,6 +43,11 @@ export function AccountCard({ account, lastUpdated }: AccountCardProps) {
             <p className="text-muted-foreground font-mono text-sm">
               {account.l1_address.slice(0, ADDRESS_PREFIX_LENGTH)}...
               {account.l1_address.slice(-ADDRESS_SUFFIX_LENGTH)}
+              {account.name?.trim() && (
+                <span className="text-muted-foreground ml-2 font-sans text-xs">
+                  • Account #{account.account_index}
+                </span>
+              )}
             </p>
           </div>
         </div>

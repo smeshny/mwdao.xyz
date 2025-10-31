@@ -36,7 +36,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 
 const REFRESH_INTERVAL_MS = 30_000; // 30 seconds
 const ADDRESS_PREFIX_DISPLAY_LENGTH = 6;
@@ -96,18 +95,17 @@ export function LighterAccountsWatching() {
   }, [walletGroups, isMounted]);
 
   const handleAddWallets = ({
-    addresses,
+    entries,
     groupName,
   }: {
-    addresses: string[];
+    entries: { address: string; label?: string }[];
     groupName: string;
   }) => {
-    const newAccounts: WatchedAccount[] = addresses
-      .filter((addr) => !watchedAccounts.some((acc) => acc.l1_address === addr))
-      .map((address) => ({
-        l1_address: address,
-        groupName,
-      }));
+    const newAccounts: WatchedAccount[] = entries
+      .filter(
+        (e) => !watchedAccounts.some((acc) => acc.l1_address === e.address),
+      )
+      .map((e) => ({ l1_address: e.address, groupName, label: e.label }));
 
     setWatchedAccounts((prev) => [...prev, ...newAccounts]);
   };
@@ -215,7 +213,7 @@ export function LighterAccountsWatching() {
       {/* Header */}
       <div className="space-y-4">
         <h1 className="text-4xl font-bold tracking-tight">
-          Lighter Accounts Watching
+          Lighter 🕯️ Accounts Monitoring
         </h1>
         <p className="text-muted-foreground max-w-3xl text-lg">
           Monitor Lighter accounts and their positions in real-time with group
@@ -244,7 +242,7 @@ export function LighterAccountsWatching() {
       {/* Balance Summary Table */}
       {filteredAddresses.length > 0 && (
         <BalanceSummary
-          addresses={filteredAddresses}
+          accounts={filteredAccounts}
           onRemoveAddress={handleRemoveAddress}
         />
       )}
@@ -265,35 +263,6 @@ export function LighterAccountsWatching() {
           existingGroups={walletGroups}
           onCreateGroup={handleCreateGroup}
         />
-      )}
-
-      {/* Empty State */}
-      {filteredAddresses.length === 0 && (
-        <Card>
-          <CardContent className="py-16">
-            <div className="space-y-4 text-center">
-              <h3 className="text-muted-foreground text-xl font-medium">
-                {activeGroup
-                  ? `No wallets in "${activeGroup}" group`
-                  : "No accounts being watched"}
-              </h3>
-              <p className="text-muted-foreground">
-                {activeGroup
-                  ? "Add wallets to this group using the form above"
-                  : "Create groups and add wallet addresses to start monitoring"}
-              </p>
-              <div className="mx-auto max-w-md text-left">
-                <h4 className="mb-2 text-sm font-medium">Example format:</h4>
-                <pre className="bg-muted text-muted-foreground overflow-x-auto rounded-lg border p-3 text-xs">
-                  {`SM1 0x000000000000000000000000000000000000dead
-SM2 0x000000000000000000000000000000000000dead
-SM3 0x000000000000000000000000000000000000dead
-SM4 0x000000000000000000000000000000000000dead`}
-                </pre>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       )}
 
       {/* Edit Group Dialog */}
@@ -329,51 +298,10 @@ function RealtimeStatsSummary({
     totalOrders: 0,
     totalAssetValue: 0,
   });
-
-  // Initialize with value from group or default to "10000"
-  const getInitialBalance = useCallback(() => {
-    // Always use the active group's initial balance if set
-    if (activeGroup && walletGroups.length > 0) {
-      const activeGroupData = walletGroups.find((g) => g.name === activeGroup);
-      if (activeGroupData?.initialBalance) {
-        const numValue = Number.parseFloat(activeGroupData.initialBalance);
-        if (!isNaN(numValue) && numValue >= 0) {
-          return activeGroupData.initialBalance;
-        }
-      }
-      // If group exists but no initial balance set, return default
-      return "10000";
-    }
-
-    // No active group - return default
-    return "10000";
-  }, [activeGroup, walletGroups]);
-
-  const [initialBalance, setInitialBalance] =
-    useState<string>(getInitialBalance);
-
-  // Update initial balance when active group changes
-  useEffect(() => {
-    setInitialBalance(getInitialBalance());
-  }, [getInitialBalance]);
-
-  // Save initial balance to group whenever it changes
-  useEffect(() => {
-    if (initialBalance && Number.parseFloat(initialBalance) >= 0) {
-      // Always save to the active group
-      if (activeGroup && walletGroups.length > 0) {
-        const activeGroupData = walletGroups.find(
-          (g) => g.name === activeGroup,
-        );
-        if (activeGroupData) {
-          updateWalletGroup(activeGroupData.id, { initialBalance });
-        }
-      }
-    }
-  }, [initialBalance, activeGroup, walletGroups]);
-
-  // Validate and parse initial balance
-  const initialBalanceNum = Number.parseFloat(initialBalance) || 0;
+  // Initial balance is read-only here; sourced from active group or default
+  const activeGroupData = walletGroups.find((g) => g.name === activeGroup);
+  const initialBalanceStr = activeGroupData?.initialBalance ?? "10000";
+  const initialBalanceNum = Number.parseFloat(initialBalanceStr) || 0;
   const profitLoss = totalStats.totalAssetValue - initialBalanceNum; // Positive = profit, Negative = loss
 
   // Derive totals from React Query cache for the watched addresses
@@ -558,36 +486,18 @@ function RealtimeStatsSummary({
           </div>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2">
-            <Input
-              type="number"
-              min="0"
-              step="0.01"
-              value={initialBalance}
-              onChange={(e) => {
-                const value = e.target.value;
-                // Only allow positive numbers and empty string
-                if (
-                  value === "" ||
-                  (!isNaN(Number.parseFloat(value)) &&
-                    Number.parseFloat(value) >= 0)
-                ) {
-                  setInitialBalance(value);
-                }
-              }}
-              className="text-lg font-semibold"
-              placeholder="Enter initial balance"
-            />
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-muted-foreground">Burned:</span>
-              <span
-                className={`font-medium ${profitLoss >= 0 ? "text-green-600" : "text-red-600"}`}
-              >
-                {profitLoss >= 0 ? "+" : "-"}$
-                {Math.abs(profitLoss).toLocaleString()}
-              </span>
-            </div>
+          <div className="text-2xl font-bold">
+            ${initialBalanceNum.toLocaleString()}
           </div>
+          <p className="text-muted-foreground text-xs">
+            Total PnL:{" "}
+            <span
+              className={`font-medium ${profitLoss >= 0 ? "text-green-600" : "text-red-600"}`}
+            >
+              {profitLoss >= 0 ? "+" : "-"}$
+              {Math.abs(profitLoss).toLocaleString()}
+            </span>
+          </p>
         </CardContent>
       </Card>
     </div>
@@ -597,6 +507,7 @@ function RealtimeStatsSummary({
 // Account Row Data Component for Table
 type AccountRowDataProps = {
   address: string;
+  label?: string;
   index: number;
   isExpanded: boolean;
   onToggleExpanded: (address: string) => void;
@@ -605,6 +516,7 @@ type AccountRowDataProps = {
 
 function AccountRowData({
   address,
+  label,
   index,
   isExpanded,
   onToggleExpanded,
@@ -648,6 +560,9 @@ function AccountRowData({
               {address.slice(0, ADDRESS_PREFIX_DISPLAY_LENGTH)}...
               {address.slice(-ADDRESS_SUFFIX_DISPLAY_LENGTH)}
             </span>
+            {label && (
+              <span className="text-muted-foreground text-xs">• {label}</span>
+            )}
           </div>
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm">Loading...</td>
@@ -704,6 +619,9 @@ function AccountRowData({
               {address.slice(0, ADDRESS_PREFIX_DISPLAY_LENGTH)}...
               {address.slice(-ADDRESS_SUFFIX_DISPLAY_LENGTH)}
             </span>
+            {label && (
+              <span className="text-muted-foreground text-xs">• {label}</span>
+            )}
           </div>
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm text-red-600">
@@ -723,6 +641,11 @@ function AccountRowData({
   }
 
   const account = data.accounts[0];
+  const apiAccountName =
+    account.name && account.name.trim().length > 0
+      ? account.name.trim()
+      : undefined;
+  const displayName = label || apiAccountName;
   const activePositions = account.positions.filter(
     (position) =>
       Number.parseFloat(position.position) !== 0 ||
@@ -766,6 +689,11 @@ function AccountRowData({
               {address.slice(0, ADDRESS_PREFIX_DISPLAY_LENGTH)}...
               {address.slice(-ADDRESS_SUFFIX_DISPLAY_LENGTH)}
             </span>
+            {displayName && (
+              <span className="text-muted-foreground text-xs">
+                • {displayName}
+              </span>
+            )}
           </div>
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm">
@@ -823,15 +751,16 @@ function AccountRowData({
 
 // Balance Summary Table Component
 type BalanceSummaryProps = {
-  addresses: string[];
+  accounts: WatchedAccount[];
   onRemoveAddress: (address: string) => void;
 };
 
-function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
+function BalanceSummary({ accounts, onRemoveAddress }: BalanceSummaryProps) {
   const queryClient = useQueryClient();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const addresses = accounts.map((a) => a.l1_address);
 
   const toggleExpanded = (address: string) => {
     const newExpanded = new Set(expandedRows);
@@ -944,12 +873,13 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
                 </tr>
               </thead>
               <tbody>
-                {addresses.map((address, index) => {
-                  const isExpanded = expandedRows.has(address);
+                {accounts.map((acc, index) => {
+                  const isExpanded = expandedRows.has(acc.l1_address);
                   return (
                     <AccountRowData
-                      key={address}
-                      address={address}
+                      key={acc.l1_address}
+                      address={acc.l1_address}
+                      label={acc.label}
                       index={index}
                       isExpanded={isExpanded}
                       onToggleExpanded={toggleExpanded}

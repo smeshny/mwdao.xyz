@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import type { WalletGroup } from "../types";
 import {
   addWalletGroup,
-  parseAddressListWithGroups,
+  parseAddressEntries,
   updateWalletGroup,
 } from "../utils/storage";
 
@@ -23,7 +23,10 @@ import { Textarea } from "@/components/ui/textarea";
 
 type CreateGroupFormProps = {
   onGroupCreated: (group: WalletGroup) => void;
-  onAddWallets: (wallets: { addresses: string[]; groupName: string }) => void;
+  onAddWallets: (payload: {
+    entries: { address: string; label?: string }[];
+    groupName: string;
+  }) => void;
   existingGroups: WalletGroup[];
 };
 
@@ -36,7 +39,7 @@ export function CreateGroupForm({
   const [initialBalance, setInitialBalance] = useState<string>("");
   const [addressInput, setAddressInput] = useState<string>("");
 
-  const parsedAddresses = parseAddressListWithGroups(addressInput);
+  const parsedEntries = parseAddressEntries(addressInput);
 
   const handleCreateGroup = () => {
     const trimmedName = groupName.trim();
@@ -61,11 +64,8 @@ export function CreateGroupForm({
     }
 
     // Add wallets if provided
-    if (parsedAddresses.addresses.length > 0) {
-      onAddWallets({
-        addresses: parsedAddresses.addresses,
-        groupName: trimmedName,
-      });
+    if (parsedEntries.length > 0) {
+      onAddWallets({ entries: parsedEntries, groupName: trimmedName });
     }
 
     onGroupCreated(newGroup);
@@ -141,10 +141,10 @@ SM4 0x000000000000000000000000000000000000dead # This is a comment`}
           />
 
           <div className="text-muted-foreground text-sm">
-            {parsedAddresses.addresses.length > 0 ? (
+            {parsedEntries.length > 0 ? (
               <span>
-                Found {parsedAddresses.addresses.length} valid address
-                {parsedAddresses.addresses.length !== 1 ? "es" : ""}
+                Found {parsedEntries.length} valid address
+                {parsedEntries.length !== 1 ? "es" : ""}
               </span>
             ) : (
               <span>Optional: Paste addresses to add them to this group</span>
@@ -158,8 +158,8 @@ SM4 0x000000000000000000000000000000000000dead # This is a comment`}
           className="w-full"
         >
           Create Group
-          {parsedAddresses.addresses.length > 0 &&
-            ` & Add ${parsedAddresses.addresses.length} Address${parsedAddresses.addresses.length !== 1 ? "es" : ""}`}
+          {parsedEntries.length > 0 &&
+            ` & Add ${parsedEntries.length} Address${parsedEntries.length !== 1 ? "es" : ""}`}
         </Button>
       </CardContent>
     </Card>

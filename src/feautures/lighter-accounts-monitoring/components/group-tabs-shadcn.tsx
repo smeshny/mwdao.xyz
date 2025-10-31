@@ -31,9 +31,9 @@ export function GroupTabsWithShadcn({
 
   if (groups.length === 0) {
     return (
-      <div className="space-y-4">
-        <div className="text-muted-foreground py-8 text-center">
-          No groups created yet. Create your first group to start organizing
+      <div className="space-y-2">
+        <div className="text-muted-foreground py-2 text-center">
+          No groups created yet. Create your first group to start watching
           wallets.
         </div>
       </div>
