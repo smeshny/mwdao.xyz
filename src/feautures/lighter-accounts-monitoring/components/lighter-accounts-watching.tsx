@@ -217,7 +217,22 @@ export function LighterAccountsWatching() {
         </h1>
         <p className="text-muted-foreground max-w-3xl text-lg">
           Monitor Lighter accounts and their positions in real-time with group
-          organization
+          organization.
+          <span className="mt-1 block text-sm">
+            <b>Paranoic disclaimer:</b> your data is stored locally in your
+            browser and is never sent somewhere else. You can review the source
+            code in repository. For data fetching, this tool uses Lighter’s
+            official API{" "}
+            <a
+              href="https://apidocs.lighter.xyz/reference/account-1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              apidocs.lighter.xyz
+            </a>
+            .
+          </span>
         </p>
       </div>
 
