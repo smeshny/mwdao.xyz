@@ -18,7 +18,7 @@ interface TimelineEvent {
 const timelineData: TimelineEvent[] = [
   {
     id: "1",
-    date: "15 October, 2024",
+    date: "October, 2024",
     title: "Berachain faucet",
     description: "Community faucet for Berachain testnet tokens",
     icon: <span>🐻⛓</span>,
@@ -31,9 +31,10 @@ const timelineData: TimelineEvent[] = [
   },
   {
     id: "2",
-    date: "10 March, 2025",
+    date: "March, 2025",
     title: "Bridge for Monad testnet tokens",
-    description: "Simple exchange for Monad testnet tokens",
+    description:
+      "Simple exchange for Monad testnet tokens. Over 35K transactions was made.",
     icon: <span>😈</span>,
     users: [
       {
@@ -49,44 +50,30 @@ const timelineData: TimelineEvent[] = [
   },
   {
     id: "3",
-    date: "5 October, 2024",
-    title: "Security audit passed ✅",
-    description: "All security checks completed successfully",
-    icon: <span>🛡️</span>,
+    date: "April, 2025",
+    title: "Bullas gampepass analytics",
+    description: "Analytics of Bullas gampepass to find best strategies",
+    icon: <span>🐂</span>,
     users: [
       {
-        name: "security_team",
-        initials: "ST",
-      },
-      {
-        name: "auditor",
-        initials: "AU",
+        name: "smeshny",
+        avatar: "https://avatars.githubusercontent.com/u/14953852?v=4&size=64",
       },
     ],
   },
   {
     id: "4",
-    date: "1 October, 2024",
-    title: "Mainnet deployment",
-    description: "Smart contracts deployed to Berachain mainnet",
-    icon: <span>🌐</span>,
+    date: "October, 2025",
+    title: "Lighter accounts monitoring",
+    description:
+      "Monitoring of Lighter accounts, their positions and money burned",
+    icon: <span>🕯️</span>,
     users: [
       {
-        name: "deploy_bot",
-        initials: "DB",
-      },
-      {
-        name: "ops_team",
-        initials: "OT",
+        name: "smeshny",
+        avatar: "https://avatars.githubusercontent.com/u/14953852?v=4&size=64",
       },
     ],
-  },
-  {
-    id: "5",
-    date: "25 September, 2024",
-    title: "Project kickoff 🎉",
-    description: "Started building the future of DeFi",
-    icon: <span className="text-xl">🚀</span>,
   },
 ];
 
