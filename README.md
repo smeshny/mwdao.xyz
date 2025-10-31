@@ -1,78 +1,37 @@
-# Mainline Next.js Template
+# mwdao.xyz website
 
-Mainline is a free template built with shadcn/ui, Tailwind 4 and Next.js 15.
+This repository contains the source code for the mwdao.xyz website. It’s a modern Next.js 15 application using Tailwind CSS 4, shadcn/ui, React 19 and TypeScript. The site includes public pages and open‑source tools developed by MWDAO.
 
-- [Demo](https://mainline-nextjs-template.vercel.app/)
-- [Documentation](https://docs.shadcnblocks.com/templates/getting-started)
-- [Figma](https://www.figma.com/design/cFCLMj7DFv0sK7EVsqKeTa/Mainline?node-id=23250-13201&t=I1nAdchDpknii5Bd-1)
+Highlights
+- Next.js App Router with server and client components
+- Tailwind CSS 4 + shadcn/ui component system
+- TypeScript, ESLint and Prettier setup
+- TanStack Query (React Query) where client‑side data fetching/caching is needed
+- Deployment on Vercel is recommended
 
-![Mainline NextJS Template screenshot](./public/og-image.jpg)
+Getting Started
+1) Requirements: Node.js 18.17+
+2) Install and run:
+   - `npm install`
+   - `npm run dev`
+3) Open `http://localhost:3000`.
 
-## Getting Started
+Common Scripts
+- `npm run dev` — start development server (Turbopack)
+- `npm run build` — production build
+- `npm start` — start production server
+- `npm run lint` — format, lint and TypeScript check (`tsc --noEmit`)
 
-```bash
-npm install
-```
+Project Structure (selected)
+- `src/app` — routes, layouts and pages
+- `src/components` — shared UI blocks and primitives
+- `src/lib` — utilities (e.g., SEO metadata)
+- `src/feautures` — feature modules
+  - `lighter-accounts-monitoring` — tool to monitor Lighter accounts (route: `/tools/lighter-accounts-monitoring`)
 
-```bash
-npm run dev
-```
+Notes
+- If you rename or move routes and see stale type errors from `.next/types`, delete the `.next` folder and restart the dev server to regenerate types.
+- Some tool data (e.g., saved wallets/groups) is stored locally in the browser via `localStorage`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Features
-
-### Core Technology Stack
-
-- **Next.js 15** with App Router
-- **Tailwind CSS 4** for styling
-- **shadcn/ui** components
-- **TypeScript** support
-- **React 19**
-
-### Key Features
-
-- **Shadcn UI**: uses [shadcn/ui](https://ui.shadcn.com/) core UI components
-- **Theme System**: Dark/light mode with `next-themes`, compatible with [tweakcn](https://tweakcn.com)
-- **Form Handling**: React Hook Form + Zod validation
-- **Server Actions**: Next-safe-action integration for server-side logic
-- **MDX Support**: For content pages
-- **Animations**: Motion library (Framer Motion) integration
-- **ESLint/Prettier**: Pre-configured code formatting and linting
-- **Custom Fonts**: DM Sans font family included
-- **Icons**: Lucide React + React Icons libraries
-- **Styleglide Integration**: For component previews/development
-- **Responsive Design**: Mobile-friendly layout
-- **SEO Ready**: Proper metadata and OG images included
-
-### Pre-built Pages
-
-- Home/Landing page
-- About page
-- Pricing page
-- FAQ page
-- Contact page with form
-- Login/Signup pages
-
-### Blocks
-
-- Hero section
-- Logo showcase/marquee
-- Features section
-- Resource allocation section
-- Testimonials with carousel
-- Pricing table
-- FAQ with accordion
-- Footer
-- Navigation bar
-
-## Deployment
-
-Production-ready and tested for deployment on [Vercel](https://vercel.com)
-
-## Credits
-
-- Template by [shadcnblocks.com](https://shadcnblocks.com)
-- Design by [Callum Flack](https://x.com/callumflack)
-- Dev by [Yassine Zaanouni](https://x.com/YassineZaanouni)
-- Produced by [Rob Austin](https://x.com/ausrobdev)
+License
+Open source. See project files for details.
