@@ -46,25 +46,18 @@ export function GroupTabsWithShadcn({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Tabs value={activeGroup} onValueChange={onGroupChange}>
-            <TabsList className="bg-transparent p-0">
+            <TabsList className="bg-muted/30 rounded-lg p-1">
               {groups.map((group) => (
                 <TabsTrigger
                   key={group.id}
                   value={group.name}
-                  className="data-[state=active]:bg-background text-sm data-[state=active]:shadow-sm"
+                  className="hover:bg-muted/60 text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:border-border rounded-md border border-transparent px-3 py-1.5 text-sm transition-colors data-[state=active]:shadow-sm"
                 >
                   {group.name}
                 </TabsTrigger>
               ))}
             </TabsList>
           </Tabs>
-
-          {activeGroup && (
-            <div className="text-muted-foreground text-sm">
-              Showing wallets for group:{" "}
-              <span className="font-medium">{activeGroup}</span>
-            </div>
-          )}
         </div>
 
         {/* Group Actions */}
