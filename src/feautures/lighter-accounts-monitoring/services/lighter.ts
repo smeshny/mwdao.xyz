@@ -5,6 +5,7 @@ const ETHEREUM_ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/;
 
 export async function fetchLighterAccount(
   l1Address: string,
+  init?: RequestInit,
 ): Promise<LighterAccountResponse> {
   const url = new URL(`${LIGHTER_API_BASE}/account`);
   url.searchParams.set("by", "l1_address");
@@ -14,6 +15,7 @@ export async function fetchLighterAccount(
     headers: {
       accept: "application/json",
     },
+    ...init,
   });
 
   if (!response.ok) {

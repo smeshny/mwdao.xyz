@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { fetchLighterAccount } from "../services/lighter";
+import { fetchLighterAccount, isValidL1Address } from "../services/lighter";
 import type { LighterAccountResponse } from "../types";
 
 const FIVE_MINUTES = 5;
@@ -20,13 +20,15 @@ export function useLighterAccount(
   options: UseLighterAccountOptions = {},
 ) {
   const { refetchInterval, enabled = true } = options;
+  const effectiveRefetchInterval = refetchInterval ?? 30_000; // default 30s
 
   return useQuery<LighterAccountResponse>({
     queryKey: ["lighter-account", l1Address],
-    queryFn: () => fetchLighterAccount(l1Address),
+    queryFn: ({ signal }) => fetchLighterAccount(l1Address, { signal }),
     refetchInterval,
-    enabled: enabled && l1Address.length > 0,
-    staleTime: 30_000, // 30 seconds
+    enabled: enabled && isValidL1Address(l1Address),
+    staleTime: effectiveRefetchInterval,
     gcTime: FIVE_MINUTES * ONE_MINUTE_MS, // 5 minutes
+    placeholderData: (prev) => prev,
   });
 }

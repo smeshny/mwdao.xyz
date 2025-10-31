@@ -139,10 +139,10 @@ export function AddWalletsForm({
             onChange={(e) => setAddressInput(e.target.value)}
             placeholder={`Paste addresses here. Supports multiple formats:
 
-SM1 0x042ffe02F6565dAD4c359D335765356B705aB50A
-SM2 0x6446E6FF8564b700059D80F921BEc949235cFc38
+SM1 0x000000000000000000000000000000000000dead
+SM2 0x000000000000000000000000000000000000dead
 0xCCc054C3FF50C3F132bD4dE74C2F7291ae88e0F9
-SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d # This is a comment`}
+SM4 0x000000000000000000000000000000000000dead # This is a comment`}
             value={addressInput}
           />
 

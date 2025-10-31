@@ -2,13 +2,21 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 
+import { useQueryClient } from "@tanstack/react-query";
+import type { QueryCacheNotifyEvent, QueryKey } from "@tanstack/react-query";
+
 import { AccountCard } from "./account-card";
 import { AddWalletsForm } from "./add-wallets-form";
 import { CreateGroupForm } from "./create-group-form";
 import { EditGroupDialogShadcn } from "./edit-group-dialog-shadcn";
 import { GroupTabsWithShadcn } from "./group-tabs-shadcn";
 import { useLighterAccount } from "../hooks/use-lighter-accounts";
-import type { WatchedAccount, WalletGroup } from "../types";
+import type {
+  WatchedAccount,
+  WalletGroup,
+  LighterAccountResponse,
+  LighterPosition,
+} from "../types";
 import {
   loadWatchedAddresses,
   loadWatchedAccounts,
@@ -277,10 +285,10 @@ export function LighterAccountsWatching() {
               <div className="mx-auto max-w-md text-left">
                 <h4 className="mb-2 text-sm font-medium">Example format:</h4>
                 <pre className="bg-muted text-muted-foreground overflow-x-auto rounded-lg border p-3 text-xs">
-                  {`SM1 0x042ffe02F6565dAD4c359D335765356B705aB50A
-SM2 0x6446E6FF8564b700059D80F921BEc949235cFc38
-SM3 0xCCc054C3FF50C3F132bD4dE74C2F7291ae88e0F9
-SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d`}
+                  {`SM1 0x000000000000000000000000000000000000dead
+SM2 0x000000000000000000000000000000000000dead
+SM3 0x000000000000000000000000000000000000dead
+SM4 0x000000000000000000000000000000000000dead`}
                 </pre>
               </div>
             </div>
@@ -314,6 +322,7 @@ function RealtimeStatsSummary({
   activeGroup,
   walletGroups,
 }: RealtimeStatsSummaryProps) {
+  const queryClient = useQueryClient();
   const [totalStats, setTotalStats] = useState({
     totalCollateral: 0,
     totalPositions: 0,
@@ -367,58 +376,72 @@ function RealtimeStatsSummary({
   const initialBalanceNum = Number.parseFloat(initialBalance) || 0;
   const profitLoss = totalStats.totalAssetValue - initialBalanceNum; // Positive = profit, Negative = loss
 
-  // Fetch data for all addresses and calculate totals
+  // Derive totals from React Query cache for the watched addresses
+  const recomputeTotals = useCallback(() => {
+    let totalCollateral = 0;
+    let totalPositions = 0;
+    let totalOrders = 0;
+    let totalAssetValue = 0;
+
+    for (const address of watchedAddresses) {
+      const data = queryClient.getQueryData<LighterAccountResponse>([
+        "lighter-account",
+        address,
+      ]);
+      const account = data?.accounts?.[0];
+      if (!account) continue;
+
+      totalCollateral += Number.parseFloat(account.collateral || "0");
+      totalAssetValue += Number.parseFloat(account.total_asset_value || "0");
+      const activePositions = account.positions.filter(
+        (position: LighterPosition) =>
+          Number.parseFloat(position.position) !== 0 ||
+          Number.parseFloat(position.unrealized_pnl) !== 0,
+      );
+      totalPositions += activePositions.length;
+      totalOrders += account.pending_order_count || 0;
+    }
+
+    setTotalStats({
+      totalCollateral,
+      totalPositions,
+      totalOrders,
+      totalAssetValue,
+    });
+  }, [queryClient, watchedAddresses]);
+
+  // Type guard for our query key shape
+  const isLighterAccountKey = (
+    key: QueryKey,
+  ): key is ["lighter-account", string] =>
+    Array.isArray(key) &&
+    key.length >= 2 &&
+    key[0] === "lighter-account" &&
+    typeof key[1] === "string";
+
   useEffect(() => {
-    if (watchedAddresses.length === 0) return;
+    // Compute once when addresses change
+    recomputeTotals();
 
-    const fetchAllAccountData = async () => {
-      try {
-        // We'll use the service directly for batch fetching
-        const { fetchLighterAccount } = await import("../services/lighter");
-
-        const results = await Promise.allSettled(
-          watchedAddresses.map((address) => fetchLighterAccount(address)),
-        );
-
-        let totalCollateral = 0;
-        let totalPositions = 0;
-        let totalOrders = 0;
-        let totalAssetValue = 0;
-
-        results.forEach((result) => {
-          if (result.status === "fulfilled" && result.value?.accounts?.length) {
-            const account = result.value.accounts[0];
-            totalCollateral += Number.parseFloat(account.collateral || "0");
-            totalAssetValue += Number.parseFloat(
-              account.total_asset_value || "0",
-            );
-
-            const activePositions = account.positions.filter(
-              (position) =>
-                Number.parseFloat(position.position) !== 0 ||
-                Number.parseFloat(position.unrealized_pnl) !== 0,
-            );
-            totalPositions += activePositions.length;
-            totalOrders += account.pending_order_count || 0;
+    // Subscribe to query cache updates and recompute when relevant
+    const unsubscribe = queryClient
+      .getQueryCache()
+      .subscribe((event: QueryCacheNotifyEvent) => {
+        const q = event?.query;
+        if (!q) return;
+        const key = q.queryKey as QueryKey;
+        if (isLighterAccountKey(key)) {
+          const addr = key[1];
+          if (watchedAddresses.includes(addr)) {
+            recomputeTotals();
           }
-        });
+        }
+      });
 
-        setTotalStats({
-          totalCollateral,
-          totalPositions,
-          totalOrders,
-          totalAssetValue,
-        });
-      } catch {
-        // Error fetching account stats - silently continue
-      }
+    return () => {
+      unsubscribe();
     };
-
-    fetchAllAccountData();
-    const interval = setInterval(fetchAllAccountData, 30000); // Update every 30 seconds
-
-    return () => clearInterval(interval);
-  }, [watchedAddresses]);
+  }, [queryClient, recomputeTotals, watchedAddresses]);
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -578,7 +601,6 @@ type AccountRowDataProps = {
   isExpanded: boolean;
   onToggleExpanded: (address: string) => void;
   onRemoveAddress: (address: string) => void;
-  registerRefetch: (address: string, refetch: () => void) => void;
 };
 
 function AccountRowData({
@@ -587,16 +609,10 @@ function AccountRowData({
   isExpanded,
   onToggleExpanded,
   onRemoveAddress,
-  registerRefetch,
 }: AccountRowDataProps) {
-  const { data, isLoading, error, refetch } = useLighterAccount(address, {
+  const { data, isLoading, error } = useLighterAccount(address, {
     refetchInterval: REFRESH_INTERVAL_MS,
   });
-
-  // Register the refetch function with parent
-  React.useEffect(() => {
-    registerRefetch(address, refetch);
-  }, [address, refetch, registerRefetch]);
 
   if (isLoading) {
     return (
@@ -714,7 +730,7 @@ function AccountRowData({
   );
   const hasActiveContent =
     activePositions.length > 0 || account.pending_order_count > 0;
-  const totalActiveItems = activePositions.length + account.pending_order_count;
+  const positionCount = activePositions.length;
 
   return (
     <React.Fragment key={address}>
@@ -772,7 +788,7 @@ function AccountRowData({
                 onClick={() => onToggleExpanded(address)}
                 type="button"
               >
-                {isExpanded ? "Hide" : "Positions"} ({totalActiveItems})
+                {isExpanded ? "Hide" : "Positions"} ({positionCount})
               </Button>
             )}
           </div>
@@ -812,14 +828,10 @@ type BalanceSummaryProps = {
 };
 
 function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
+  const queryClient = useQueryClient();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [isRefreshing, setIsRefreshing] = useState(false);
-
-  // Store refetch functions for all accounts
-  const [refetchFunctions, setRefetchFunctions] = useState<
-    Map<string, () => void>
-  >(new Map());
 
   const toggleExpanded = (address: string) => {
     const newExpanded = new Set(expandedRows);
@@ -834,13 +846,8 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
   const handleManualRefresh = async () => {
     setIsRefreshing(true);
     setLastUpdated(new Date());
-
-    // Call all stored refetch functions
-    const promises = Array.from(refetchFunctions.values()).map((refetch) =>
-      refetch(),
-    );
     try {
-      await Promise.allSettled(promises);
+      await queryClient.invalidateQueries({ queryKey: ["lighter-account"] });
     } catch {
       // Ignore individual fetch errors during refresh
     } finally {
@@ -868,14 +875,6 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
     const diffHours = Math.floor(diffMins / 60);
     return `${timestamp} (${diffHours}h ago)`;
   };
-
-  // Register refetch function from AccountRowData
-  const registerRefetch = useCallback(
-    (address: string, refetch: () => void) => {
-      setRefetchFunctions((prev) => new Map(prev).set(address, refetch));
-    },
-    [],
-  );
 
   return (
     <Card>
@@ -955,7 +954,6 @@ function BalanceSummary({ addresses, onRemoveAddress }: BalanceSummaryProps) {
                       isExpanded={isExpanded}
                       onToggleExpanded={toggleExpanded}
                       onRemoveAddress={onRemoveAddress}
-                      registerRefetch={registerRefetch}
                     />
                   );
                 })}

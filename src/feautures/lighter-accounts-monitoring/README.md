@@ -8,9 +8,9 @@ A React component for monitoring Lighter trading accounts and their positions in
 - **Bulk address import**: Paste multiple addresses at once with support for various formats
 - **Local storage persistence**: Addresses are saved locally and persist between sessions
 - **Address parsing**: Supports multiple formats:
-  - `SM1 0x042ffe02F6565dAD4c359D335765356B705aB50A`
-  - `0x042ffe02F6565dAD4c359D335765356B705aB50A`
-  - `SM4 0x0b5Aa2aa22e3F0a0930a04Fb0a84B589139DD06d # This is a comment`
+  - `SM1 0x000000000000000000000000000000000000dead`
+  - `0x000000000000000000000000000000000000dead`
+  - `SM4 0x000000000000000000000000000000000000dead # This is a comment`
 - **Account statistics**: Shows total collateral, active positions across all accounts
 - **Position details**: Displays individual positions with PnL, entry prices, liquidation prices
 - **Error handling**: Graceful error handling with retry functionality
