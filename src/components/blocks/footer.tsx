@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 
 export function Footer() {
   const navigation = [
-    { name: "Product", href: "/#feature-modern-teams" },
+    { name: "Donate to MWDAO", href: "https://docs.mwdao.xyz/dao/treasury" },
     // { name: "About Us", href: "/about" },
     // { name: "Pricing", href: "/pricing" },
     // { name: "FAQ", href: "/faq" },
