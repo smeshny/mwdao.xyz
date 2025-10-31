@@ -51,7 +51,7 @@ export type WatchedAccount = {
   lastUpdated?: Date;
   error?: string;
   groupName?: string;
-  // Optional user-provided label (e.g., "SM1")
+  // Optional user-provided label (e.g., "Wallet1")
   label?: string;
 };
 

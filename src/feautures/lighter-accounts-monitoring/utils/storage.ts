@@ -60,9 +60,9 @@ export function parseAddressList(input: string): string[] {
     }
 
     // Handle different formats
-    // Format 1: SM1 0x...
+    // Format 1: Wallet1 0x...
     // Format 2: 0x... (just the address)
-    // Format 3: SM1 0x... # comment
+    // Format 3: Wallet1 0x... # comment
     const parts = trimmedLine.split(WHITESPACE_REGEX);
     const address = parts.find((part) => part.startsWith("0x"));
 
@@ -78,7 +78,7 @@ export function parseAddressList(input: string): string[] {
   return [...new Set(addresses)]; // Remove duplicates
 }
 
-// Parse address list and capture optional user labels (e.g., "SM1 0x...")
+// Parse address list and capture optional user labels (e.g., "Wallet1 0x...")
 export function parseAddressEntries(
   input: string,
 ): { address: string; label?: string }[] {
@@ -144,9 +144,9 @@ export function parseAddressListWithGroups(input: string): {
     }
 
     // Handle different formats
-    // Format 1: SM1 0x...
+    // Format 1: Wallet1 0x...
     // Format 2: 0x... (just the address)
-    // Format 3: SM1 0x... # comment
+    // Format 3: Wallet1 0x... # comment
     const parts = trimmedLine.split(WHITESPACE_REGEX);
     const address = parts.find((part) => part.startsWith("0x"));
 
