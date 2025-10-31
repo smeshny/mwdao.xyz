@@ -47,7 +47,10 @@ export const Hero = () => {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4 lg:flex-nowrap">
-            <Button asChild>
+            <Button
+              className="from-primary/90 to-primary/80 hover:from-primary hover:to-primary/90 dark:shadow-primary/20 dark:hover:shadow-primary/30 border-primary/20 dark:border-primary/30 h-auto gap-2 border bg-gradient-to-r shadow-lg transition-all duration-200 hover:shadow-2xl dark:shadow-2xl"
+              asChild
+            >
               <a
                 href="https://docs.mwdao.xyz/dao/treasury"
                 target="_blank"
@@ -58,7 +61,7 @@ export const Hero = () => {
             </Button>
             <Button
               variant="outline"
-              className="from-background h-auto gap-2 bg-linear-to-r to-transparent shadow-md"
+              className="from-background/80 to-background/60 hover:from-background hover:to-background/80 border-border/50 dark:from-muted/50 dark:to-muted/30 dark:border-muted-foreground/20 h-auto gap-2 bg-gradient-to-r shadow-lg backdrop-blur-sm transition-all duration-200 hover:shadow-2xl dark:bg-gradient-to-br dark:shadow-lg dark:hover:shadow-2xl"
               asChild
             >
               <a
