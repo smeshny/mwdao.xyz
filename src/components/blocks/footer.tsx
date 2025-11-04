@@ -19,6 +19,9 @@ export function Footer() {
 
   const legal = [{ name: "Privacy Policy", href: "/privacy" }];
 
+  const commitSha = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
+  const shortSha = commitSha?.slice(0, 7);
+
   return (
     <footer className="flex flex-col items-center gap-14 pt-4">
       <nav className="container flex flex-col items-center gap-4">
@@ -58,6 +61,18 @@ export function Footer() {
             </li>
           ))}
         </ul>
+
+        {shortSha ? (
+          <Link
+            href={`https://github.com/smeshny/mwdao.xyz/commit/${commitSha}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={commitSha}
+            className="text-muted-foreground text-xs transition-opacity hover:opacity-75"
+          >
+            Build {shortSha}
+          </Link>
+        ) : null}
       </nav>
 
       <div className="text-primary mt-4 w-full from-current to-transparent px-4 opacity-10 dark:opacity-90">
