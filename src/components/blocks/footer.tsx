@@ -39,7 +39,11 @@ export function Footer() {
           {social.map((item) => (
             <li key={item.name}>
               <Link
-                href={item.href}
+                href={
+                  item.name === "GitHub" && commitSha
+                    ? `https://github.com/smeshny/mwdao.xyz/commit/${commitSha}`
+                    : item.href
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-0.5 font-medium transition-opacity hover:opacity-75"
@@ -49,7 +53,10 @@ export function Footer() {
               >
                 {item.name}
                 {item.name === "GitHub" && shortSha ? (
-                  <span className="text-muted-foreground"> ({shortSha})</span>
+                  <span className="text-muted-foreground">
+                    {" "}
+                    (Build commit: {shortSha})
+                  </span>
                 ) : null}
                 <ArrowUpRight className="size-4" />
               </Link>
