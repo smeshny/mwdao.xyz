@@ -43,8 +43,15 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-0.5 font-medium transition-opacity hover:opacity-75"
+                title={
+                  item.name === "GitHub" && commitSha ? commitSha : undefined
+                }
               >
-                {item.name} <ArrowUpRight className="size-4" />
+                {item.name}
+                {item.name === "GitHub" && shortSha ? (
+                  <span className="text-muted-foreground"> ({shortSha})</span>
+                ) : null}
+                <ArrowUpRight className="size-4" />
               </Link>
             </li>
           ))}
@@ -61,18 +68,6 @@ export function Footer() {
             </li>
           ))}
         </ul>
-
-        {shortSha ? (
-          <Link
-            href={`https://github.com/smeshny/mwdao.xyz/commit/${commitSha}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={commitSha}
-            className="text-muted-foreground text-xs transition-opacity hover:opacity-75"
-          >
-            Build {shortSha}
-          </Link>
-        ) : null}
       </nav>
 
       <div className="text-primary mt-4 w-full from-current to-transparent px-4 opacity-10 dark:opacity-90">
