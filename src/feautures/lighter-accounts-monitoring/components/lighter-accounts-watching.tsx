@@ -331,18 +331,21 @@ function RealtimeStatsSummary({
         "lighter-account",
         address,
       ]);
-      const account = data?.accounts?.[0];
-      if (!account) continue;
+      const accounts = data?.accounts;
+      if (!accounts?.length) continue;
 
-      totalCollateral += Number.parseFloat(account.collateral || "0");
-      totalAssetValue += Number.parseFloat(account.total_asset_value || "0");
-      const activePositions = account.positions.filter(
-        (position: LighterPosition) =>
-          Number.parseFloat(position.position) !== 0 ||
-          Number.parseFloat(position.unrealized_pnl) !== 0,
-      );
-      totalPositions += activePositions.length;
-      totalOrders += account.pending_order_count || 0;
+      // Aggregate across all accounts (main + subaccounts)
+      for (const account of accounts) {
+        totalCollateral += Number.parseFloat(account.collateral || "0");
+        totalAssetValue += Number.parseFloat(account.total_asset_value || "0");
+        const activePositions = account.positions.filter(
+          (position: LighterPosition) =>
+            Number.parseFloat(position.position) !== 0 ||
+            Number.parseFloat(position.unrealized_pnl) !== 0,
+        );
+        totalPositions += activePositions.length;
+        totalOrders += account.pending_order_count || 0;
+      }
     }
 
     setTotalStats({
@@ -655,20 +658,39 @@ function AccountRowData({
     );
   }
 
-  const account = data.accounts[0];
-  const apiAccountName =
-    account.name && account.name.trim().length > 0
-      ? account.name.trim()
-      : undefined;
-  const displayName = label || apiAccountName;
-  const activePositions = account.positions.filter(
-    (position) =>
-      Number.parseFloat(position.position) !== 0 ||
-      Number.parseFloat(position.unrealized_pnl) !== 0,
+  const accounts = data.accounts;
+
+  // Calculate totals across all accounts
+  const totalCollateral = accounts.reduce(
+    (sum, account) => sum + Number.parseFloat(account.collateral || "0"),
+    0,
   );
-  const hasActiveContent =
-    activePositions.length > 0 || account.pending_order_count > 0;
-  const positionCount = activePositions.length;
+  const totalAvailableBalance = accounts.reduce(
+    (sum, account) => sum + Number.parseFloat(account.available_balance || "0"),
+    0,
+  );
+  const totalAssetValue = accounts.reduce(
+    (sum, account) => sum + Number.parseFloat(account.total_asset_value || "0"),
+    0,
+  );
+
+  // Calculate total active positions and orders across all accounts
+  const totalActivePositions = accounts.reduce((sum, account) => {
+    const activePositions = account.positions.filter(
+      (position: LighterPosition) =>
+        Number.parseFloat(position.position) !== 0 ||
+        Number.parseFloat(position.unrealized_pnl) !== 0,
+    );
+    return sum + activePositions.length;
+  }, 0);
+
+  const totalOrders = accounts.reduce(
+    (sum, account) => sum + (account.pending_order_count || 0),
+    0,
+  );
+
+  const hasActiveContent = totalActivePositions > 0 || totalOrders > 0;
+  const displayName = label;
 
   return (
     <React.Fragment key={address}>
@@ -709,18 +731,19 @@ function AccountRowData({
                 • {displayName}
               </span>
             )}
+            <span className="text-muted-foreground text-xs">
+              • {accounts.length} account{accounts.length !== 1 ? "s" : ""}
+            </span>
           </div>
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm">
-          ${Number.parseFloat(account.collateral || "0").toLocaleString()}
+          ${totalCollateral.toLocaleString()}
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm text-green-600">
-          $
-          {Number.parseFloat(account.available_balance || "0").toLocaleString()}
+          ${totalAvailableBalance.toLocaleString()}
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm">
-          $
-          {Number.parseFloat(account.total_asset_value || "0").toLocaleString()}
+          ${totalAssetValue.toLocaleString()}
         </td>
         <td className="px-4 py-3">
           <div className="flex items-center justify-center gap-2">
@@ -731,7 +754,7 @@ function AccountRowData({
                 onClick={() => onToggleExpanded(address)}
                 type="button"
               >
-                {isExpanded ? "Hide" : "Positions"} ({positionCount})
+                {isExpanded ? "Hide" : "Positions"} ({totalActivePositions})
               </Button>
             )}
           </div>
@@ -747,14 +770,39 @@ function AccountRowData({
                 <h4 className="font-medium">Account Details</h4>
                 <span className="text-muted-foreground">•</span>
                 <span className="text-muted-foreground text-sm">
-                  {activePositions.length} position
-                  {activePositions.length !== 1 ? "s" : ""},{" "}
-                  {account.pending_order_count} order
-                  {account.pending_order_count !== 1 ? "s" : ""}
+                  {totalActivePositions} position
+                  {totalActivePositions !== 1 ? "s" : ""}, {totalOrders} order
+                  {totalOrders !== 1 ? "s" : ""}
+                </span>
+                <span className="text-muted-foreground">•</span>
+                <span className="text-muted-foreground text-sm">
+                  {accounts.length} account{accounts.length !== 1 ? "s" : ""}
                 </span>
               </div>
-              <div className="bg-background rounded-lg border p-6">
-                <AccountCard account={account} lastUpdated={new Date()} />
+              <div className="space-y-6">
+                {accounts.map((account, accountIndex) => (
+                  <div
+                    key={`${account.account_index}-${accountIndex}`}
+                    className="space-y-3"
+                  >
+                    <div className="flex items-center gap-2 text-sm font-medium">
+                      <span className="text-muted-foreground">
+                        {account.account_type === 0 ? "Main" : "Sub"} Account
+                      </span>
+                      <span className="text-muted-foreground">
+                        #{account.account_index}
+                      </span>
+                      {account.name && account.name.trim() && (
+                        <span className="text-muted-foreground">
+                          • {account.name.trim()}
+                        </span>
+                      )}
+                    </div>
+                    <div className="bg-background rounded-lg border p-6">
+                      <AccountCard account={account} lastUpdated={new Date()} />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </td>
