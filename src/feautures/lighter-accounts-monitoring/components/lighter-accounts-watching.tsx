@@ -8,6 +8,7 @@ import type { QueryCacheNotifyEvent, QueryKey } from "@tanstack/react-query";
 import { AccountCard } from "./account-card";
 import { AddWalletsForm } from "./add-wallets-form";
 import { CreateGroupForm } from "./create-group-form";
+import { DepositAddressGenerator } from "./deposit-address-generator";
 import { EditGroupDialogShadcn } from "./edit-group-dialog-shadcn";
 import { GroupTabsWithShadcn } from "./group-tabs-shadcn";
 import { useLighterAccount } from "../hooks/use-lighter-accounts";
@@ -290,6 +291,9 @@ export function LighterAccountsWatching() {
         }}
         onSave={handleSaveGroup}
       />
+
+      {/* Deposit Address Generator */}
+      <DepositAddressGenerator />
     </div>
   );
 }
