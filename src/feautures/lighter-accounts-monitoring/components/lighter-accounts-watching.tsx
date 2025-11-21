@@ -17,6 +17,7 @@ import type {
   WalletGroup,
   LighterAccountResponse,
   LighterPosition,
+  LighterAccount,
 } from "../types";
 import {
   loadWatchedAddresses,
@@ -37,10 +38,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 const REFRESH_INTERVAL_MS = 30_000; // 30 seconds
 const ADDRESS_PREFIX_DISPLAY_LENGTH = 6;
 const ADDRESS_SUFFIX_DISPLAY_LENGTH = 4;
+const INCLUDE_SUBACCOUNTS_KEY = "lighter-include-subaccounts";
+
+const filterAccountsByVisibility = (
+  accounts: LighterAccount[],
+  includeSubaccounts: boolean,
+) =>
+  includeSubaccounts
+    ? accounts
+    : accounts.filter((account) => account.account_type === 0);
 
 export function LighterAccountsWatching() {
   const [watchedAccounts, setWatchedAccounts] = useState<WatchedAccount[]>([]);
@@ -49,6 +61,7 @@ export function LighterAccountsWatching() {
   const [editingGroup, setEditingGroup] = useState<WalletGroup | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [includeSubaccounts, setIncludeSubaccounts] = useState(true);
 
   // Prevent hydration mismatch
   useEffect(() => {
@@ -80,6 +93,13 @@ export function LighterAccountsWatching() {
     // Load wallet groups
     const savedGroups = loadWalletGroups();
     setWalletGroups(savedGroups);
+
+    const storedIncludeSubaccounts = localStorage.getItem(
+      INCLUDE_SUBACCOUNTS_KEY,
+    );
+    if (storedIncludeSubaccounts !== null) {
+      setIncludeSubaccounts(storedIncludeSubaccounts === "true");
+    }
   }, [isMounted]);
 
   // Save to localStorage whenever data changes
@@ -94,6 +114,15 @@ export function LighterAccountsWatching() {
       saveWalletGroups(walletGroups);
     }
   }, [walletGroups, isMounted]);
+
+  useEffect(() => {
+    if (isMounted) {
+      localStorage.setItem(
+        INCLUDE_SUBACCOUNTS_KEY,
+        includeSubaccounts.toString(),
+      );
+    }
+  }, [includeSubaccounts, isMounted]);
 
   const handleAddWallets = ({
     entries,
@@ -252,6 +281,7 @@ export function LighterAccountsWatching() {
           watchedAddresses={filteredAddresses}
           activeGroup={activeGroup}
           walletGroups={walletGroups}
+          includeSubaccounts={includeSubaccounts}
         />
       )}
 
@@ -260,6 +290,8 @@ export function LighterAccountsWatching() {
         <BalanceSummary
           accounts={filteredAccounts}
           onRemoveAddress={handleRemoveAddress}
+          includeSubaccounts={includeSubaccounts}
+          onToggleIncludeSubaccounts={setIncludeSubaccounts}
         />
       )}
 
@@ -303,12 +335,14 @@ type RealtimeStatsSummaryProps = {
   watchedAddresses: string[];
   activeGroup: string;
   walletGroups: WalletGroup[];
+  includeSubaccounts: boolean;
 };
 
 function RealtimeStatsSummary({
   watchedAddresses,
   activeGroup,
   walletGroups,
+  includeSubaccounts,
 }: RealtimeStatsSummaryProps) {
   const queryClient = useQueryClient();
   const [totalStats, setTotalStats] = useState({
@@ -335,10 +369,13 @@ function RealtimeStatsSummary({
         "lighter-account",
         address,
       ]);
-      const accounts = data?.accounts;
-      if (!accounts?.length) continue;
+      const accounts = filterAccountsByVisibility(
+        data?.accounts ?? [],
+        includeSubaccounts,
+      );
+      if (!accounts.length) continue;
 
-      // Aggregate across all accounts (main + subaccounts)
+      // Aggregate across visible accounts (main + subaccounts when enabled)
       for (const account of accounts) {
         totalCollateral += Number.parseFloat(account.collateral || "0");
         totalAssetValue += Number.parseFloat(account.total_asset_value || "0");
@@ -358,7 +395,7 @@ function RealtimeStatsSummary({
       totalOrders,
       totalAssetValue,
     });
-  }, [queryClient, watchedAddresses]);
+  }, [includeSubaccounts, queryClient, watchedAddresses]);
 
   // Type guard for our query key shape
   const isLighterAccountKey = (
@@ -391,7 +428,7 @@ function RealtimeStatsSummary({
     return () => {
       unsubscribe();
     };
-  }, [queryClient, recomputeTotals, watchedAddresses]);
+  }, [includeSubaccounts, queryClient, recomputeTotals, watchedAddresses]);
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -534,6 +571,7 @@ type AccountRowDataProps = {
   isExpanded: boolean;
   onToggleExpanded: (address: string) => void;
   onRemoveAddress: (address: string) => void;
+  includeSubaccounts: boolean;
 };
 
 function AccountRowData({
@@ -543,6 +581,7 @@ function AccountRowData({
   isExpanded,
   onToggleExpanded,
   onRemoveAddress,
+  includeSubaccounts,
 }: AccountRowDataProps) {
   const { data, isLoading, error } = useLighterAccount(address, {
     refetchInterval: REFRESH_INTERVAL_MS,
@@ -662,7 +701,11 @@ function AccountRowData({
     );
   }
 
-  const accounts = data.accounts;
+  const accounts = filterAccountsByVisibility(
+    data.accounts,
+    includeSubaccounts,
+  );
+  const hiddenSubaccountsCount = data.accounts.length - accounts.length;
 
   // Calculate totals across all accounts
   const totalCollateral = accounts.reduce(
@@ -738,6 +781,12 @@ function AccountRowData({
             <span className="text-muted-foreground text-xs">
               • {accounts.length} account{accounts.length !== 1 ? "s" : ""}
             </span>
+            {!includeSubaccounts && hiddenSubaccountsCount > 0 && (
+              <span className="text-muted-foreground text-xs">
+                • {hiddenSubaccountsCount} subaccount
+                {hiddenSubaccountsCount !== 1 ? "s" : ""} hidden
+              </span>
+            )}
           </div>
         </td>
         <td className="px-4 py-3 text-right font-mono text-sm">
@@ -820,9 +869,16 @@ function AccountRowData({
 type BalanceSummaryProps = {
   accounts: WatchedAccount[];
   onRemoveAddress: (address: string) => void;
+  includeSubaccounts: boolean;
+  onToggleIncludeSubaccounts: (checked: boolean) => void;
 };
 
-function BalanceSummary({ accounts, onRemoveAddress }: BalanceSummaryProps) {
+function BalanceSummary({
+  accounts,
+  onRemoveAddress,
+  includeSubaccounts,
+  onToggleIncludeSubaccounts,
+}: BalanceSummaryProps) {
   const queryClient = useQueryClient();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
@@ -891,29 +947,45 @@ function BalanceSummary({ accounts, onRemoveAddress }: BalanceSummaryProps) {
               </span>
             </CardDescription>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleManualRefresh}
-            disabled={isRefreshing}
-            className="flex items-center gap-2"
-          >
-            <svg
-              className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <title>Refresh Icon</title>
-              <path
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
+          <div className="flex items-center gap-3">
+            <div className="bg-muted/50 flex items-center gap-2 rounded-md border px-3 py-2">
+              <Switch
+                id="include-subaccounts"
+                checked={includeSubaccounts}
+                onCheckedChange={onToggleIncludeSubaccounts}
+                aria-label="Toggle subaccounts in totals"
               />
-            </svg>
-            {isRefreshing ? "Refreshing..." : "Refresh"}
-          </Button>
+              <Label
+                htmlFor="include-subaccounts"
+                className="text-xs font-medium whitespace-nowrap"
+              >
+                Show subaccounts
+              </Label>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleManualRefresh}
+              disabled={isRefreshing}
+              className="flex h-10 items-center gap-2"
+            >
+              <svg
+                className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <title>Refresh Icon</title>
+                <path
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                />
+              </svg>
+              {isRefreshing ? "Refreshing..." : "Refresh"}
+            </Button>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
@@ -951,6 +1023,7 @@ function BalanceSummary({ accounts, onRemoveAddress }: BalanceSummaryProps) {
                       isExpanded={isExpanded}
                       onToggleExpanded={toggleExpanded}
                       onRemoveAddress={onRemoveAddress}
+                      includeSubaccounts={includeSubaccounts}
                     />
                   );
                 })}

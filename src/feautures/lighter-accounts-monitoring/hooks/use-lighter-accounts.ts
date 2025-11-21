@@ -25,10 +25,12 @@ export function useLighterAccount(
   return useQuery<LighterAccountResponse>({
     queryKey: ["lighter-account", l1Address],
     queryFn: ({ signal }) => fetchLighterAccount(l1Address, { signal }),
-    refetchInterval,
+    refetchInterval: effectiveRefetchInterval,
+    refetchIntervalInBackground: true,
     enabled: enabled && isValidL1Address(l1Address),
     staleTime: effectiveRefetchInterval,
     gcTime: FIVE_MINUTES * ONE_MINUTE_MS, // 5 minutes
     placeholderData: (prev) => prev,
+    refetchOnWindowFocus: true,
   });
 }
