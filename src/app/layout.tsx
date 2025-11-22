@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata, Viewport } from "next";
 
 import { Footer } from "@/components/blocks/footer";
@@ -74,6 +75,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${dmSans.variable} ${inter.variable} antialiased`}>
+        <GoogleAnalytics gaId="G-M12GLC954G" />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
